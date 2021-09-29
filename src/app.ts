@@ -7,7 +7,7 @@ import cors from 'cors'
 import 'dotenv/config'
 import dbInit from './db'
 import RestHttp from './transport/rest'
-import Exceptions from './utils/Exceptions'
+import Exceptions from './utils/exceptions'
 // Routers
 
 class App {

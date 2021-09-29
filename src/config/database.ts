@@ -19,6 +19,9 @@ const dbConnection = new Sequelize(dbName, dbUser, dbPassword, {
     acquire: 30000,
     idle: 10000
   },
+  define : {
+    timestamps: false
+  },
   dialectOptions: {
     collate: 'utf8mb4_unicode_ci',
     underscored: true,

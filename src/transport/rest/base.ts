@@ -1,7 +1,7 @@
 import { Router } from 'express'
-import IRouter from './RestInterface'
+import RestInterface from '../../interface/http'
 
-abstract class BaseRoutes implements IRouter {
+abstract class BaseRoutes implements RestInterface {
   public router: Router
 
   constructor() {
