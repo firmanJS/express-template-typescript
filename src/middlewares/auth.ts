@@ -27,7 +27,7 @@ export const auth = (req: Request, res: Response, next: NextFunction): any => {
       error: 'invalid token'
     }
     return res.status(401).json(result)
-  } catch (error) {
+  } catch (error: any) {
     const result: ExceptionsInterface = {
       message: 'token is invalid',
       error: `error : ${error.toString()}`

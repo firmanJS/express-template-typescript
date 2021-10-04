@@ -1,5 +1,7 @@
-import { Request, Response } from 'express'
-import { ExceptionsInterface } from '../interface/response'
+/* eslint-disable no-console */
+import { Request, Response, NextFunction } from 'express'
+import httpStatus from 'http-status'
+import { ExceptionsInterface, WithDataInterface } from '../interface/response'
 
 class Exceptions extends Error {
   public static notFoundHandler = (req: Request, res: Response): Response => {
@@ -11,18 +13,52 @@ class Exceptions extends Error {
       error: err.toString()
     }
 
-    return res.status(404).json(result)
+    return res.status(httpStatus.NOT_FOUND).json(result)
   }
 
-  public static errorHandler = (req: Request, res: Response): Response => {
-    if (!req.statusCode) req.statusCode = 500
-
-    const result: ExceptionsInterface = {
-      message: req.statusMessage,
-      error: req.statusMessage
+  public static validationHandler = (req: Request, res: Response, err: object): Response => {
+    const result: WithDataInterface = {
+      status: 'validation error',
+      message: `error in validation body ${req.originalUrl}`,
+      data: err
     }
 
-    return res.status(req.statusCode).json(result)
+    return res.status(httpStatus.BAD_REQUEST).send(result)
+  }
+
+  public static errorHandler = (err: any, _req: Request, res: Response): Response => {
+    let { statusCode, message } = err;
+    if (process.env.NODE_ENV === 'production' && !err.isOperational) {
+      statusCode = httpStatus.INTERNAL_SERVER_ERROR;
+      message = httpStatus[httpStatus.INTERNAL_SERVER_ERROR];
+    }
+
+    res.locals.errorMessage = err.message;
+
+    const result: ExceptionsInterface = {
+      message,
+      error: err.toString(),
+    };
+
+    if (process.env.NODE_ENV === 'development') {
+      console.error(err);
+    }
+
+    return res.status(statusCode).send(result);
+  }
+
+  public static syntaxError = (err: any, req: Request, res: Response, next: NextFunction): void => {
+    const statusCode: number = err.status
+    const result: WithDataInterface = {
+      status: `syntax error ${err.type}`,
+      message: `${err.toString()}`,
+      data: err
+    }
+    if (err instanceof SyntaxError) {
+      res.status(statusCode).send(result);
+    } else {
+      next();
+    }
   }
 }
 

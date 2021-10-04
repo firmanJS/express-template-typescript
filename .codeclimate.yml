@@ -14,4 +14,4 @@ checks:
       - typescript
 exclude_patterns:
 - node_modules/
-- src/__test__/
+- __test__/

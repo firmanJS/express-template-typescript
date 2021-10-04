@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 
 interface RegisterInterface {
-  register(req: Request, res: Response): Response | Promise<Response>
+  register(_req: Request, _res: Response): Response | Promise<Response>
 }
 
 export default RegisterInterface

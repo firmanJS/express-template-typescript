@@ -15,6 +15,7 @@ interface UsersAttributes {
 export interface RegisterInput {
   username?: string
   password?: string
+  created_at?: string
 }
 
 export interface RegisterOutput {
@@ -49,7 +50,13 @@ Users.init({
   username: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true
+    unique: {
+      name: 'username',
+      msg: 'username already in use!'
+    },
+    validate: {
+      notNull: { msg: 'username is required' },
+    }
   },
   password: {
     type: DataTypes.STRING,
@@ -57,7 +64,11 @@ Users.init({
   },
   email: {
     type: DataTypes.STRING,
-    allowNull: true
+    allowNull: true,
+    unique: {
+      name: 'email',
+      msg: 'email already in use!'
+    },
   },
   created_at: 'TIMESTAMPTZ',
   updated_at: 'TIMESTAMPTZ'

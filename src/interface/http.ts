@@ -1,5 +1,5 @@
 interface RestInterface {
-    routes(): void
+  routes(): void
 }
 
 export default RestInterface

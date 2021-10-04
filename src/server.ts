@@ -39,15 +39,15 @@ if (process.env.CLUSTER_MODE === 'on' && cluster.isMaster) {
   for (let i = 0; i < cpuCore; i += 1) {
     cluster.fork();
   }
-  cluster.on('online', (worker) => {
+  cluster.on('online', (worker: any) => {
     if (worker.isConnected()) console.info(`worker is active ${worker.process.pid}`);
   })
-  cluster.on('exit', (worker) => {
+  cluster.on('exit', (worker): any => {
     if (worker.isDead()) console.info(`worker is dead ${worker.process.pid}`);
     cluster.fork();
   })
 } else {
-  app.listen(process.env.APP_PORT, () => {
+  app.listen(port, () => {
     console.info(`express boillerplate Typescript app running in port ${port}`)
   })
 }

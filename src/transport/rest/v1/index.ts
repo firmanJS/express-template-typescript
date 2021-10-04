@@ -1,5 +1,5 @@
-import AuthRest from './v1/auth_rest'
-import BaseRest from './base'
+import AuthRest from './auth_rest'
+import BaseRest from '../base'
 
 class RestHttp extends BaseRest {
   public routes(): void {

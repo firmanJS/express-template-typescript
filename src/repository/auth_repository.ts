@@ -17,6 +17,7 @@ class AuthRepository {
     return {
       username: register.username,
       email: register.email,
+      created_at: register.created_at
     }
   }
 }
