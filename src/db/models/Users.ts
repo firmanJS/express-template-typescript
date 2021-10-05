@@ -13,8 +13,8 @@ interface UsersAttributes {
 }
 
 export interface RegisterInput {
-  username?: string
-  password?: string
+  username: string
+  password: string
   created_at?: string
 }
 
@@ -23,6 +23,16 @@ export interface RegisterOutput {
   email?: string
   created_at?: Date
 }
+
+export interface LoginInput {
+  username: string
+}
+
+export interface LoginOutput {
+  id?: number
+  password?: string
+}
+
 // export interface UsersOuput extends Required<UsersAttributes> { }
 // export interface UsersOuput extends Pick<UsersAttributes, 'username'> {}
 

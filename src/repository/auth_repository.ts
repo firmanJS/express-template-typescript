@@ -1,6 +1,8 @@
 import { Request } from 'express'
 import { Users } from '../db/models'
-import { RegisterInput, RegisterOutput } from '../db/models/Users'
+import {
+  RegisterInput, RegisterOutput, LoginInput, LoginOutput
+} from '../db/models/Users'
 
 class AuthRepository {
   body: Request['body']
@@ -13,12 +15,20 @@ class AuthRepository {
   }
 
   register = async (formData: RegisterInput): Promise<RegisterOutput> => {
-    const register: RegisterOutput = await Users.create(formData)
+    const res = await Users.create(formData)
     return {
-      username: register.username,
-      email: register.email,
-      created_at: register.created_at
+      username: res.username,
+      email: res.email,
+      created_at: res.created_at
     }
+  }
+
+  login = async (formData: LoginInput): Promise<LoginOutput> => {
+    const res = await Users.findOne({
+      where: { username: formData.username },
+      attributes: ['id', 'password']
+    })
+    return res!
   }
 }
 
