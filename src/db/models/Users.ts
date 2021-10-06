@@ -4,29 +4,51 @@ import {
 import dbConnection from '../../config/database'
 
 interface UsersAttributes {
-    id: number
-    username: string
-    password: string
-    email?: string
-    created_at?: Date
-    updated_at?: Date
+  id: number
+  username?: string
+  password?: string
+  email?: string
+  created_at?: Date
+  updated_at?: Date
 }
 
-export interface UsersOuput extends Required<UsersAttributes> {}
+export interface RegisterInput {
+  username: string
+  password: string
+  created_at?: string
+}
+
+export interface RegisterOutput {
+  username?: string
+  email?: string
+  created_at?: Date
+}
+
+export interface LoginInput {
+  username: string
+}
+
+export interface LoginOutput {
+  id?: number
+  password?: string
+}
+
+// export interface UsersOuput extends Required<UsersAttributes> { }
+// export interface UsersOuput extends Pick<UsersAttributes, 'username'> {}
 
 class Users extends Model<UsersAttributes> implements UsersAttributes {
-    public id!: number
+  public id!: number
 
-    public username!: string
+  public username!: string
 
-    public password!: string
+  public password!: string
 
-    public email!: string
+  public email!: string
 
-    // timestamps!
-    public readonly created_at!: Date
+  // timestamps!
+  public readonly created_at!: Date
 
-    public readonly updated_at!: Date
+  public readonly updated_at!: Date
 }
 
 Users.init({
@@ -35,10 +57,16 @@ Users.init({
     autoIncrement: true,
     primaryKey: true,
   },
-  usename: {
+  username: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true
+    unique: {
+      name: 'username',
+      msg: 'username already in use!'
+    },
+    validate: {
+      notNull: { msg: 'username is required' },
+    }
   },
   password: {
     type: DataTypes.STRING,
@@ -46,10 +74,17 @@ Users.init({
   },
   email: {
     type: DataTypes.STRING,
-    allowNull: true
+    allowNull: true,
+    unique: {
+      name: 'email',
+      msg: 'email already in use!'
+    },
   },
+  created_at: 'TIMESTAMPTZ',
+  updated_at: 'TIMESTAMPTZ'
 }, {
-  sequelize: dbConnection
+  sequelize: dbConnection,
+  modelName: 'Users',
 })
 
 export default Users

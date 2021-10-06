@@ -1,14 +1,12 @@
 /* eslint-disable no-console */
 import express, { Application, Request, Response } from 'express'
-import bodyParser from 'body-parser'
 import compression from 'compression'
 import helmet from 'helmet'
 import cors from 'cors'
 import 'dotenv/config'
 import dbInit from './db'
-import RestHttp from './transport/rest'
-import Exceptions from './utils/Exceptions'
-// Routers
+import RestHttp from './transport/rest/v1'
+import Exceptions from './utils/exceptions'
 
 class App {
   public app: Application
@@ -21,7 +19,6 @@ class App {
 
   protected plugins(): void {
     dbInit()
-    this.app.use(bodyParser.json())
     this.app.use(compression())
     this.app.use(helmet())
     this.app.use(cors())
@@ -36,6 +33,7 @@ class App {
 
     this.app.use(RestHttp)
     this.app.use(Exceptions.notFoundHandler)
+    this.app.use(Exceptions.syntaxError)
     this.app.use(Exceptions.errorHandler)
   }
 }
