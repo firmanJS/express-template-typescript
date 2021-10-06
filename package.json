@@ -2,7 +2,7 @@
   "name": "typescript-express-template",
   "version": "1.0.0",
   "main": "server.ts",
-  "author": "Nusendra",
+  "author": "Firman Abdul Hakim",
   "license": "MIT",
   "scripts": {
     "build": "rm -rf build/ && tsc",
