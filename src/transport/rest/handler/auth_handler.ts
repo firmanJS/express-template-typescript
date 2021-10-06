@@ -37,8 +37,8 @@ class AuthHandler implements AuthHandlerInterface {
     try {
       const { username, password } = req.body
       const result: LoginOutput = await this.usecase.login({ username })
-      const validateLogin = await Authentication.validateUsername(result, username, password, res)
-      return validateLogin
+      const check: Response = await Authentication.validateUsername(result, username, password, res)
+      return check
     } catch (error: any) {
       return JsonMessage.catchResponse(error, res)
     }
