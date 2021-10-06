@@ -36,8 +36,8 @@ class AuthUsecase implements AuthInterface {
   }
 
   login = async (req: Request, res: Response): Promise<Response> => {
-    const { username, password } = req.body
     try {
+      const { username, password } = req.body
       const result: LoginOutput = await this.repository(req).login({ username })
       const validateLogin = await Authentication.validateUsername(result, username, password, res)
       return validateLogin
