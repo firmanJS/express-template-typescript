@@ -10,7 +10,7 @@ class Authentication {
   public static passwordHash = (password: string): Promise<string> => bcrypt.hash(password, 10)
 
   public static passwordCompare = async (text: string, encryptedText: string): Promise<boolean> => {
-    const result = await bcrypt.compare(text, encryptedText)
+    const result: boolean = await bcrypt.compare(text, encryptedText)
     return result
   }
 
@@ -30,7 +30,7 @@ class Authentication {
   ) : Promise<Response> => {
     if (result) {
       // check password
-      const compare = await this.passwordCompare(password, result.password!)
+      const compare: boolean = await this.passwordCompare(password, result.password!)
       if (compare) {
         const token: string = this.generateToken(result.id!)
         const message: WithDataInterface = {

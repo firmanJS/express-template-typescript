@@ -1,15 +1,10 @@
-interface ExceptionsInterface {
+export interface ExceptionsInterface {
   error?: string,
   message?: string,
 }
 
-interface WithDataInterface {
+export interface WithDataInterface {
   status?: string,
   message?: string,
   data?: any | []
-}
-
-export {
-  ExceptionsInterface,
-  WithDataInterface
 }

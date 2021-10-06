@@ -1,11 +1,11 @@
 import BaseRest from '../base'
 import { validateRegister, validateLogin } from '../../../middlewares/validation/auth_validator'
-import AuthUsecase from '../../../usecase/auth_usecase'
+import AuthHandler from '../handler/auth_handler'
 
 class AuthRoutes extends BaseRest {
   public routes(): void {
-    this.router.post('/register', validateRegister, AuthUsecase.register)
-    this.router.post('/login', validateLogin, AuthUsecase.login)
+    this.router.post('/register', validateRegister, AuthHandler.register)
+    this.router.post('/login', validateLogin, AuthHandler.login)
   }
 }
 

@@ -1,19 +1,9 @@
-import { Request } from 'express'
-import { Users } from '../db/models'
+import { Users } from '../../db/models'
 import {
   RegisterInput, RegisterOutput, LoginInput, LoginOutput
-} from '../db/models/Users'
+} from '../../db/models/Users'
 
-class AuthRepository {
-  body: Request['body']
-
-  params: Request['params']
-
-  constructor(req: Request) {
-    this.body = req.body
-    this.params = req.params
-  }
-
+class AuthPostgres {
   register = async (formData: RegisterInput): Promise<RegisterOutput> => {
     const res = await Users.create(formData)
     return {
@@ -32,4 +22,4 @@ class AuthRepository {
   }
 }
 
-export default AuthRepository
+export default AuthPostgres
