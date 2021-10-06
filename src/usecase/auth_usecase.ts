@@ -8,12 +8,16 @@ import Authentication from '../utils/authentication'
 import Custom from '../utils/custom'
 
 class AuthUsecase implements AuthInterface {
+  repository = (req: Request) => {
+    const repo = new AuthRepository(req)
+    return repo
+  }
+
   register = async (req: Request, res: Response): Promise<Response> => {
     try {
-      const service = new AuthRepository(req)
       const { username, password } = req.body
       const hashedPassword: string = await Authentication.passwordHash(password)
-      const result: RegisterOutput = await service.register({
+      const result: RegisterOutput = await this.repository(req).register({
         username, password: hashedPassword, created_at: Custom.createdAt()
       })
       const message: WithDataInterface = {
@@ -33,9 +37,8 @@ class AuthUsecase implements AuthInterface {
 
   login = async (req: Request, res: Response): Promise<Response> => {
     const { username, password } = req.body
-    const service = new AuthRepository(req)
     try {
-      const result: LoginOutput = await service.login({ username })
+      const result: LoginOutput = await this.repository(req).login({ username })
       const validateLogin = await Authentication.validateUsername(result, username, password, res)
       return validateLogin
     } catch (error: any) {
