@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
-import { RegisterInput, LoginInput } from '../../db/models/Users'
+import { RegisterInput, RegisterOutput, LoginInput } from '../../db/models/Users'
 
 interface AuthUsecaseInterface {
-  register(payload: RegisterInput): Promise<any>
+  register(payload: RegisterInput): Promise<RegisterOutput>
   login(payload: LoginInput): Promise<any>
 }
 

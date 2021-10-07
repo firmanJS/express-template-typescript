@@ -11,12 +11,12 @@ class AuthUsecase implements AuthUsecaseInterface {
     this.repository = new AuthPostgres()
   }
 
-  register = async (payload: RegisterInput): Promise<any> => {
+  register = async (payload: RegisterInput): Promise<RegisterOutput> => {
     const result: RegisterOutput = await this.repository.register(payload)
     return result
   }
 
-  login = async (payload: LoginInput): Promise<any> => {
+  login = async (payload: LoginInput): Promise<LoginOutput> => {
     const result: LoginOutput = await this.repository.login(payload)
     return result
   }

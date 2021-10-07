@@ -1,7 +1,9 @@
 import { Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken'
+import httpStatus from 'http-status'
 import { ExceptionsInterface } from '../interface/response'
 import { AuthInterface } from '../interface/config'
+import JsonMessage from '../utils/json'
 
 const verifyToken = (keyAuth: AuthInterface, res: Response, next: NextFunction) : void => {
   try {
@@ -14,13 +16,9 @@ const verifyToken = (keyAuth: AuthInterface, res: Response, next: NextFunction) 
       message: 'token is invalid',
       error: 'invalid token'
     }
-    res.status(401).json(result)
+    res.status(httpStatus.UNAUTHORIZED).json(result)
   } catch (error: any) {
-    const result: ExceptionsInterface = {
-      message: 'token is invalid',
-      error: `error : ${error.toString()}`
-    }
-    res.status(500).json(result)
+    JsonMessage.catchResponse(error, res)
   }
 }
 
@@ -31,7 +29,7 @@ export const tokenValidation = (req: Request, res: Response, next: NextFunction)
       error: 'token is not set'
     }
 
-    return res.status(401).json(result)
+    return res.status(httpStatus.UNAUTHORIZED).json(result)
   }
 
   const keyAuth: AuthInterface = {

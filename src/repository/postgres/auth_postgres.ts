@@ -5,11 +5,11 @@ import {
 
 class AuthRepository {
   register = async (formData: RegisterInput): Promise<RegisterOutput> => {
-    const res: any = await Users.create(formData)
+    const rows: RegisterOutput = await Users.create(formData)
     const response: RegisterOutput = {
-      username: res.username,
-      email: res.email,
-      created_at: res.created_at
+      username: rows.username,
+      email: rows.email,
+      created_at: rows.created_at
     }
 
     return response
