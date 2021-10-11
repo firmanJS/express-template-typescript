@@ -4,8 +4,8 @@ import {
 } from '../../db/models/Users'
 
 class AuthRepository {
-  register = async (formData: RegisterInput): Promise<RegisterOutput> => {
-    const rows: RegisterOutput = await Users.create(formData)
+  register = async (payload: RegisterInput): Promise<RegisterOutput> => {
+    const rows: RegisterOutput = await Users.create(payload)
     const response: RegisterOutput = {
       username: rows.username,
       email: rows.email,
@@ -15,9 +15,9 @@ class AuthRepository {
     return response
   }
 
-  login = async (formData: LoginInput): Promise<LoginOutput> => {
+  login = async (payload: LoginInput): Promise<LoginOutput> => {
     const response: any = await Users.findOne({
-      where: { username: formData.username },
+      where: { username: payload.username },
       attributes: ['id', 'password']
     })
 
