@@ -12,12 +12,25 @@ class AuthUsecase implements AuthUsecaseInterface {
   }
 
   register = async (payload: RegisterInput): Promise<RegisterOutput> => {
-    const result: RegisterOutput = await this.repository.register(payload)
+    const rows: RegisterOutput = await this.repository.register(payload)
+
+    const result: RegisterOutput = {
+      username: rows.username,
+      email: rows.email,
+      created_at: rows.created_at
+    }
+
     return result
   }
 
   login = async (payload: LoginInput): Promise<LoginOutput> => {
-    const result: LoginOutput = await this.repository.login(payload)
+    const rows: LoginOutput = await this.repository.login(payload)
+
+    const result: LoginOutput = {
+      id: rows.id,
+      password: rows.password
+    }
+
     return result
   }
 

@@ -6,13 +6,7 @@ import {
 class AuthRepository {
   register = async (payload: RegisterInput): Promise<RegisterOutput> => {
     const rows: RegisterOutput = await Users.create(payload)
-    const response: RegisterOutput = {
-      username: rows.username,
-      email: rows.email,
-      created_at: rows.created_at
-    }
-
-    return response
+    return rows
   }
 
   login = async (payload: LoginInput): Promise<LoginOutput> => {
