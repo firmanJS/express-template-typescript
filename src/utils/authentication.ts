@@ -39,7 +39,7 @@ class Authentication {
           message: 'login sucess',
           data: { token }
         }
-        return JsonMessage.successResponse(res, message)
+        return JsonMessage.successNoMetaResponse(res, message)
       }
       const messages: ExceptionsInterface = {
         message: 'error !',

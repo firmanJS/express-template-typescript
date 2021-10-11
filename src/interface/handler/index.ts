@@ -1,5 +1,7 @@
-import AuthHandlerInterface from './auth';
+import AuthHandlerInterface from './auth'
+import BaseHandlerInterface from './base'
 
 export {
-  AuthHandlerInterface
+  AuthHandlerInterface,
+  BaseHandlerInterface
 }

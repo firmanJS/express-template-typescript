@@ -1,7 +1,7 @@
 import AuthUsecaseInterface from './auth'
-import UsecaseInterface from './usecase'
+import UsersUsecaseInterface from './users'
 
 export {
   AuthUsecaseInterface,
-  UsecaseInterface
+  UsersUsecaseInterface
 }
