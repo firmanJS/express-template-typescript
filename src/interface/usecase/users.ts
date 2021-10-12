@@ -1,9 +1,11 @@
 /* eslint-disable no-unused-vars */
-import { PaginationResponseInterface } from '../response/'
+import { PaginationResponseInterface } from '../response'
+import { RequestMetaInterface } from '../request'
+import { UsersInput, UsersOuput } from '../../db/models/Users'
 
 interface UsersUsecaseInterface {
-  // create(): Promise<RegisterOutput>
-  read(limit: number, offset:number): Promise<PaginationResponseInterface>
+  create(payload: UsersInput): Promise<UsersOuput>
+  read(requestDto: RequestMetaInterface): Promise<PaginationResponseInterface>
   // readByParam(): Promise<UsersOuput>
   // update(): Promise<UsersOuput>
   // delete(): Promise<UsersOuput>

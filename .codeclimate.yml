@@ -1,17 +1,17 @@
 version: "2"
-checks:
-  similar-code:
-    enabled: true
-    config:
-      languages:
-      - javascript
-      - typescript
-  duplication:
-    enabled: false
-    config:
-      languages:
-      - javascript
-      - typescript
+# checks:
+#   similar-code:
+#     enabled: true
+#     config:
+#       languages:
+#       - javascript
+#       - typescript
+#   duplication:
+#     enabled: false
+#     config:
+#       languages:
+#       - javascript
+#       - typescript
 exclude_patterns:
 - node_modules/
 - __test__/

@@ -12,6 +12,14 @@ interface UsersAttributes {
   updated_at?: Date
 }
 
+export interface UsersInput {
+  username?: string
+  password?: string
+  email?: string
+  created_at?: string
+  updated_at?: string
+}
+
 export interface UsersOuput extends UsersAttributes {}
 
 export interface RegisterInput {

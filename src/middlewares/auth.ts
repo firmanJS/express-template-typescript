@@ -5,20 +5,19 @@ import { ExceptionsInterface } from '../interface/response'
 import { AuthInterface } from '../interface/config'
 import JsonMessage from '../utils/json'
 
-const verifyToken = (keyAuth: AuthInterface, res: Response, next: NextFunction) : void => {
+const verifyToken = (keyAuth: AuthInterface, res: Response, next: NextFunction) : any => {
   try {
-    const credential: string | object = jwt.verify(keyAuth.token!, keyAuth.secretKey!)
-
+    const credential: object | any = jwt.verify(keyAuth.token!, keyAuth.secretKey!)
     if (credential) {
-      next()
+      return next()
     }
     const result: ExceptionsInterface = {
       message: 'token is invalid',
       error: 'invalid token'
     }
-    res.status(httpStatus.UNAUTHORIZED).json(result)
+    return res.status(httpStatus.UNAUTHORIZED).json(result)
   } catch (error: any) {
-    JsonMessage.catchResponse(error, res)
+    return JsonMessage.catchResponse(error, res)
   }
 }
 
