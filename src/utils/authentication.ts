@@ -5,6 +5,7 @@ import httpStatus from 'http-status'
 import { AuthInterface } from '../interface/config'
 import { LoginOutput } from '../db/models/Users'
 import { ExceptionsInterface, WithDataInterface } from '../interface/response'
+import JsonMessage from './json'
 
 class Authentication {
   public static passwordHash = (password: string): Promise<string> => bcrypt.hash(password, 10)
@@ -38,19 +39,21 @@ class Authentication {
           message: 'login sucess',
           data: { token }
         }
-        return res.status(httpStatus.OK).json(message)
+        return JsonMessage.successNoMetaResponse(res, message)
       }
       const messages: ExceptionsInterface = {
         message: 'error !',
         error: 'Password incorect !'
       }
-      return res.status(httpStatus.UNPROCESSABLE_ENTITY).json(messages)
+      const status: number = httpStatus.UNPROCESSABLE_ENTITY
+      return JsonMessage.customErrorResponse(res, status, messages)
     }
     const messages: ExceptionsInterface = {
       message: 'not found',
       error: `users ${username} not found`
     }
-    return res.status(httpStatus.NOT_FOUND).json(messages)
+    const status: number = httpStatus.NOT_FOUND
+    return JsonMessage.customErrorResponse(res, status, messages)
   }
 }
 

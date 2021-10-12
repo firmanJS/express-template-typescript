@@ -4,14 +4,15 @@ checks:
     enabled: true
     config:
       languages:
-      - javascript
-      - typescript
-  duplication:
-    enabled: true
-    config:
-      languages:
-      - javascript
-      - typescript
+        typescript:
+          count_threshold: 3
+  # duplication:
+  #   enabled: false
+  #   config:
+  #     languages:
+  #     - javascript
+  #     - typescript
 exclude_patterns:
 - node_modules/
+- build/
 - __test__/

@@ -1,7 +1,5 @@
 import { Request, Response } from 'express'
-import httpStatus from 'http-status'
 import { RegisterOutput, LoginOutput } from '../../../db/models/Users'
-import { WithDataInterface } from '../../../interface/response'
 import AuthUsecase from '../../../usecase/auth_usecase'
 import Authentication from '../../../utils/authentication'
 import Custom from '../../../utils/custom'
@@ -22,12 +20,8 @@ class AuthHandler implements AuthHandlerInterface {
       const result: RegisterOutput = await this.usecase.register({
         username, password: hashedPassword, created_at: Custom.createdAt()
       })
-      const message: WithDataInterface = {
-        status: 'created !',
-        message: 'new user has been sucessfully registered',
-        data: result
-      }
-      return res.status(httpStatus.CREATED).json(message)
+      const message:string = 'new user has been sucessfully registered'
+      return JsonMessage.createdResponse(res, message, result)
     } catch (error: any) {
       return JsonMessage.catchResponse(error, res)
     }
@@ -37,8 +31,8 @@ class AuthHandler implements AuthHandlerInterface {
     try {
       const { username, password } = req.body
       const result: LoginOutput = await this.usecase.login({ username })
-      const validateLogin = await Authentication.validateUsername(result, username, password, res)
-      return validateLogin
+      const check: Response = await Authentication.validateUsername(result, username, password, res)
+      return check
     } catch (error: any) {
       return JsonMessage.catchResponse(error, res)
     }

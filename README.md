@@ -1,5 +1,5 @@
 # expressjs-typescript-template
-[![Node.js CI](https://github.com/firmanJS/express-template-typescript/actions/workflows/nodejs.yml/badge.svg)](https://github.com/firmanJS/express-template-typescript/actions/workflows/nodejs.yml)
+[![Node.js CI](https://github.com/firmanJS/express-template-typescript/actions/workflows/nodejs.yml/badge.svg?branch=main)](https://github.com/firmanJS/express-template-typescript/actions/workflows/nodejs.yml)
 [![Maintainability](https://api.codeclimate.com/v1/badges/9efe57e81ceae70a7c8d/maintainability)](https://codeclimate.com/github/firmanJS/express-template-typescript/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/9efe57e81ceae70a7c8d/test_coverage)](https://codeclimate.com/github/firmanJS/express-template-typescript/test_coverage)
 [![made-with-nodejs](https://img.shields.io/badge/Made%20with-Nodejs-1f425f.svg)](https://nodejs.org)
@@ -15,7 +15,7 @@
 ## How To use
 you must click the button use this template
 - **using template** - create name of your repository
-- **rename link readme** - change link repo default `github/firmanJS/express-template` to your repo
+- **rename link readme** - change link repo default `github/firmanJS/express-template-typescript` to your repo
 - **codeclimate** - you must integrate repo to codeclimate don't forget set your repo is public for integrated and in github repo settings create secret key with name `CC_TEST_REPORTER_ID` and value from code climate `REPORTER ID` in [https://codeclimate.com/](https://codeclimate.com/)
 
 or clone this repository via https : 
