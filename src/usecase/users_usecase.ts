@@ -12,16 +12,12 @@ class UsersUsecase implements UsersUsecaseInterface {
   }
 
   create = async (payload: UsersInput): Promise<UsersOuput> => {
-    const rows: UsersOuput = await this.repository.create(payload)
-    const result: UsersOuput = rows
-
+    const result: UsersOuput = await this.repository.create(payload)
     return result
   }
 
   read = async (request: RequestMetaInterface): Promise<PaginationResponseInterface> => {
-    const rows: PaginationResponseInterface = await this.repository.read(request)
-    const result: PaginationResponseInterface = rows
-
+    const result: PaginationResponseInterface = await this.repository.read(request)
     return result
   }
 }
