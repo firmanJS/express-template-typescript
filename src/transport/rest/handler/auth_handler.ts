@@ -21,7 +21,7 @@ class AuthHandler implements AuthHandlerInterface {
         username, password: hashedPassword, created_at: Custom.createdAt()
       })
       const message:string = 'new user has been sucessfully registered'
-      return JsonMessage.createdResponse(res, message, result)
+      return JsonMessage.successResponse(res, 'created', message, result)
     } catch (error: any) {
       return JsonMessage.catchResponse(error, res)
     }

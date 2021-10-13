@@ -19,15 +19,6 @@ class JsonMessage {
     return res.status(status).json(result)
   }
 
-  createdResponse = (res: Response, message: string, data: object): Response => {
-    const result: WithDataInterface = {
-      status: 'created !',
-      message,
-      data
-    }
-    return res.status(httpStatus.CREATED).json(result)
-  }
-
   NotFoundResponse = (res: Response, message: string): Response => {
     const result: ExceptionsInterface = {
       message: 'not found.',
@@ -37,13 +28,19 @@ class JsonMessage {
     return res.status(httpStatus.NOT_FOUND).json(result)
   }
 
-  successResponse = (res: Response, message: string, data: object): Response => {
+  successResponse = (res: Response, status:string, message: string, data: object): Response => {
+    let code: number = httpStatus.OK
+    if (status === 'created') {
+      code = httpStatus.CREATED
+    } else {
+      code = httpStatus.OK
+    }
     const result: WithDataInterface = {
-      status: 'success',
+      status,
       message,
       data
     }
-    return res.status(httpStatus.OK).json(result)
+    return res.status(code).json(result)
   }
 
   successNoMetaResponse = (res: Response, message: WithDataInterface): Response => {
