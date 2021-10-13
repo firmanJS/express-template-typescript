@@ -13,8 +13,20 @@ import Custom from '../../../utils/custom'
 class UsersHandler implements BaseHandlerInterface {
   usecase: UsersUsecase
 
+  created: string
+
+  updated: string
+
+  get: string
+
+  deleted: string
+
   constructor() {
     this.usecase = new UsersUsecase()
+    this.created = 'created'
+    this.updated = 'updated'
+    this.deleted = 'deleted'
+    this.get = 'get'
   }
 
   create = async (req: Request, res: Response): Promise<Response> => {
@@ -30,7 +42,7 @@ class UsersHandler implements BaseHandlerInterface {
       }
       const result: UsersOuput = await this.usecase.create(input)
       const message:string = 'new user has been sucessfully registered'
-      return JsonMessage.createdResponse(res, message, result)
+      return JsonMessage.successResponse(res, this.created, message, result)
     } catch (error: any) {
       return JsonMessage.catchResponse(error, res)
     }
@@ -57,7 +69,7 @@ class UsersHandler implements BaseHandlerInterface {
         return JsonMessage.NotFoundResponse(res, message)
       }
       const message:string = `get users with id ${params.id} sucessfully`
-      return JsonMessage.successResponse(res, message, result)
+      return JsonMessage.successResponse(res, this.get, message, result)
     } catch (error: any) {
       return JsonMessage.catchResponse(error, res)
     }
@@ -84,7 +96,7 @@ class UsersHandler implements BaseHandlerInterface {
         return JsonMessage.NotFoundResponse(res, message)
       }
       const message:string = `users with id ${params.id} sucessfully updated`
-      return JsonMessage.successResponse(res, message, input)
+      return JsonMessage.successResponse(res, this.updated, message, input)
     } catch (error: any) {
       return JsonMessage.catchResponse(error, res)
     }
@@ -101,7 +113,7 @@ class UsersHandler implements BaseHandlerInterface {
         return JsonMessage.NotFoundResponse(res, message)
       }
       const message: string = `data with id ${params.id} sucessfully deleted`
-      return JsonMessage.successResponse(res, message, result)
+      return JsonMessage.successResponse(res, this.deleted, message, result)
     } catch (error: any) {
       return JsonMessage.catchResponse(error, res)
     }
