@@ -1,6 +1,6 @@
 import { UsersInput, UsersOuput } from '../db/models/Users'
-import { RequestMetaInterface } from '../interface/request'
-import { PaginationResponseInterface } from '../interface/response'
+import { RequestMetaInterface, RequestParamsInterface } from '../interface/request'
+import { DeleteBoolInterface, PaginationResponseInterface } from '../interface/response'
 import { UsersUsecaseInterface } from '../interface/usecase'
 import { UsersRepository } from '../repository/postgres'
 
@@ -18,6 +18,11 @@ class UsersUsecase implements UsersUsecaseInterface {
 
   read = async (request: RequestMetaInterface): Promise<PaginationResponseInterface> => {
     const result: PaginationResponseInterface = await this.repository.read(request)
+    return result
+  }
+
+  hardDelete = async (params: RequestParamsInterface): Promise<DeleteBoolInterface> => {
+    const result: DeleteBoolInterface = await this.repository.hardDelete(params)
     return result
   }
 }

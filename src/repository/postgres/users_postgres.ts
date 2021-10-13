@@ -1,9 +1,9 @@
 import { Op } from 'sequelize'
 import { Users } from '../../db/models'
 import { UsersInput, UsersOuput } from '../../db/models/Users'
-import { PaginationResponseInterface } from '../../interface/response'
+import { DataAndCountInterface, DeleteBoolInterface, PaginationResponseInterface } from '../../interface/response'
 import UsersUsecaseInterface from '../../interface/usecase/users'
-import { RequestMetaInterface } from '../../interface/request'
+import { RequestMetaInterface, RequestParamsInterface } from '../../interface/request'
 
 class UsersRepository implements UsersUsecaseInterface {
   public column: [string, string, string, string, string, string]
@@ -31,16 +31,11 @@ class UsersRepository implements UsersUsecaseInterface {
       }
     }
 
-    const response: any = await Users.findAndCountAll({
+    const response: DataAndCountInterface = await Users.findAndCountAll({
       limit, offset, where
       // attributes: this.column
     })
-
-    const data: UsersOuput = response.rows
-    const result: PaginationResponseInterface = {
-      data,
-      count: response.count
-    }
+    const result: PaginationResponseInterface = response
 
     return result
   }
@@ -63,14 +58,17 @@ class UsersRepository implements UsersUsecaseInterface {
   //   return response
   // }
 
-  // delete = async (payload: LoginInput): Promise<LoginOutput> => {
-  //   const response: any = await Users.findOne({
-  //     where: { username: payload.username },
-  //     attributes: ['id', 'password']
-  //   })
+  hardDelete = async (params: RequestParamsInterface): Promise<DeleteBoolInterface> => {
+    const rows: any = await Users.destroy({
+      where: { id: params.id! }
+    })
 
-  //   return response
-  // }
+    const stat: DeleteBoolInterface = {
+      status: rows
+    }
+
+    return stat
+  }
 }
 
 export default UsersRepository

@@ -17,19 +17,30 @@ interface MetaInterface {
   count_total?: number
 }
 
+interface DataAndCountInterface {
+  data? : object
+  count?: number
+}
+
 interface WithMetaInterface extends WithDataInterface {
   _link?: string,
   _meta?: MetaInterface
 }
 
 interface PaginationResponseInterface {
-  data?: object,
+  rows?: object,
   count?: number
+}
+
+interface DeleteBoolInterface {
+  status?: boolean
 }
 
 export {
   ExceptionsInterface,
   WithDataInterface,
   WithMetaInterface,
-  PaginationResponseInterface
+  PaginationResponseInterface,
+  DataAndCountInterface,
+  DeleteBoolInterface
 }

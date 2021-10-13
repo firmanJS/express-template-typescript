@@ -7,10 +7,14 @@ interface RequestMetaInterface {
   search?: string
 }
 
+interface RequestParamsInterface {
+  id?: number
+}
+
 const _meta = (req: Request): RequestMetaInterface => {
   const page: number = +req.query.page || 1
   const limit: number = +req.query.limit || 10
-  const search: string = req.query?.search
+  const search: string = req.query?.search || ''
   const offset: number = page > 1 ? (limit * page) - limit : 0
 
   const Meta: RequestMetaInterface = {
@@ -22,5 +26,6 @@ const _meta = (req: Request): RequestMetaInterface => {
 
 export {
   _meta,
-  RequestMetaInterface
+  RequestMetaInterface,
+  RequestParamsInterface
 }
