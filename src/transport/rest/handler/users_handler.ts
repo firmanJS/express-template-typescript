@@ -1,7 +1,6 @@
 import { Request, Response } from 'express'
-import httpStatus from 'http-status'
 import {
-  DeleteBoolInterface, ExceptionsInterface, PaginationResponseInterface, WithDataInterface
+  ResultBoolInterface, PaginationResponseInterface
 } from '../../../interface/response'
 import UsersUsecase from '../../../usecase/users_usecase'
 import { BaseHandlerInterface } from '../../../interface/handler'
@@ -47,25 +46,62 @@ class UsersHandler implements BaseHandlerInterface {
     }
   }
 
+  readByParam = async (req:Request, res: Response): Promise<Response> => {
+    try {
+      const params: RequestParamsInterface = {
+        id: +req.params.id
+      }
+      const result: UsersOuput = await this.usecase.readByParam(params)
+      if (!result) {
+        const message: string = `data with id ${params.id} not found`
+        return JsonMessage.NotFoundResponse(res, message)
+      }
+      const message:string = `get users with id ${params.id} sucessfully`
+      return JsonMessage.successResponse(res, message, result)
+    } catch (error: any) {
+      return JsonMessage.catchResponse(error, res)
+    }
+  }
+
+  update = async (req: Request, res: Response): Promise<Response> => {
+    try {
+      const params: RequestParamsInterface = {
+        id: +req.params.id
+      }
+      const { username, password, email } = req.body
+      const input: UsersInput = {}
+      if (password) {
+        const hashedPassword: string = await Authentication.passwordHash(password)
+        input.password = hashedPassword
+      }
+      input.username = username
+      input.email = email
+      input.updated_at = Custom.updatedAt()
+
+      const result: ResultBoolInterface = await this.usecase.update(params, input)
+      if (!result.status) {
+        const message: string = `data with id ${params.id} not found`
+        return JsonMessage.NotFoundResponse(res, message)
+      }
+      const message:string = `users with id ${params.id} sucessfully updated`
+      return JsonMessage.successResponse(res, message, input)
+    } catch (error: any) {
+      return JsonMessage.catchResponse(error, res)
+    }
+  }
+
   hardDelete = async (req: Request, res: Response): Promise<Response> => {
     try {
       const params: RequestParamsInterface = {
         id: +req.params.id
       }
-      const result: DeleteBoolInterface = await this.usecase.hardDelete(params)
+      const result: ResultBoolInterface = await this.usecase.hardDelete(params)
       if (!result.status) {
-        const messages: ExceptionsInterface = {
-          message: 'not found',
-          error: `data with id ${params.id} not found`
-        }
-        return JsonMessage.customErrorResponse(res, httpStatus.NOT_FOUND, messages)
+        const message: string = `data with id ${params.id} not found`
+        return JsonMessage.NotFoundResponse(res, message)
       }
-      const message: WithDataInterface = {
-        status: 'deleted',
-        message: `data with id ${params.id} sucessfully deleted`,
-        data: result.status
-      }
-      return JsonMessage.successNoMetaResponse(res, message)
+      const message: string = `data with id ${params.id} sucessfully deleted`
+      return JsonMessage.successResponse(res, message, result)
     } catch (error: any) {
       return JsonMessage.catchResponse(error, res)
     }

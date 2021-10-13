@@ -28,6 +28,24 @@ class JsonMessage {
     return res.status(httpStatus.CREATED).json(result)
   }
 
+  NotFoundResponse = (res: Response, message: string): Response => {
+    const result: ExceptionsInterface = {
+      message: 'not found.',
+      error: message
+    }
+
+    return res.status(httpStatus.NOT_FOUND).json(result)
+  }
+
+  successResponse = (res: Response, message: string, data: object): Response => {
+    const result: WithDataInterface = {
+      status: 'success',
+      message,
+      data
+    }
+    return res.status(httpStatus.OK).json(result)
+  }
+
   successNoMetaResponse = (res: Response, message: WithDataInterface): Response => {
     const result: WithDataInterface = message
     return res.status(httpStatus.OK).json(result)

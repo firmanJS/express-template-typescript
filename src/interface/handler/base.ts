@@ -4,6 +4,8 @@ import { Request, Response } from 'express'
 interface BaseHandlerInterface {
   create(req: Request, res: Response): Promise<Response>
   read(req: Request, res: Response): Promise<Response>
+  readByParam(req: Request, res: Response): Promise<Response>
+  update(req: Request, res: Response): Promise<Response>
   hardDelete(req: Request, res: Response): Promise<Response>
 }
 

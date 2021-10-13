@@ -1,7 +1,7 @@
 import { Op } from 'sequelize'
 import { Users } from '../../db/models'
 import { UsersInput, UsersOuput } from '../../db/models/Users'
-import { DataAndCountInterface, DeleteBoolInterface, PaginationResponseInterface } from '../../interface/response'
+import { DataAndCountInterface, ResultBoolInterface, PaginationResponseInterface } from '../../interface/response'
 import UsersUsecaseInterface from '../../interface/usecase/users'
 import { RequestMetaInterface, RequestParamsInterface } from '../../interface/request'
 
@@ -40,34 +40,42 @@ class UsersRepository implements UsersUsecaseInterface {
     return result
   }
 
-  // readByParam = async (payload: LoginInput): Promise<LoginOutput> => {
-  //   const response: any = await Users.findOne({
-  //     where: { username: payload.username },
-  //     attributes: ['id', 'password']
-  //   })
+  readByParam = async (params: RequestParamsInterface): Promise<UsersOuput> => {
+    const response: any = await Users.findOne({
+      where: { id: params.id! },
+      // attributes: ['id', 'password']
+    })
 
-  //   return response
-  // }
+    return response
+  }
 
-  // update = async (payload: LoginInput): Promise<LoginOutput> => {
-  //   const response: any = await Users.findOne({
-  //     where: { username: payload.username },
-  //     attributes: ['id', 'password']
-  //   })
+  update = async (
+    params: RequestParamsInterface,
+    payload:UsersInput
+  ): Promise<ResultBoolInterface> => {
+    const rows: any = await Users.update(
+      payload, {
+        where: { id: params.id! }
+      }
+    )
 
-  //   return response
-  // }
+    const status: ResultBoolInterface = {
+      status: rows[0]
+    }
 
-  hardDelete = async (params: RequestParamsInterface): Promise<DeleteBoolInterface> => {
+    return status
+  }
+
+  hardDelete = async (params: RequestParamsInterface): Promise<ResultBoolInterface> => {
     const rows: any = await Users.destroy({
       where: { id: params.id! }
     })
 
-    const stat: DeleteBoolInterface = {
+    const status: ResultBoolInterface = {
       status: rows
     }
 
-    return stat
+    return status
   }
 }
 
