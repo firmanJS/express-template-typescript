@@ -7,6 +7,7 @@ class UserRest extends BaseRest {
   public routes(): void {
     this.router.post('/', tokenValidation, validateRegister, UsersHandler.create)
     this.router.get('/', tokenValidation, UsersHandler.read)
+    this.router.delete('/:id', tokenValidation, UsersHandler.hardDelete)
   }
 }
 

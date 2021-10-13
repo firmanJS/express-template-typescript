@@ -37,11 +37,11 @@ class JsonMessage {
     result: PaginationResponseInterface): Response => {
     const { page, limit } = _meta(req)
     const totalPage: number = Math.ceil(result.count! / limit)
-    const countPerPage: number = Object.keys(result.data!).length
+    const countPerPage: number = Object.keys(result.rows!).length
     const response: WithMetaInterface = {
       status: 'success',
       message: 'Get data successfull',
-      data: result.data,
+      data: result.rows,
       _link: req.originalUrl,
       _meta: {
         current_page: 1,
