@@ -32,7 +32,7 @@ interface PaginationResponseInterface {
   count?: number
 }
 
-interface DeleteBoolInterface {
+interface ResultBoolInterface {
   status?: boolean
 }
 
@@ -42,5 +42,5 @@ export {
   WithMetaInterface,
   PaginationResponseInterface,
   DataAndCountInterface,
-  DeleteBoolInterface
+  ResultBoolInterface
 }
