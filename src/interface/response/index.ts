@@ -24,7 +24,7 @@ interface DataAndCountInterface {
 
 interface WithMetaInterface extends WithDataInterface {
   _link?: string,
-  _meta?: MetaInterface
+  Meta?: MetaInterface
 }
 
 interface PaginationResponseInterface {
