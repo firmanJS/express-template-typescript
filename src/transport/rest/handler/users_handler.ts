@@ -5,7 +5,7 @@ import {
 import UsersUsecase from '../../../usecase/users_usecase'
 import { BaseHandlerInterface } from '../../../interface/handler'
 import JsonMessage from '../../../utils/json'
-import { _meta, RequestMetaInterface, RequestParamsInterface } from '../../../interface/request'
+import { Meta, RequestMetaInterface, RequestParamsInterface } from '../../../interface/request'
 import { UsersInput, UsersOuput } from '../../../db/models/Users'
 import Authentication from '../../../utils/authentication'
 import Custom from '../../../utils/custom'
@@ -31,15 +31,10 @@ class UsersHandler implements BaseHandlerInterface {
 
   create = async (req: Request, res: Response): Promise<Response> => {
     try {
-      const { username, password, email } = req.body
-      const hashedPassword: string = await Authentication.passwordHash(password)
-      const input: UsersInput = {
-        username,
-        password: hashedPassword,
-        email,
-        created_at: Custom.createdAt(),
-        updated_at: Custom.updatedAt()
-      }
+      const input: UsersInput = req.body
+      input.password = await Authentication.passwordHash(input.password!)
+      input.created_at = Custom.createdAt()
+      input.updated_at = Custom.updatedAt()
       const result: UsersOuput = await this.usecase.create(input)
       const message:string = 'new user has been sucessfully registered'
       return JsonMessage.successResponse(res, this.created, message, result)
@@ -50,7 +45,7 @@ class UsersHandler implements BaseHandlerInterface {
 
   read = async (req:Request, res: Response): Promise<Response> => {
     try {
-      const meta: RequestMetaInterface = _meta(req)
+      const meta: RequestMetaInterface = Meta(req)
       const result: PaginationResponseInterface = await this.usecase.read(meta)
       return JsonMessage.succesWithMetaResponse(req, res, result)
     } catch (error: any) {
@@ -80,14 +75,11 @@ class UsersHandler implements BaseHandlerInterface {
       const params: RequestParamsInterface = {
         id: +req.params.id
       }
-      const { username, password, email } = req.body
-      const input: UsersInput = {}
-      if (password) {
-        const hashedPassword: string = await Authentication.passwordHash(password)
+      const input: UsersInput = req.body
+      if (input.password) {
+        const hashedPassword: string = await Authentication.passwordHash(input.password)
         input.password = hashedPassword
       }
-      input.username = username
-      input.email = email
       input.updated_at = Custom.updatedAt()
 
       const result: ResultBoolInterface = await this.usecase.update(params, input)

@@ -3,7 +3,7 @@ import httpStatus from 'http-status'
 import {
   ExceptionsInterface, WithDataInterface, WithMetaInterface, PaginationResponseInterface
 } from '../interface/response'
-import { _meta } from '../interface/request'
+import { Meta } from '../interface/request'
 
 class JsonMessage {
   catchResponse = (error: any, res: Response): Response => {
@@ -50,7 +50,7 @@ class JsonMessage {
 
   succesWithMetaResponse = (req: Request, res: Response,
     result: PaginationResponseInterface): Response => {
-    const { page, limit } = _meta(req)
+    const { page, limit } = Meta(req)
     const totalPage: number = Math.ceil(result.count! / limit)
     const countPerPage: number = Object.keys(result.rows!).length
     const response: WithMetaInterface = {
@@ -58,7 +58,7 @@ class JsonMessage {
       message: 'Get data successfull',
       data: result.rows,
       _link: req.originalUrl,
-      _meta: {
+      Meta: {
         current_page: 1,
         page,
         limit_per_page: limit,
