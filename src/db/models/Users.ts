@@ -4,7 +4,7 @@ import {
 import dbConnection from '../../config/database'
 
 interface UsersAttributes {
-  id: number
+  id?: number
   username?: string
   password?: string
   email?: string
@@ -21,7 +21,11 @@ export interface UsersInput {
 }
 
 export interface UsersOuput extends UsersAttributes {}
-
+export interface UsersWithMetaOuput {
+  data?: UsersAttributes,
+  count_per_page?: number
+  count?: number,
+}
 export interface RegisterInput {
   username: string
   password: string

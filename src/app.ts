@@ -22,7 +22,7 @@ class App {
     this.app.use(compression())
     this.app.use(helmet())
     this.app.use(cors())
-    this.app.options('*', cors()) // cors setup
+    // this.app.options('*', cors()) // cors setup
     this.app.use(express.json({ limit: '200kb' }))
   }
 

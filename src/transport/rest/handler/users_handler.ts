@@ -9,6 +9,7 @@ import { Meta, RequestMetaInterface, RequestParamsInterface } from '../../../int
 import { UsersInput, UsersOuput } from '../../../db/models/Users'
 import Authentication from '../../../utils/authentication'
 import Custom from '../../../utils/custom'
+import Lang from '../../../lang'
 
 class UsersHandler implements BaseHandlerInterface {
   usecase: UsersUsecase
@@ -101,7 +102,7 @@ class UsersHandler implements BaseHandlerInterface {
       }
       const result: ResultBoolInterface = await this.usecase.hardDelete(params)
       if (!result.status) {
-        const message: string = `data with id ${params.id} not found`
+        const message: string = Lang.__('not_found.id')
         return JsonMessage.NotFoundResponse(res, message)
       }
       const message: string = `data with id ${params.id} sucessfully deleted`

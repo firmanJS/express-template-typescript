@@ -1,7 +1,7 @@
 import { Op } from 'sequelize'
 import { Users } from '../../db/models'
 import { UsersInput, UsersOuput } from '../../db/models/Users'
-import { DataAndCountInterface, ResultBoolInterface, PaginationResponseInterface } from '../../interface/response'
+import { ResultBoolInterface, PaginationResponseInterface } from '../../interface/response'
 import UsersUsecaseInterface from '../../interface/usecase/users'
 import { RequestMetaInterface, RequestParamsInterface } from '../../interface/request'
 
@@ -31,11 +31,10 @@ class UsersRepository implements UsersUsecaseInterface {
       }
     }
 
-    const response: DataAndCountInterface = await Users.findAndCountAll({
+    const result: PaginationResponseInterface = await Users.findAndCountAll({
       limit, offset, where
       // attributes: this.column
     })
-    const result: PaginationResponseInterface = response
 
     return result
   }

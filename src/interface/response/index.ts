@@ -13,23 +13,17 @@ interface MetaInterface {
   page?: number
   limit_per_page?: number
   total_page?: number
-  count_per_page?: number
   count_total?: number
-}
-
-interface DataAndCountInterface {
-  data? : object
-  count?: number
 }
 
 interface WithMetaInterface extends WithDataInterface {
   _link?: string,
-  Meta?: MetaInterface
+  meta?: MetaInterface
 }
 
 interface PaginationResponseInterface {
-  rows?: object,
-  count?: number
+  rows: object,
+  count: number,
 }
 
 interface ResultBoolInterface {
@@ -41,6 +35,5 @@ export {
   WithDataInterface,
   WithMetaInterface,
   PaginationResponseInterface,
-  DataAndCountInterface,
   ResultBoolInterface
 }
