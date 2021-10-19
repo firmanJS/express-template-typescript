@@ -1,10 +1,10 @@
 import { Request } from 'express'
 
 interface RequestMetaInterface {
-  page?: number
-  limit?: number
-  offset?: number
-  search?: string
+  page: number
+  limit: number
+  offset: number
+  search: string
 }
 
 interface RequestParamsInterface {
