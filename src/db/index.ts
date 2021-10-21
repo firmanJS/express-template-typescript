@@ -4,9 +4,13 @@ import dbConnection from '../config/database'
 
 const dbInit = () => {
   dbConnection.authenticate().then(() => {
-    console.info('Connection has been established successfully.');
+    const message: string = 'Connection has been established successfully.'
+    console.info(message);
+    return message
   }).catch((err: string) => {
-    console.error('Unable to connect to the database:', err.toString());
+    const message: string = `Unable to connect to the database:' ${err.toString()}`
+    console.error(message)
+    return message
   });
   // Users.sync({ alter: true })
 }

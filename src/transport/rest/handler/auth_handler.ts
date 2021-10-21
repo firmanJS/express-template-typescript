@@ -18,7 +18,7 @@ class AuthHandler implements AuthHandlerInterface {
       const { username, password } = req.body
       const hashedPassword: string = await Authentication.passwordHash(password)
       const result: RegisterOutput = await this.usecase.register({
-        username, password: hashedPassword, created_at: Custom.createdAt()
+        username, password: hashedPassword, created_at: Custom?.createdAt()!
       })
       const message:string = 'new user has been sucessfully registered'
       return JsonMessage.successResponse(res, 'created', message, result)

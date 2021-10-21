@@ -12,9 +12,9 @@ interface RequestParamsInterface {
 }
 
 const Meta = (req: Request): RequestMetaInterface => {
-  const page: number = Number(req.query?.page) || 1
-  const limit: number = Number(req.query?.limit) || 10
-  const search: string | any = req.query?.search || ''
+  const page: number = +req?.query?.page! || 1
+  const limit: number = +req?.query?.limit! || 10
+  const search: string | any = req?.query?.search! || ''
   const offset: number = page > 1 ? (limit * page) - limit : 0
 
   const MetaData: RequestMetaInterface = {
