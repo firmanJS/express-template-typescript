@@ -1,3 +1,23 @@
 {
-    "not_found.id": "data with id {{id}} not found"
+	"created": "created",
+	"updated": "updated",
+	"deleted": "deleted",
+	"get": "get",
+	"success": "success",
+	"uptime.server": "uptime server",
+	"uptime.database": "uptime database",
+	"db.success": "Connection has been established successfully.",
+	"db.error": "Unable to connect to the database: {{err}}",
+	"get.id": "get data with id {{id}} sucessfully",
+	"not_found.id": "data with id {{id}} not found",
+	"delete.id": "data with id {{id}} sucessfully deleted",
+	"update.success": "data with id {{id}} sucessfully updated",
+	"register.success": "new user has been sucessfully registered",
+	"validator.required": "{{field}} required",
+	"validator.string": "{{field}} must be string",
+	"validator.min": "{{field}} min {{min}} character",
+	"validator.invalid.type": "is invalid type {{field}}",
+	"token.invalid": "token is invalid",
+	"token.invalid.message": "invalid token",
+	"token.notset": "token is not set"
 }

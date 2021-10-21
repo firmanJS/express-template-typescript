@@ -4,6 +4,7 @@ import httpStatus from 'http-status'
 import { ExceptionsInterface } from '../interface/response'
 import { AuthInterface } from '../interface/config'
 import JsonMessage from '../utils/json'
+import Lang from '../lang'
 
 const verifyToken = (keyAuth: AuthInterface, res: Response, next: NextFunction) : any => {
   try {
@@ -12,8 +13,8 @@ const verifyToken = (keyAuth: AuthInterface, res: Response, next: NextFunction) 
       return next()
     }
     const result: ExceptionsInterface = {
-      message: 'token is invalid',
-      error: 'invalid token'
+      message: Lang.__('token.invalid.message'),
+      error: Lang.__('token.invalid')
     }
     return res.status(httpStatus.UNAUTHORIZED).json(result)
   } catch (error: any) {
@@ -24,8 +25,8 @@ const verifyToken = (keyAuth: AuthInterface, res: Response, next: NextFunction) 
 export const tokenValidation = (req: Request, res: Response, next: NextFunction): any => {
   if (!req.headers.authorization) {
     const result: ExceptionsInterface = {
-      message: 'token required',
-      error: 'token is not set'
+      message: Lang.__('validator.required', { field: 'token' }),
+      error: Lang.__('token.notset')
     }
 
     return res.status(httpStatus.UNAUTHORIZED).json(result)

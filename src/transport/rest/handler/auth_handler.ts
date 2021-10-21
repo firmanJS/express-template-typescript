@@ -5,6 +5,7 @@ import Authentication from '../../../utils/authentication'
 import Custom from '../../../utils/custom'
 import JsonMessage from '../../../utils/json'
 import { AuthHandlerInterface } from '../../../interface/handler'
+import Lang from '../../../lang'
 
 class AuthHandler implements AuthHandlerInterface {
   usecase: AuthUsecase
@@ -20,7 +21,7 @@ class AuthHandler implements AuthHandlerInterface {
       const result: RegisterOutput = await this.usecase.register({
         username, password: hashedPassword, created_at: Custom?.createdAt()!
       })
-      const message:string = 'new user has been sucessfully registered'
+      const message:string = Lang.__('register.success')
       return JsonMessage.successResponse(res, 'created', message, result)
     } catch (error: any) {
       return JsonMessage.catchResponse(error, res)

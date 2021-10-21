@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import dbConnection from '../../../config/database'
 import JsonMessage from '../../../utils/json'
 import { HealthHandlerInterface } from '../../../interface/handler'
+import Lang from '../../../lang'
 
 interface HealthInterface {
   uptime?:number
@@ -16,7 +17,7 @@ class HealthHandler implements HealthHandlerInterface {
         message: 'ok',
         date: new Date().toISOString(),
       }
-      return JsonMessage.successResponse(res, 'success', 'uptime server', data)
+      return JsonMessage.successResponse(res, Lang.__('success'), Lang.__('uptime.server'), data)
     } catch (error: any) {
       return JsonMessage.catchResponse(error, res)
     }
@@ -31,7 +32,7 @@ class HealthHandler implements HealthHandlerInterface {
         message: check[0],
         date: new Date().toISOString(),
       }
-      return JsonMessage.successResponse(res, 'success', 'uptime database', data)
+      return JsonMessage.successResponse(res, Lang.__('success'), Lang.__('uptime.database'), data)
     } catch (error: any) {
       return JsonMessage.catchResponse(error, res)
     }
