@@ -50,7 +50,7 @@ class JsonMessage {
 
   succesWithMetaResponse = (req: Request, res: Response,
     result: PaginationResponseInterface): Response => {
-    const { page, limit } = Meta(req)
+    const { limit } = Meta(req)
     const total_page: number = Math.ceil(result.count / limit)
     const response: WithMetaInterface = {
       status: 'success',
@@ -59,7 +59,6 @@ class JsonMessage {
       _link: req.originalUrl,
       meta: {
         current_page: 1,
-        page,
         limit_per_page: limit,
         total_page,
         count_total: result.count

@@ -14,20 +14,8 @@ import Lang from '../../../lang'
 class UsersHandler implements BaseHandlerInterface {
   usecase: UsersUsecase
 
-  created: string
-
-  updated: string
-
-  get: string
-
-  deleted: string
-
   constructor() {
     this.usecase = new UsersUsecase()
-    this.created = 'created'
-    this.updated = 'updated'
-    this.deleted = 'deleted'
-    this.get = 'get'
   }
 
   create = async (req: Request, res: Response): Promise<Response> => {
@@ -37,8 +25,8 @@ class UsersHandler implements BaseHandlerInterface {
       input.created_at = Custom.createdAt()
       input.updated_at = Custom.updatedAt()
       const result: UsersOuput = await this.usecase.create(input)
-      const message:string = 'new user has been sucessfully registered'
-      return JsonMessage.successResponse(res, this.created, message, result)
+      const message: string = Lang.__('register.success')
+      return JsonMessage.successResponse(res, Lang.__('created'), message, result)
     } catch (error: any) {
       return JsonMessage.catchResponse(error, res)
     }
@@ -61,11 +49,11 @@ class UsersHandler implements BaseHandlerInterface {
       }
       const result: UsersOuput = await this.usecase.readByParam(params)
       if (!result) {
-        const message: string = `data with id ${params.id} not found`
+        const message: string = Lang.__('not_found.id', { id: params.id!.toString() })
         return JsonMessage.NotFoundResponse(res, message)
       }
-      const message:string = `get users with id ${params.id} sucessfully`
-      return JsonMessage.successResponse(res, this.get, message, result)
+      const message: string = Lang.__('get.id', { id: params.id!.toString() })
+      return JsonMessage.successResponse(res, Lang.__('get'), message, result)
     } catch (error: any) {
       return JsonMessage.catchResponse(error, res)
     }
@@ -85,11 +73,11 @@ class UsersHandler implements BaseHandlerInterface {
 
       const result: ResultBoolInterface = await this.usecase.update(params, input)
       if (!result.status) {
-        const message: string = `data with id ${params.id} not found`
+        const message: string = Lang.__('not_found.id', { id: params.id!.toString() })
         return JsonMessage.NotFoundResponse(res, message)
       }
-      const message:string = `users with id ${params.id} sucessfully updated`
-      return JsonMessage.successResponse(res, this.updated, message, input)
+      const message: string = Lang.__('update.success', { id: params.id!.toString() })
+      return JsonMessage.successResponse(res, Lang.__('updated'), message, input)
     } catch (error: any) {
       return JsonMessage.catchResponse(error, res)
     }
@@ -102,11 +90,11 @@ class UsersHandler implements BaseHandlerInterface {
       }
       const result: ResultBoolInterface = await this.usecase.hardDelete(params)
       if (!result.status) {
-        const message: string = Lang.__('not_found.id')
+        const message: string = Lang.__('not_found.id', { id: params.id!.toString() })
         return JsonMessage.NotFoundResponse(res, message)
       }
-      const message: string = `data with id ${params.id} sucessfully deleted`
-      return JsonMessage.successResponse(res, this.deleted, message, result)
+      const message: string = Lang.__('delete.id', { id: params.id!.toString() })
+      return JsonMessage.successResponse(res, Lang.__('deleted'), message, result)
     } catch (error: any) {
       return JsonMessage.catchResponse(error, res)
     }
