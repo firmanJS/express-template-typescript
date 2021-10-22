@@ -41,7 +41,7 @@ jobs:
   
   testing:
     needs: [ create-env ]
-    name: run eslint
+    name: testing
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@main
@@ -50,7 +50,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: sudo npm install -g yarn
     - run: sudo yarn install
-    - run: sudo yarn add --dev jest 
     - run: sudo yarn lint 
     - run: sudo yarn test 
 
@@ -64,5 +63,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}       
     - uses: paambaati/codeclimate-action@v2.7.5
+      env:
+        CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORT_ID }}
       with:
         coverageLocations: coverage/lcov.info:lcov
