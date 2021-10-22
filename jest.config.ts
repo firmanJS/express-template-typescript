@@ -4,10 +4,10 @@ export default async (): Promise<Config.InitialOptions> => ({
   bail: 1,
   clearMocks: true,
   collectCoverage: true,
-  collectCoverageFrom: [
-    './__test__/**/*.ts',
-  ],
-  coverageReporters: ['lcov'],
+  // collectCoverageFrom: [
+  //   './__test__/**/*.ts',
+  // ],
+  coverageReporters: ['clover', 'json', 'lcov', ['text', { skipFull: true }]],
   detectOpenHandles: true,
   forceExit: true,
   globals: {
