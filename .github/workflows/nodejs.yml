@@ -64,6 +64,6 @@ jobs:
         node-version: ${{ matrix.node-version }}       
     - uses: paambaati/codeclimate-action@v2.7.5
       env:
-        CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORT_ID }}
+        CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
       with:
         coverageLocations: coverage/lcov.info:lcov
