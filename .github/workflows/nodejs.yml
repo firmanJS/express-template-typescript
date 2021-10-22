@@ -54,7 +54,7 @@ jobs:
   #   - run: sudo yarn test 
 
   publish-coverge:
-    needs: [ testing ]
+    # needs: [ testing ]
     name:  publish-coverge
     runs-on: ubuntu-latest
     steps:
