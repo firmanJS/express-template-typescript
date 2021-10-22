@@ -38,7 +38,8 @@ jobs:
           touch .env
           echo APP_PORT=${{ secrets.APP_PORT }} >> .env
           echo TZ=${{ secrets.TZ }} >> .env
-  lint:
+  
+  testing:
     needs: [ create-env ]
     name: run eslint
     runs-on: ubuntu-latest
@@ -49,23 +50,19 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: sudo npm install -g yarn
     - run: sudo yarn install
+    - run: sudo yarn add --dev jest 
     - run: sudo yarn lint 
+    - run: sudo yarn test 
 
-
-  coverage:
-    needs: [ lint ]
-    name: coverage
+  publish-coverge:
+    needs: [ testing ]
+    name:  publish-coverge
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@main
     - uses: actions/setup-node@main
       with:
-        node-version: ${{ matrix.node-version }}
-    - run: sudo npm install -g yarn
-    - run: sudo yarn install
-    - run: sudo yarn add --dev jest         
+        node-version: ${{ matrix.node-version }}       
     - uses: paambaati/codeclimate-action@v2.7.5
-      env:
-        CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
       with:
-        coverageCommand: yarn test
+        coverageLocations: coverage/lcov.info:lcov
