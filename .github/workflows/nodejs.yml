@@ -38,22 +38,34 @@ jobs:
           touch .env
           echo APP_PORT=${{ secrets.APP_PORT }} >> .env
           echo TZ=${{ secrets.TZ }} >> .env
-    
+  lint:
+    needs: [ create-env ]
+    name: run eslint
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@main
+    - uses: actions/setup-node@main
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: sudo npm install -g yarn
+    - run: sudo yarn install
+    - run: sudo yarn lint 
 
-  # coverage:
-  #   needs: [ create-env ]
-  #   name: coverage
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - uses: actions/checkout@main
-  #   - uses: actions/setup-node@main
-  #     with:
-  #       node-version: ${{ matrix.node-version }}
-  #   - run: sudo npm install -g yarn
-  #   - run: sudo yarn install
-  #   - run: sudo yarn add --dev jest         
-  #   - uses: paambaati/codeclimate-action@v2.7.5
-  #     env:
-  #       CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-  #     with:
-  #       coverageCommand: yarn test:coverage
+
+  coverage:
+    needs: [ lint ]
+    name: coverage
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@main
+    - uses: actions/setup-node@main
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: sudo npm install -g yarn
+    - run: sudo yarn install
+    - run: sudo yarn add --dev jest         
+    - uses: paambaati/codeclimate-action@v2.7.5
+      env:
+        CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+      with:
+        coverageCommand: yarn test
