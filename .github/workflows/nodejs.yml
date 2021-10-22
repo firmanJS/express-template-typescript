@@ -10,51 +10,51 @@ on:
     branches: [ main ]
 
 jobs:
-  # build:
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #     matrix:
-  #       node-version: [16.x]
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
 
-  #   steps:
-  #   - uses: actions/checkout@v2
-  #   - name: Use Node.js ${{ matrix.node-version }} && install dependencies
-  #     uses: actions/setup-node@v1
-  #     with:
-  #       node-version: ${{ matrix.node-version }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
 
-  # create-env:
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: Use Node.js ${{ matrix.node-version }} && install dependencies
-  #       uses: actions/setup-node@v1
-  #       with:
-  #         node-version: ${{ matrix.node-version }}
+  create-env:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }} 
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
 
-  #     - name: Create env file
-  #       run: |
-  #         touch .env
-  #         echo APP_PORT=${{ secrets.APP_PORT }} >> .env
-  #         echo TZ=${{ secrets.TZ }} >> .env
+      - name: Create env file
+        run: |
+          touch .env
+          echo APP_PORT=${{ secrets.APP_PORT }} >> .env
+          echo TZ=${{ secrets.TZ }} >> .env
   
-  # testing:
-  #   needs: [ create-env ]
-  #   name: testing
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - uses: actions/checkout@main
-  #   - uses: actions/setup-node@main
-  #     with:
-  #       node-version: ${{ matrix.node-version }}
-  #   - run: sudo npm install -g yarn
-  #   - run: sudo yarn install
-  #   - run: sudo yarn lint 
-  #   - run: sudo yarn test 
+  testing:
+    needs: [ create-env ]
+    name: testing
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@main
+    - uses: actions/setup-node@main
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: sudo npm install -g yarn
+    - run: sudo yarn install
+    - run: sudo yarn lint 
+    - run: sudo yarn test 
 
   publish-coverge:
-    # needs: [ testing ]
+    needs: [ testing ]
     name:  publish-coverge
     runs-on: ubuntu-latest
     steps:
