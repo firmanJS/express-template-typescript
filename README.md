@@ -23,8 +23,6 @@ or clone this repository via https :
 https://github.com/firmanJS/express-template-typescript.git
 ```
 
-default branch using `commonjs` if you want version ecmascript you must checkout to branch `version/ecmascript`
-
 ## Core Stack
 - **Node.js** - [http://nodejs.org/](http://nodejs.org/)
 - **Typescript** - [https://www.typescriptlang.org/](https://www.typescriptlang.org/)
@@ -108,9 +106,6 @@ docker-compose exec boillerplate-typescript npm install
 docker-compose exec boillerplate-typescript npm run test
 ```
 
-## Documentation API 
-using swagger check in folder static
-
 ## Project Structure
 ```
 .
@@ -119,20 +114,25 @@ using swagger check in folder static
 ├── coverage/           * all output coverage
 ├── build/              * all output build source code
 ├── docker/             * all dockerfile
-├── src/                * all source code in here
-  └── api/              * all api file here
-  └── config/           * all configuration file here
-  |  └── *.ts          * all configuration like database, aws etc
-  <!-- └── database/         * all models schema file here
-  |   └── models        * all models file
-  |   └── migrations    * all migrations file
-  |   └── seeders       * all seeders file
-  └── middleware/       * all middleware file here, for check before next to api
-  └── routes/           * all file route here
-  |   └── index.js      * register all route
-  └── test/             * all test file here
-  |   └── index.js      * test apps
-  └── utils/            * all utils file here -->
+├── src/                * all source code here
+  └── config/           * folder for configuration
+  |  └── *.ts           * all configuration like db, awes redis etc.
+  └── db/               * folder for database
+  |  └── *.ts           * all database files
+  └── interface/        * folder for interface
+  |  └── *.ts           * all interface files
+  └── lang/             * folder for language message
+  |  └── *.ts           * all language message files en, id etc.
+  └── middlewares/      * folder for middlewares
+  |  └── *.ts           * all middlewares files
+  └── repository/       * folder for repository / query logic
+  |  └── *.ts           * all utility files
+  └── transport/        * folder for transport / api, grpc or graphql
+  |  └── *.ts           * all transport files
+  └── usecase/          * folder for usecase / busines logic
+  |  └── *.ts           * all usecase files
+  └── utils/            * folder for utility
+  |  └── *.ts           * all utility files
 ```
 
 ## Code Style Guides
