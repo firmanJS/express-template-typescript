@@ -8,7 +8,7 @@ interface RequestMetaInterface {
 }
 
 interface RequestParamsInterface {
-  id?: number
+  id?: number | string
 }
 
 const Meta = (req: Request): RequestMetaInterface => {

@@ -1,19 +1,13 @@
 import { Op } from 'sequelize'
-import { Users } from '../../db/models'
-import { UsersInput, UsersOuput } from '../../db/models/Users'
+import { Country } from '../../db/models'
+import { CountryInput, CountryOuput } from '../../db/models/Country'
 import { ResultBoolInterface, PaginationResponseInterface } from '../../interface/response'
-import { UsersUsecaseInterface } from '../../interface/usecase'
+import { CountryUsecaseInterface } from '../../interface/usecase'
 import { RequestMetaInterface, RequestParamsInterface } from '../../interface/request'
 
-class UsersRepository implements UsersUsecaseInterface {
-  public column: [string, string, string, string, string, string]
-
-  constructor() {
-    this.column = ['id', 'username', 'password', 'email', 'created_at', 'updated_at']
-  }
-
-  create = async (payload: UsersInput): Promise<UsersOuput> => {
-    const rows: UsersOuput = await Users.create(payload)
+class CountryRepository implements CountryUsecaseInterface {
+  create = async (payload: CountryInput): Promise<CountryOuput> => {
+    const rows: CountryOuput = await Country.create(payload)
     return rows
   }
 
@@ -22,27 +16,25 @@ class UsersRepository implements UsersUsecaseInterface {
     const where: any = {}
     if (search) {
       where[Op.or] = {
-        username: {
+        name: {
           [Op.iLike]: `%${search}%`,
         },
-        email: {
+        code: {
           [Op.iLike]: `%${search}%`,
         }
       }
     }
 
-    const result: PaginationResponseInterface = await Users.findAndCountAll({
+    const result: PaginationResponseInterface = await Country.findAndCountAll({
       limit, offset, where
-      // attributes: this.column
     })
 
     return result
   }
 
-  readByParam = async (params: RequestParamsInterface): Promise<UsersOuput> => {
-    const response: any = await Users.findOne({
+  readByParam = async (params: RequestParamsInterface): Promise<CountryOuput> => {
+    const response: any = await Country.findOne({
       where: { id: params.id! },
-      // attributes: ['id', 'password']
     })
 
     return response
@@ -50,9 +42,9 @@ class UsersRepository implements UsersUsecaseInterface {
 
   update = async (
     params: RequestParamsInterface,
-    payload:UsersInput
+    payload:CountryInput
   ): Promise<ResultBoolInterface> => {
-    const rows: any = await Users.update(
+    const rows: any = await Country.update(
       payload, {
         where: { id: params.id! }
       }
@@ -66,7 +58,7 @@ class UsersRepository implements UsersUsecaseInterface {
   }
 
   hardDelete = async (params: RequestParamsInterface): Promise<ResultBoolInterface> => {
-    const rows: any = await Users.destroy({
+    const rows: any = await Country.destroy({
       where: { id: params.id! }
     })
 
@@ -78,4 +70,4 @@ class UsersRepository implements UsersUsecaseInterface {
   }
 }
 
-export default UsersRepository
+export default CountryRepository

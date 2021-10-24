@@ -6,6 +6,7 @@ import cors from 'cors'
 import 'dotenv/config'
 import RestHttp from './transport/rest/v1'
 import Exceptions from './utils/exceptions'
+// import dbInit from './db'
 
 class App {
   public app: Application
@@ -17,6 +18,7 @@ class App {
   }
 
   protected plugins(): void {
+    // dbInit()
     this.app.use(compression())
     this.app.use(helmet())
     this.app.use(cors())

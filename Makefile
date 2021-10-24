@@ -7,8 +7,6 @@ docker-build:
 docker-stop:
 	docker-compose stop
 docker-test:
-	docker-compose exec boillerplate yarn test
-docker-coverage:
-	docker-compose exec boillerplate yarn test:coverage
+	docker-compose exec express-typescript yarn test
 docker-down:
 	docker-compose down
