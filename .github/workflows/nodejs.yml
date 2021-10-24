@@ -39,23 +39,23 @@ jobs:
           echo APP_PORT=${{ secrets.APP_PORT }} >> .env
           echo TZ=${{ secrets.TZ }} >> .env
   
-  testing:
-    needs: [ create-env ]
-    name: testing
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@main
-    - uses: actions/setup-node@main
-      with:
-        node-version: ${{ matrix.node-version }}
-    - run: sudo npm install -g yarn
-    - run: sudo yarn install
-    - run: sudo yarn lint 
-    - run: sudo yarn test 
+  # testing:
+  #   needs: [ create-env ]
+  #   name: testing
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@main
+  #   - uses: actions/setup-node@main
+  #     with:
+  #       node-version: ${{ matrix.node-version }}
+  #   - run: sudo npm install -g yarn
+  #   - run: sudo yarn install
+  #   - run: sudo yarn lint 
+  #   - run: sudo yarn test 
 
-  publish-coverge:
-    needs: [ testing ]
-    name:  publish-coverge
+  testing-and-coverage:
+    needs: [ create-env ]
+    name:  testing-and-coverage
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@main
@@ -63,7 +63,8 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}  
     - run: sudo npm install -g yarn
-    - run: sudo yarn install     
+    - run: sudo yarn install
+    - run: sudo yarn lint 
     - uses: paambaati/codeclimate-action@v2.7.5
       env:
         CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
