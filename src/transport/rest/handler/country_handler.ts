@@ -1,31 +1,31 @@
 import { Request, Response } from 'express'
+import { v4 as uuidv4 } from 'uuid'
 import {
   ResultBoolInterface, PaginationResponseInterface
 } from '../../../interface/response'
-import { UsersUsecase } from '../../../usecase'
+import { CountryUsecase } from '../../../usecase'
 import { BaseHandlerInterface } from '../../../interface/handler'
 import JsonMessage from '../../../utils/json'
 import { Meta, RequestMetaInterface, RequestParamsInterface } from '../../../interface/request'
-import { UsersInput, UsersOuput } from '../../../db/models/Users'
-import Authentication from '../../../utils/authentication'
+import { CountryInput, CountryOuput } from '../../../db/models/Country'
 import Custom from '../../../utils/custom'
 import Lang from '../../../lang'
 
-class UsersHandler implements BaseHandlerInterface {
-  usecase: UsersUsecase
+class CountryHandler implements BaseHandlerInterface {
+  usecase: CountryUsecase
 
   constructor() {
-    this.usecase = new UsersUsecase()
+    this.usecase = new CountryUsecase()
   }
 
   create = async (req: Request, res: Response): Promise<Response> => {
     try {
-      const input: UsersInput = req.body
-      input.password = await Authentication.passwordHash(input.password!)
+      const input: CountryInput = req.body
+      input.id = uuidv4()
       input.created_at = Custom.createdAt()
       input.updated_at = Custom.updatedAt()
-      const result: UsersOuput = await this.usecase.create(input)
-      const message: string = Lang.__('register.success')
+      const result: CountryOuput = await this.usecase.create(input)
+      const message: string = Lang.__('created.success')
       return JsonMessage.successResponse(res, Lang.__('created'), message, result)
     } catch (error: any) {
       return JsonMessage.catchResponse(error, res)
@@ -45,9 +45,9 @@ class UsersHandler implements BaseHandlerInterface {
   readByParam = async (req:Request, res: Response): Promise<Response> => {
     try {
       const params: RequestParamsInterface = {
-        id: +req.params.id
+        id: req.params.id
       }
-      const result: UsersOuput = await this.usecase.readByParam(params)
+      const result: CountryOuput = await this.usecase.readByParam(params)
       if (!result) {
         const message: string = Lang.__('not_found.id', { id: params.id!.toString() })
         return JsonMessage.NotFoundResponse(res, message)
@@ -62,13 +62,9 @@ class UsersHandler implements BaseHandlerInterface {
   update = async (req: Request, res: Response): Promise<Response> => {
     try {
       const params: RequestParamsInterface = {
-        id: +req.params.id
+        id: req.params.id
       }
-      const input: UsersInput = req.body
-      if (input.password) {
-        const hashedPassword: string = await Authentication.passwordHash(input.password)
-        input.password = hashedPassword
-      }
+      const input: CountryInput = req.body
       input.updated_at = Custom.updatedAt()
 
       const result: ResultBoolInterface = await this.usecase.update(params, input)
@@ -86,7 +82,7 @@ class UsersHandler implements BaseHandlerInterface {
   hardDelete = async (req: Request, res: Response): Promise<Response> => {
     try {
       const params: RequestParamsInterface = {
-        id: +req.params.id
+        id: req.params.id
       }
       const result: ResultBoolInterface = await this.usecase.hardDelete(params)
       if (!result.status) {
@@ -101,4 +97,4 @@ class UsersHandler implements BaseHandlerInterface {
   }
 }
 
-export default new UsersHandler()
+export default new CountryHandler()

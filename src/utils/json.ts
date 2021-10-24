@@ -4,11 +4,12 @@ import {
   ExceptionsInterface, WithDataInterface, WithMetaInterface, PaginationResponseInterface
 } from '../interface/response'
 import { Meta } from '../interface/request'
+import Lang from '../lang'
 
 class JsonMessage {
   catchResponse = (error: any, res: Response): Response => {
     const result: ExceptionsInterface = {
-      message: 'error !',
+      message: Lang.__('error'),
       error: error.toString()
     }
     return res.status(httpStatus.BAD_REQUEST).json(result)
@@ -21,7 +22,7 @@ class JsonMessage {
 
   NotFoundResponse = (res: Response, message: string): Response => {
     const result: ExceptionsInterface = {
-      message: 'not found.',
+      message: Lang.__('not_found'),
       error: message
     }
 
@@ -30,7 +31,7 @@ class JsonMessage {
 
   successResponse = (res: Response, status:string, message: string, data: object): Response => {
     let code: number = httpStatus.OK
-    if (status === 'created') {
+    if (status === Lang.__('created')) {
       code = httpStatus.CREATED
     } else {
       code = httpStatus.OK
@@ -53,8 +54,8 @@ class JsonMessage {
     const { limit } = Meta(req)
     const total_page: number = Math.ceil(result.count / limit)
     const response: WithMetaInterface = {
-      status: 'success',
-      message: 'Get data successfull',
+      status: Lang.__('success'),
+      message: Lang.__('get.success'),
       data: result.rows,
       _link: req.originalUrl,
       meta: {

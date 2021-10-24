@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import dbConnection from '../config/database'
 import Lang from '../lang'
-// import { Users } from './models'
+import { Users, Country } from './models'
 
 const dbInit = () => {
   dbConnection.authenticate().then(() => {
@@ -13,7 +13,10 @@ const dbInit = () => {
     console.error(message)
     return message
   });
-  // Users.sync({ alter: true })
+
+  // migration
+  Users.sync({ alter: true })
+  Country.sync({ alter: true })
 }
 
 export default dbInit

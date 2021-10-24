@@ -27,7 +27,7 @@ default branch using `commonjs` if you want version ecmascript you must checkout
 
 ## Core Stack
 - **Node.js** - [http://nodejs.org/](http://nodejs.org/)
-- **Typescript** - [http://nodejs.org/](https://www.typescriptlang.org/)
+- **Typescript** - [https://www.typescriptlang.org/](https://www.typescriptlang.org/)
 - **Express** - [http://expressjs.com/](http://expressjs.com/)
 
 ## Feature

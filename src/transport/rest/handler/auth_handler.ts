@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { RegisterOutput, LoginOutput } from '../../../db/models/Users'
-import AuthUsecase from '../../../usecase/auth_usecase'
+import { AuthUsecase } from '../../../usecase'
 import Authentication from '../../../utils/authentication'
 import Custom from '../../../utils/custom'
 import JsonMessage from '../../../utils/json'
