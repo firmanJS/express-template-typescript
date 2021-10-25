@@ -18,7 +18,7 @@ class App {
   }
 
   protected plugins(): void {
-    // dbInit()
+    // dbInit() // for run migrations
     this.app.use(compression())
     this.app.use(helmet())
     this.app.use(cors())
