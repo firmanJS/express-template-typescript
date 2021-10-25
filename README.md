@@ -13,11 +13,14 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
 Default branch :
- * [x] using postgres database
- * [ ] feature/mongodb using database mongodb
- * [ ] feature/elastic using database elastic
- * [ ] feature/grpc using grpc
- * [ ] feature/graphql using graphql
+ * **using postgres database and sequelize orm**
+ 
+More Feature Checkout the branch :
+ * [x] `main` **using postgres database**
+ * [ ] `feature/mongodb` **using database mongodb**
+ * [ ] `feature/elastic` **using database elastic**
+ * [ ] `feature/grpc` **using grpc**
+ * [ ] `feature/graphql` **using graphql**
 
 This project has 3 Domain layer :
  * Repository Layer
@@ -41,15 +44,15 @@ https://github.com/firmanJS/express-template-typescript.git
 - **Express** - [http://expressjs.com/](http://expressjs.com/)
 
 ## Feature
-1. error handling
-1. clean architecture folder
-1. testing with jest
-1. coverage use jest
-1. with docker example
-1. validiation, use express-valdator
-1. pagination example
-1. custom message api response
-1. eslint airbnb base
+1. * [x] **error handling**
+1. * [x] **clean architecture folder**
+1. * [x] **testing with jest**
+1. * [x] **coverage use jest**
+1. * [x] **with docker example**
+1. * [x] **validiation, use express-valdator**
+1. * [x] **pagination example**
+1. * [x] **custom message api response**
+1. * [x] **eslint airbnb base**
 
 ## Unit testing
 - **jestjs** - [https://jestjs.io/](https://jestjs.io/)
