@@ -3,7 +3,7 @@ import { ResultBoolInterface, PaginationResponseInterface } from '../response'
 import { RequestMetaInterface, RequestParamsInterface } from '../request'
 import { CountryInput, CountryOuput } from '../../db/models/Country'
 
-interface CountryUsecaseInterface {
+interface CountryRespositoryInterface {
   create(payload: CountryInput): Promise<CountryOuput>
   read(requestDto: RequestMetaInterface): Promise<PaginationResponseInterface>
   readByParam(params: RequestParamsInterface): Promise<CountryOuput>
@@ -11,4 +11,4 @@ interface CountryUsecaseInterface {
   hardDelete(params: RequestParamsInterface): Promise<ResultBoolInterface>
 }
 
-export default CountryUsecaseInterface
+export default CountryRespositoryInterface

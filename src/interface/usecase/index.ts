@@ -1,9 +1,7 @@
 import AuthUsecaseInterface from './auth'
-import UsersUsecaseInterface from './users'
-import CountryUsecaseInterface from './country'
+import BaseUsecaseInterface from './base'
 
 export {
   AuthUsecaseInterface,
-  UsersUsecaseInterface,
-  CountryUsecaseInterface
+  BaseUsecaseInterface
 }

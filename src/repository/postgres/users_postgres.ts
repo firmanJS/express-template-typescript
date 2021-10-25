@@ -1,11 +1,10 @@
 import { Op } from 'sequelize'
-import { Users } from '../../db/models'
-import { UsersInput, UsersOuput } from '../../db/models/Users'
+import Users, { UsersInput, UsersOuput } from '../../db/models/Users'
 import { ResultBoolInterface, PaginationResponseInterface } from '../../interface/response'
-import { UsersUsecaseInterface } from '../../interface/usecase'
+import { UsersRepositoryInterface } from '../../interface/repository'
 import { RequestMetaInterface, RequestParamsInterface } from '../../interface/request'
 
-class UsersRepository implements UsersUsecaseInterface {
+class UsersRepository implements UsersRepositoryInterface {
   public column: [string, string, string, string, string, string]
 
   constructor() {

@@ -2,10 +2,10 @@ import { Op } from 'sequelize'
 import { Country } from '../../db/models'
 import { CountryInput, CountryOuput } from '../../db/models/Country'
 import { ResultBoolInterface, PaginationResponseInterface } from '../../interface/response'
-import { CountryUsecaseInterface } from '../../interface/usecase'
+import { CountryRespositoryInterface } from '../../interface/repository'
 import { RequestMetaInterface, RequestParamsInterface } from '../../interface/request'
 
-class CountryRepository implements CountryUsecaseInterface {
+class CountryRepository implements CountryRespositoryInterface {
   create = async (payload: CountryInput): Promise<CountryOuput> => {
     const rows: CountryOuput = await Country.create(payload)
     return rows
@@ -16,12 +16,8 @@ class CountryRepository implements CountryUsecaseInterface {
     const where: any = {}
     if (search) {
       where[Op.or] = {
-        name: {
-          [Op.iLike]: `%${search}%`,
-        },
-        code: {
-          [Op.iLike]: `%${search}%`,
-        }
+        name: { [Op.iLike]: `%${search}%` },
+        code: { [Op.iLike]: `%${search}%` }
       }
     }
 
