@@ -12,17 +12,17 @@
 [![GitHub pull-requests](https://img.shields.io/github/issues-pr/firmanjs/express-template-typescript.svg)](https://github.com/firmanJS/express-template/pulls/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-Default branch :
- * **using postgres database and sequelize orm**
+**Default branch** :
+ * using postgres database and sequelize orm
  
-More Feature Checkout the branch :
- * [x] `main` **using postgres database**
- * [ ] `feature/mongodb` **using database mongodb**
- * [ ] `feature/elastic` **using database elastic**
- * [ ] `feature/grpc` **using grpc**
- * [ ] `feature/graphql` **using graphql**
+**More Feature Checkout the branch** :
+ * [x] `main` using postgres database
+ * [ ] `feature/mongodb` using database mongodb
+ * [ ] `feature/elastic` using database elastic
+ * [ ] `feature/grpc` using grpc
+ * [ ] `feature/graphql` using graphql
 
-This project has 3 Domain layer :
+**This project has 3 Domain layer** :
  * Repository Layer
  * Usecase Layer  
  * Transport Layer
