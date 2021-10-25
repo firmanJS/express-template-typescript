@@ -12,6 +12,18 @@
 [![GitHub pull-requests](https://img.shields.io/github/issues-pr/firmanjs/express-template-typescript.svg)](https://github.com/firmanJS/express-template/pulls/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
+Default branch :
+ * [x] using postgres database
+ * [ ] feature/mongodb using database mongodb
+ * [ ] feature/elastic using database elastic
+ * [ ] feature/grpc using grpc
+ * [ ] feature/graphql using graphql
+
+This project has 3 Domain layer :
+ * Repository Layer
+ * Usecase Layer  
+ * Transport Layer
+
 ## How To use
 you must click the button use this template
 - **using template** - create name of your repository

@@ -30,10 +30,15 @@ interface ResultBoolInterface {
   status?: boolean
 }
 
+interface DataInterface {
+  data?: object
+}
+
 export {
   ExceptionsInterface,
   WithDataInterface,
   WithMetaInterface,
   PaginationResponseInterface,
-  ResultBoolInterface
+  ResultBoolInterface,
+  DataInterface
 }
