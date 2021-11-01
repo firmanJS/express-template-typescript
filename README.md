@@ -16,8 +16,7 @@
  * using postgres database and sequelize orm
  
 **More Feature Checkout the branch** :
- * [x] `main` using postgres database as a default branch
- * [ ] `feature/mongodb` using database mongodb
+ * [x] `main` using postgres and mongodb database as a default branch
  * [ ] `feature/elastic` using database elastic
  * [ ] `feature/grpc` using grpc
  * [ ] `feature/graphql` using graphql
