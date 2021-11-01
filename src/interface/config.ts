@@ -4,6 +4,7 @@ interface AuthInterface {
 }
 
 interface DatabaseInterface {
+  mongoUrl?: string,
   dbName?: string,
   dbUser?: string,
   dbHost?: string,
@@ -13,7 +14,16 @@ interface DatabaseInterface {
   logSql?: any | boolean,
 }
 
+interface MongoOptionsInterface {
+  useNewUrlParser: boolean,
+  useUnifiedTopology: boolean,
+  keepAlive: boolean,
+  maxPoolSize: number,
+  wtimeoutMS: number,
+}
+
 export {
   AuthInterface,
-  DatabaseInterface
+  DatabaseInterface,
+  MongoOptionsInterface
 }

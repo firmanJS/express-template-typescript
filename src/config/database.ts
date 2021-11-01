@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { Sequelize } from 'sequelize'
-import { DatabaseInterface } from '../interface/config'
+import mongoose from 'mongoose'
+import { DatabaseInterface, MongoOptionsInterface } from '../interface/config'
 
 const configDb: DatabaseInterface = {
   dbName: process.env.DB_NAME!,
@@ -33,4 +34,41 @@ const dbConnection = new Sequelize(configDb.dbName!,
     logging: configDb.logSql
   })
 
-export default dbConnection
+const configMongo: DatabaseInterface = {
+  mongoUrl: process.env.MONGO_URL!
+}
+const environmentDb: string = process.env.NODE_ENV || ''
+
+const connectMonggo = async (): Promise<string> => {
+  try {
+    const options: MongoOptionsInterface = {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      keepAlive: true,
+      maxPoolSize: 50,
+      wtimeoutMS: 2500,
+    }
+    await mongoose.connect(configMongo.mongoUrl!, options)
+    return 'MongoDB Connected...'
+  } catch (err: any) {
+    const manipulate: string = err.toString().split(':')
+    return `${manipulate[0]} Mongo is disconnected`
+  }
+}
+
+mongoose.connection.on('disconnected', () => console.error('Lost MongoDB connection'))
+
+mongoose.connection.on('reconnected', (err) => {
+  console.info(`Reconnected to MongoDB ${err}`)
+})
+
+if (environmentDb === 'development') {
+  mongoose.set('debug', (collectionName, method, query, doc) => {
+    console.info(`${collectionName}.${method}`, JSON.stringify(query), doc)
+  })
+}
+
+export {
+  dbConnection,
+  connectMonggo
+}

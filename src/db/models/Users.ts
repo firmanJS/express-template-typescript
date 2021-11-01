@@ -1,7 +1,7 @@
 import {
   DataTypes, Model
 } from 'sequelize'
-import dbConnection from '../../config/database'
+import { dbConnection } from '../../config/database'
 
 interface UsersAttributes {
   id?: number

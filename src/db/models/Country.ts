@@ -1,9 +1,18 @@
 import {
   DataTypes, Model
 } from 'sequelize'
-import dbConnection from '../../config/database'
+import mongoose from 'mongoose'
+import { dbConnection } from '../../config/database'
 
 interface CountryAttributes {
+  id?: string
+  name?: string
+  code?: string
+  created_at?: string
+  updated_at?: string
+}
+
+interface CountrysAttributes extends mongoose.Document {
   id?: string
   name?: string
   code?: string
@@ -63,4 +72,24 @@ Country.init({
   modelName: 'Country',
 })
 
-export default Country
+const Countryschema: mongoose.Schema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: [true, "can't be blank"],
+    unique: true,
+    index: true
+  },
+  code: {
+    type: String,
+    unique: true,
+    required: [true, "can't be blank"],
+    index: true
+  }
+}, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } });
+
+const Countrys: mongoose.Model<CountrysAttributes> = mongoose.model('Country', Countryschema);
+
+export {
+  Country,
+  Countrys
+}

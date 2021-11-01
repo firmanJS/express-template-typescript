@@ -1,12 +1,12 @@
 import { Op } from 'sequelize'
-import { Country, CountryInput, CountryOuput } from '../../db/models/Country'
+import { Countrys, CountryInput, CountryOuput } from '../../db/models/Country'
 import { ResultBoolInterface, PaginationResponseInterface } from '../../interface/response'
 import { CountryRespositoryInterface } from '../../interface/repository'
 import { RequestMetaInterface, RequestParamsInterface } from '../../interface/request'
 
-class CountryRepository implements CountryRespositoryInterface {
+class CountryRepositoryMongo implements CountryRespositoryInterface {
   create = async (payload: CountryInput): Promise<CountryOuput> => {
-    const rows: CountryOuput = await Country.create(payload)
+    const rows: CountryOuput = await Countrys.create(payload)
     return rows
   }
 
@@ -20,7 +20,7 @@ class CountryRepository implements CountryRespositoryInterface {
       }
     }
 
-    const result: PaginationResponseInterface = await Country.findAndCountAll({
+    const result: any = await Countrys.find({
       limit, offset, where
     })
 
@@ -28,7 +28,7 @@ class CountryRepository implements CountryRespositoryInterface {
   }
 
   readByParam = async (params: RequestParamsInterface): Promise<CountryOuput> => {
-    const response: any = await Country.findOne({
+    const response: any = await Countrys.findOne({
       where: { id: params.id! },
     })
 
@@ -39,7 +39,7 @@ class CountryRepository implements CountryRespositoryInterface {
     params: RequestParamsInterface,
     payload:CountryInput
   ): Promise<ResultBoolInterface> => {
-    const rows: any = await Country.update(
+    const rows: any = await Countrys.update(
       payload, {
         where: { id: params.id! }
       }
@@ -53,7 +53,7 @@ class CountryRepository implements CountryRespositoryInterface {
   }
 
   hardDelete = async (params: RequestParamsInterface): Promise<ResultBoolInterface> => {
-    const rows: any = await Country.destroy({
+    const rows: any = await Countrys.deleteOne({
       where: { id: params.id! }
     })
 
@@ -65,4 +65,4 @@ class CountryRepository implements CountryRespositoryInterface {
   }
 }
 
-export default CountryRepository
+export default CountryRepositoryMongo
