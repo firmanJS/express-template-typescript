@@ -12,6 +12,7 @@
 [![GitHub pull-requests](https://img.shields.io/github/issues-pr/firmanjs/express-template-typescript.svg)](https://github.com/firmanJS/express-template/pulls/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
+<<<<<<< HEAD
 **Default branch** :
  * using postgres database and sequelize orm
  
