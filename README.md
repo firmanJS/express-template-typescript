@@ -16,18 +16,11 @@
  * using postgres database and sequelize orm
  
 **More Feature Checkout the branch** :
- * [x] `main` using postgres database
+ * [x] `main` using postgres database as a default branch
  * [ ] `feature/mongodb` using database mongodb
  * [ ] `feature/elastic` using database elastic
  * [ ] `feature/grpc` using grpc
  * [ ] `feature/graphql` using graphql
-
-Default branch :
- * [x] using postgres database
- * [ ] feature/mongodb using database mongodb
- * [ ] feature/elastic using database elastic
- * [ ] feature/grpc using grpc
- * [ ] feature/graphql using graphql
 
 This project has 3 Domain layer :
  * Repository Layer
