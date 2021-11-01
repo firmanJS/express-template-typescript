@@ -1,6 +1,5 @@
 import { Op } from 'sequelize'
-import { Country } from '../../db/models'
-import { CountryInput, CountryOuput } from '../../db/models/Country'
+import Country, { CountryInput, CountryOuput } from '../../db/models/Country'
 import { ResultBoolInterface, PaginationResponseInterface } from '../../interface/response'
 import { CountryRespositoryInterface } from '../../interface/repository'
 import { RequestMetaInterface, RequestParamsInterface } from '../../interface/request'
