@@ -13,6 +13,7 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 **Default branch** :
  * using postgres database and sequelize orm
  
@@ -24,6 +25,16 @@
  * [ ] `feature/graphql` using graphql
 
 **This project has 3 Domain layer** :
+=======
+Default branch :
+ * [x] using postgres database
+ * [ ] feature/mongodb using database mongodb
+ * [ ] feature/elastic using database elastic
+ * [ ] feature/grpc using grpc
+ * [ ] feature/graphql using graphql
+
+This project has 3 Domain layer :
+>>>>>>> revision usecase
  * Repository Layer
  * Usecase Layer  
  * Transport Layer
