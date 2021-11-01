@@ -1,12 +1,12 @@
 import { Op } from 'sequelize'
-import { Country, CountryInput, CountryOuput } from '../../db/models/Country'
+import Student, { StudentInput, StudentOuput } from '../../db/models/Student'
 import { ResultBoolInterface, PaginationResponseInterface } from '../../interface/response'
-import { CountryRespositoryInterface } from '../../interface/repository'
+import { StudentRespositoryInterface } from '../../interface/repository'
 import { RequestMetaInterface, RequestParamsInterface } from '../../interface/request'
 
-class CountryRepository implements CountryRespositoryInterface {
-  create = async (payload: CountryInput): Promise<CountryOuput> => {
-    const rows: CountryOuput = await Country.create(payload)
+class StudentRepository implements StudentRespositoryInterface {
+  create = async (payload: StudentInput): Promise<StudentOuput> => {
+    const rows: StudentOuput = await Student.create(payload)
     return rows
   }
 
@@ -20,15 +20,15 @@ class CountryRepository implements CountryRespositoryInterface {
       }
     }
 
-    const result: PaginationResponseInterface = await Country.findAndCountAll({
+    const result: PaginationResponseInterface = await Student.findAndCountAll({
       limit, offset, where
     })
 
     return result
   }
 
-  readByParam = async (params: RequestParamsInterface): Promise<CountryOuput> => {
-    const response: any = await Country.findOne({
+  readByParam = async (params: RequestParamsInterface): Promise<StudentOuput> => {
+    const response: any = await Student.findOne({
       where: { id: params.id! },
     })
 
@@ -37,9 +37,9 @@ class CountryRepository implements CountryRespositoryInterface {
 
   update = async (
     params: RequestParamsInterface,
-    payload:CountryInput
+    payload:StudentInput
   ): Promise<ResultBoolInterface> => {
-    const rows: any = await Country.update(
+    const rows: any = await Student.update(
       payload, {
         where: { id: params.id! }
       }
@@ -53,7 +53,7 @@ class CountryRepository implements CountryRespositoryInterface {
   }
 
   hardDelete = async (params: RequestParamsInterface): Promise<ResultBoolInterface> => {
-    const rows: any = await Country.destroy({
+    const rows: any = await Student.destroy({
       where: { id: params.id! }
     })
 
@@ -65,4 +65,4 @@ class CountryRepository implements CountryRespositoryInterface {
   }
 }
 
-export default CountryRepository
+export default StudentRepository

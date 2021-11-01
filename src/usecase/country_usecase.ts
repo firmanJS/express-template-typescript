@@ -5,13 +5,17 @@ import { RequestMetaInterface, RequestParamsInterface, Meta } from '../interface
 import { ResultBoolInterface, PaginationResponseInterface, DataInterface } from '../interface/response'
 import { BaseUsecaseInterface } from '../interface/usecase'
 import { CountryRepository } from '../repository/postgres'
+import { CountryRepositoryMongo } from '../repository/mongo'
 import Custom from '../utils/custom'
 
 class CountryUsecase implements BaseUsecaseInterface {
   repository: CountryRepository
 
+  repositoryMongo: CountryRepositoryMongo
+
   constructor() {
     this.repository = new CountryRepository()
+    this.repositoryMongo = new CountryRepositoryMongo()
   }
 
   create = async (req: Request): Promise<DataInterface> => {

@@ -1,7 +1,10 @@
 import Users from './Users'
-import Country from './Country'
+import { Countrys, Country } from './Country'
+import Student from './Student'
 
 export {
   Users,
-  Country
+  Country,
+  Countrys,
+  Student
 }
