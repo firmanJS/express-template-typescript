@@ -39,26 +39,26 @@ class CountryRepository implements CountryRespositoryInterface {
     params: RequestParamsInterface,
     payload:CountryInput
   ): Promise<ResultBoolInterface> => {
-    const rows: any = await Country.update(
+    const rows: [number, CountryOuput[]] = await Country.update(
       payload, {
         where: { id: params.id! }
       }
     )
 
     const status: ResultBoolInterface = {
-      status: rows[0]
+      status: !!rows[0]
     }
 
     return status
   }
 
   hardDelete = async (params: RequestParamsInterface): Promise<ResultBoolInterface> => {
-    const rows: any = await Country.destroy({
+    const rows: number = await Country.destroy({
       where: { id: params.id! }
     })
 
     const status: ResultBoolInterface = {
-      status: rows
+      status: !!rows
     }
 
     return status
