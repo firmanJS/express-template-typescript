@@ -41,6 +41,7 @@ class UsersRepository implements UsersRepositoryInterface {
   readByParam = async (params: RequestParamsInterface): Promise<UsersOuput> => {
     const response: any = await Users.findOne({
       where: { id: params.id! },
+      plain: true
       // attributes: ['id', 'password']
     })
 
@@ -51,26 +52,26 @@ class UsersRepository implements UsersRepositoryInterface {
     params: RequestParamsInterface,
     payload:UsersInput
   ): Promise<ResultBoolInterface> => {
-    const rows: any = await Users.update(
+    const rows: [number, UsersOuput[]] = await Users.update(
       payload, {
         where: { id: params.id! }
       }
     )
 
     const status: ResultBoolInterface = {
-      status: rows[0]
+      status: !!rows[0]
     }
 
     return status
   }
 
   hardDelete = async (params: RequestParamsInterface): Promise<ResultBoolInterface> => {
-    const rows: any = await Users.destroy({
+    const rows: number = await Users.destroy({
       where: { id: params.id! }
     })
 
     const status: ResultBoolInterface = {
-      status: rows
+      status: !!rows
     }
 
     return status
