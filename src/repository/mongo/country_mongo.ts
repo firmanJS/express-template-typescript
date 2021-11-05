@@ -1,6 +1,13 @@
-import { Op } from 'sequelize'
-import { Countrys, CountryInput, CountryOuput } from '../../db/models/Country'
-import { ResultBoolInterface, PaginationResponseInterface } from '../../interface/response'
+import mongoose from 'mongoose'
+import {
+  Countrys, CountryInput, CountryOuput,
+  CountryOuputMongoo,
+} from '../../db/models/Country'
+import {
+  ResultBoolInterface, PaginationResponseInterface,
+  DeletedResponseInterface,
+  UpdatedResponseInterface
+} from '../../interface/response'
 import { CountryRespositoryInterface } from '../../interface/repository'
 import { RequestMetaInterface, RequestParamsInterface } from '../../interface/request'
 
@@ -11,27 +18,30 @@ class CountryRepositoryMongo implements CountryRespositoryInterface {
   }
 
   read = async (request: RequestMetaInterface): Promise<PaginationResponseInterface> => {
-    const { limit, offset, search } = request
-    const where: any = {}
-    if (search) {
-      where[Op.or] = {
-        name: { [Op.iLike]: `%${search}%` },
-        code: { [Op.iLike]: `%${search}%` }
-      }
-    }
+    const { limit, offset } = request
 
-    const result: any = await Countrys.find({
-      limit, offset, where
-    })
+    const rows: CountryOuputMongoo[] = await Countrys.find()
+      // .select()
+      // .or(search)
+      // .sort(paginations.sort)
+      .limit(limit)
+      .skip(offset)
+      .lean(true)
+      .hint({})
+
+    const count: number = await Countrys.countDocuments()
+
+    const result: PaginationResponseInterface = {
+      rows,
+      count
+    }
 
     return result
   }
 
-  readByParam = async (params: RequestParamsInterface): Promise<CountryOuput> => {
-    const response: any = await Countrys.findOne({
-      where: { id: params.id! },
-    })
-
+  readByParam = async (params: RequestParamsInterface): Promise<CountryOuputMongoo> => {
+    const _id: mongoose.Types.ObjectId = new mongoose.Types.ObjectId(params.id)
+    const response: any = await Countrys.findOne({ _id })
     return response
   }
 
@@ -39,26 +49,24 @@ class CountryRepositoryMongo implements CountryRespositoryInterface {
     params: RequestParamsInterface,
     payload:CountryInput
   ): Promise<ResultBoolInterface> => {
-    const rows: any = await Countrys.update(
-      payload, {
-        where: { id: params.id! }
-      }
+    const _id: mongoose.Types.ObjectId = new mongoose.Types.ObjectId(params.id)
+    const rows: UpdatedResponseInterface = await Countrys.updateOne(
+      { _id }, { $set: payload }, { new: true }
     )
 
     const status: ResultBoolInterface = {
-      status: rows[0]
+      status: !!rows?.modifiedCount
     }
 
     return status
   }
 
   hardDelete = async (params: RequestParamsInterface): Promise<ResultBoolInterface> => {
-    const rows: any = await Countrys.deleteOne({
-      where: { id: params.id! }
-    })
+    const _id: mongoose.Types.ObjectId = new mongoose.Types.ObjectId(params.id)
+    const rows: DeletedResponseInterface = await Countrys.deleteOne({ _id })
 
     const status: ResultBoolInterface = {
-      status: rows
+      status: !!rows?.deletedCount // !! convert to boolean
     }
 
     return status

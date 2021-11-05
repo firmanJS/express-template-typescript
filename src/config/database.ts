@@ -39,7 +39,7 @@ const configMongo: DatabaseInterface = {
 }
 const environmentDb: string = process.env.NODE_ENV || ''
 
-const connectMonggo = async (): Promise<string> => {
+const connectMonggo = async () => {
   try {
     const options: MongoOptionsInterface = {
       useNewUrlParser: true,
@@ -49,17 +49,18 @@ const connectMonggo = async (): Promise<string> => {
       wtimeoutMS: 2500,
     }
     await mongoose.connect(configMongo.mongoUrl!, options)
-    return 'MongoDB Connected...'
+    console.info('MongoDB Connected...✅✅✅')
   } catch (err: any) {
     const manipulate: string = err.toString().split(':')
-    return `${manipulate[0]} Mongo is disconnected`
+    console.error(`${manipulate[0]} Mongo is disconnected`)
   }
 }
 
 mongoose.connection.on('disconnected', () => console.error('Lost MongoDB connection'))
 
-mongoose.connection.on('reconnected', (err) => {
+mongoose.connection.on('reconnected', async (err) => {
   console.info(`Reconnected to MongoDB ${err}`)
+  connectMonggo()
 })
 
 if (environmentDb === 'development') {

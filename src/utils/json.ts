@@ -8,9 +8,18 @@ import Lang from '../lang'
 
 class JsonMessage {
   catchResponse = (error: any, res: Response): Response => {
+    const manipulate: string = error.toString().split(':')
+    let message: string
+
+    if (manipulate[0] === 'SequelizeConnectionRefusedError') {
+      message = `${manipulate[0]}: Sequelize db is disconnected`
+    } else {
+      message = error.toString()
+    }
+
     const result: ExceptionsInterface = {
       message: Lang.__('error'),
-      error: error.toString()
+      error: message
     }
     return res.status(httpStatus.BAD_REQUEST).json(result)
   }

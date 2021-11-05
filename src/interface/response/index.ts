@@ -30,6 +30,22 @@ interface ResultBoolInterface {
   status?: boolean
 }
 
+// export interface NumberResponseInterface {
+//   [name: string]: number
+// }
+
+export interface DeletedResponseInterface {
+  deletedCount: number
+}
+
+export interface UpdatedResponseInterface {
+  acknowledged?: boolean,
+  modifiedCount: number,
+  upsertedId?: unknown,
+  upsertedCount?: number,
+  matchedCount?: number
+}
+
 interface DataInterface {
   data?: object
 }
