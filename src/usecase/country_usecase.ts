@@ -1,20 +1,19 @@
 import { v4 as uuidv4 } from 'uuid'
 import { Request } from 'express'
-import { CountryInput, CountryOuput } from '../db/models/Country'
+import { CountryInput, CountryOuput, CountryOuputMongoo } from '../db/models/Country'
 import { RequestMetaInterface, RequestParamsInterface, Meta } from '../interface/request'
 import { ResultBoolInterface, PaginationResponseInterface, DataInterface } from '../interface/response'
 import { BaseUsecaseInterface } from '../interface/usecase'
-import { CountryRepository } from '../repository/postgres'
 import { CountryRepositoryMongo } from '../repository/mongo'
 import Custom from '../utils/custom'
 
 class CountryUsecase implements BaseUsecaseInterface {
-  repository: CountryRepository
+  // repository: CountryRepository
 
   repositoryMongo: CountryRepositoryMongo
 
   constructor() {
-    this.repository = new CountryRepository()
+    // this.repository = new CountryRepository()
     this.repositoryMongo = new CountryRepositoryMongo()
   }
 
@@ -24,7 +23,7 @@ class CountryUsecase implements BaseUsecaseInterface {
     payload.created_at = Custom.createdAt()
     payload.updated_at = Custom.updatedAt()
 
-    const data: CountryOuput = await this.repository.create(payload)
+    const data: CountryOuput = await this.repositoryMongo.create(payload)
     const result: DataInterface = { data }
 
     return result
@@ -32,13 +31,13 @@ class CountryUsecase implements BaseUsecaseInterface {
 
   read = async (req: Request): Promise<PaginationResponseInterface> => {
     const meta: RequestMetaInterface = Meta(req)
-    const result: PaginationResponseInterface = await this.repository.read(meta)
+    const result: PaginationResponseInterface = await this.repositoryMongo.read(meta)
     return result
   }
 
   readByParam = async (req: Request): Promise<DataInterface> => {
     const params: RequestParamsInterface = req?.params
-    const data: CountryOuput = await this.repository.readByParam(params)
+    const data: CountryOuputMongoo = await this.repositoryMongo.readByParam(params)
     const result: DataInterface = { data }
 
     return result
@@ -50,13 +49,13 @@ class CountryUsecase implements BaseUsecaseInterface {
     const payload: CountryInput = req.body
     payload.updated_at = Custom.updatedAt()
 
-    const result: ResultBoolInterface = await this.repository.update(params, payload)
+    const result: ResultBoolInterface = await this.repositoryMongo.update(params, payload)
     return result
   }
 
   hardDelete = async (req: Request): Promise<ResultBoolInterface> => {
     const params: RequestParamsInterface = req?.params
-    const result: ResultBoolInterface = await this.repository.hardDelete(params)
+    const result: ResultBoolInterface = await this.repositoryMongo.hardDelete(params)
     return result
   }
 }

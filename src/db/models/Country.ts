@@ -8,14 +8,7 @@ interface CountryAttributes {
   id?: string
   name?: string
   code?: string
-  created_at?: string
-  updated_at?: string
-}
-
-interface CountrysAttributes extends mongoose.Document {
-  id?: string
-  name?: string
-  code?: string
+  source?:string
   created_at?: string
   updated_at?: string
 }
@@ -23,13 +16,24 @@ interface CountrysAttributes extends mongoose.Document {
 export interface CountryInput extends CountryAttributes {}
 
 export interface CountryOuput extends CountryAttributes {}
+export interface CountrysAttributes {
+  _id?: mongoose.Types.ObjectId
+  name?: string
+  code?: string
+  source?:string
+  created_at?: string
+  updated_at?: string
+}
 
+export interface CountryOuputMongoo extends mongoose.Model<CountrysAttributes> {}
 class Country extends Model<CountryAttributes> implements CountryAttributes {
   public id!: string
 
   public name!: string
 
   public code!: string
+
+  public source!: string
 
   // timestamps!
   public readonly created_at!: string
@@ -65,6 +69,11 @@ Country.init({
       notNull: { msg: 'code is required' },
     }
   },
+  source: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: 'Postgres'
+  },
   created_at: 'TIMESTAMPTZ',
   updated_at: 'TIMESTAMPTZ'
 }, {
@@ -84,10 +93,15 @@ const Countryschema: mongoose.Schema = new mongoose.Schema({
     unique: true,
     required: [true, "can't be blank"],
     index: true
+  },
+  source: {
+    type: String,
+    index: true,
+    default: 'mongo'
   }
 }, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } });
 
-const Countrys: mongoose.Model<CountrysAttributes> = mongoose.model('Country', Countryschema);
+const Countrys: mongoose.Model<CountryOuputMongoo> = mongoose.model('Country', Countryschema);
 
 export {
   Country,

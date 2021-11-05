@@ -6,6 +6,7 @@ import cors from 'cors'
 import 'dotenv/config'
 import RestHttp from './transport/rest/v1'
 import Exceptions from './utils/exceptions'
+import { connectMonggo } from './config/database'
 // import dbInit from './db'
 
 class App {
@@ -19,6 +20,7 @@ class App {
 
   protected plugins(): void {
     // dbInit() // for run migrations
+    connectMonggo()
     this.app.use(compression())
     this.app.use(helmet())
     this.app.use(cors())
