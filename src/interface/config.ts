@@ -1,5 +1,5 @@
 interface AuthInterface {
-  secretKey?: string,
+  secretKey?: string |string,
   token?: string,
 }
 
