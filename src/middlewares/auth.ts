@@ -8,7 +8,10 @@ import Lang from '../lang'
 
 const verifyToken = (keyAuth: AuthInterface, res: Response, next: NextFunction) : any => {
   try {
-    const credential: object | any = jwt.verify(keyAuth.token!, keyAuth.secretKey!)
+    const algorithms: any | string = process.env.JWT_ALGORITM!
+    const credential: object | any = jwt.verify(keyAuth.token!, keyAuth.secretKey!, {
+      algorithms,
+    })
     if (credential) {
       return next()
     }

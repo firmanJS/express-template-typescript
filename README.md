@@ -95,9 +95,21 @@ make docker-down
 ### fill in the copied environment earlier
 
 ```sh
-APP_PORT=2000
-TZ=Asia/Jakarta
-SECRET_KEY= #jwt secret key here
+#NODEJS
+APP_PORT=8000
+NODE_ENV=development
+CLUSTER_MODE=off
+JWT_SECRET_KEY=
+
+#DB
+DB_USERNAME=
+DB_PASSWORD=
+DB_PORT=
+DB_DATABASE=
+DB_DRIVER='postgres'
+DB_HOST=
+DB_NAME=
+MONGO_URL=
 ```
 
 ### run with docker-compose

@@ -16,10 +16,14 @@ class Authentication {
   }
 
   public static generateToken = (id: number): string => {
+    const expiresIn: string = process.env.JWT_EXPIRE_IN!
+    const algorithm: any | string = process.env.JWT_ALGORITM!
+    const secretKey: string = process.env.JWT_SECRET_KEY!
+
     const addSecretKey: AuthInterface = {
-      secretKey: process.env.JWT_SECRET_KEY!,
-      token: jwt.sign({ id }, process.env.JWT_SECRET_KEY!, {
-        expiresIn: '8d' // set exipre token
+      secretKey,
+      token: jwt.sign({ id }, secretKey, {
+        expiresIn, algorithm
       })
     }
 
