@@ -5,6 +5,7 @@ import JsonMessage from '../../../utils/json'
 import { HealthHandlerInterface } from '../../../interface/handler'
 import Lang from '../../../lang'
 import { DatabaseInterface, MongoOptionsInterface } from '../../../interface/config'
+import { clientConfig } from '../../../config/redis'
 
 const configMongo: DatabaseInterface = {
   mongoUrl: process.env.MONGO_URL!
@@ -65,6 +66,19 @@ class HealthHandler implements HealthHandlerInterface {
       const manipulate: string = error.toString().split(':')
       const message: string = `${manipulate[0]}: Mongo is disconnected`
       return JsonMessage.catchResponse(message, res)
+    }
+  }
+
+  checkDatabaseRedis = async (req: Request, res: Response): Promise<Response> => {
+    try {
+      const data: HealthInterface = {
+        uptime: process.uptime(),
+        message: clientConfig.connected.toString(),
+        date: new Date().toISOString(),
+      }
+      return JsonMessage.successResponse(res, Lang.__('success'), Lang.__('uptime.database'), data)
+    } catch (error: any) {
+      return JsonMessage.catchResponse(error, res)
     }
   }
 }

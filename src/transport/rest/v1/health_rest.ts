@@ -6,6 +6,7 @@ class HealthRest extends BaseRest {
     this.router.get('/health-check-server', HealthHandler.checkServer)
     this.router.get('/health-check-database-postgres', HealthHandler.checkDatabasePostgres)
     this.router.get('/health-check-database-mongo', HealthHandler.checkDatabaseMongo)
+    this.router.get('/health-check-database-redis', HealthHandler.checkDatabaseRedis)
   }
 }
 
