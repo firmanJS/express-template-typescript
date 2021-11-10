@@ -1,6 +1,6 @@
 import { Request } from 'express'
 import { UsersInput, UsersOuput } from '../db/models/Users'
-import { Meta, RequestMetaInterface, RequestParamsInterface } from '../interface/request'
+import { Meta, RequestMetaInterface } from '../interface/request'
 import { ResultBoolInterface, PaginationResponseInterface, DataInterface } from '../interface/response'
 import { BaseUsecaseInterface } from '../interface/usecase'
 import { UsersRepository } from '../repository/postgres'
@@ -33,7 +33,8 @@ class UsersUsecase implements BaseUsecaseInterface {
   }
 
   readByParam = async (req: Request): Promise<DataInterface> => {
-    const params: RequestParamsInterface = req?.params
+    const id: number = +req?.params?.id || 0
+    const params: UsersOuput = { id }
     const data: UsersOuput = await this.repository.readByParam(params)
     const result: DataInterface = { data }
 
@@ -41,7 +42,8 @@ class UsersUsecase implements BaseUsecaseInterface {
   }
 
   update = async (req: Request): Promise<ResultBoolInterface> => {
-    const params: RequestParamsInterface = req?.params
+    const id: number = +req?.params?.id || 0
+    const params: UsersOuput = { id }
     const payload: UsersInput = req.body
     if (payload.password) {
       const hashedPassword: string = await Authentication.passwordHash(payload.password)
@@ -53,7 +55,8 @@ class UsersUsecase implements BaseUsecaseInterface {
   }
 
   hardDelete = async (req: Request): Promise<ResultBoolInterface> => {
-    const params: RequestParamsInterface = req?.params
+    const id: number = +req?.params?.id || 0
+    const params: UsersOuput = { id }
     const result: ResultBoolInterface = await this.repository.hardDelete(params)
     return result
   }

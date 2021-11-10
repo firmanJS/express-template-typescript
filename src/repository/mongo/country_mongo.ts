@@ -9,7 +9,7 @@ import {
   UpdatedResponseInterface
 } from '../../interface/response'
 import { CountryRespositoryInterface } from '../../interface/repository'
-import { RequestMetaInterface, RequestParamsInterface } from '../../interface/request'
+import { RequestMetaInterface } from '../../interface/request'
 
 class CountryRepositoryMongo implements CountryRespositoryInterface {
   create = async (payload: CountryInput): Promise<CountryOuput> => {
@@ -39,14 +39,14 @@ class CountryRepositoryMongo implements CountryRespositoryInterface {
     return result
   }
 
-  readByParam = async (params: RequestParamsInterface): Promise<CountryOuputMongoo> => {
+  readByParam = async (params: CountryOuput): Promise<CountryOuputMongoo> => {
     const _id: mongoose.Types.ObjectId = new mongoose.Types.ObjectId(params.id)
     const response: any = await Countrys.findOne({ _id })
     return response
   }
 
   update = async (
-    params: RequestParamsInterface,
+    params: CountryOuput,
     payload:CountryInput
   ): Promise<ResultBoolInterface> => {
     const _id: mongoose.Types.ObjectId = new mongoose.Types.ObjectId(params.id)
@@ -61,7 +61,7 @@ class CountryRepositoryMongo implements CountryRespositoryInterface {
     return status
   }
 
-  hardDelete = async (params: RequestParamsInterface): Promise<ResultBoolInterface> => {
+  hardDelete = async (params: CountryOuput): Promise<ResultBoolInterface> => {
     const _id: mongoose.Types.ObjectId = new mongoose.Types.ObjectId(params.id)
     const rows: DeletedResponseInterface = await Countrys.deleteOne({ _id })
 
