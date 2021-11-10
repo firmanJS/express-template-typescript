@@ -2,7 +2,7 @@ import { Op } from 'sequelize'
 import Users, { UsersInput, UsersOuput } from '../../db/models/Users'
 import { ResultBoolInterface, PaginationResponseInterface } from '../../interface/response'
 import { UsersRepositoryInterface } from '../../interface/repository'
-import { RequestMetaInterface, RequestParamsInterface } from '../../interface/request'
+import { RequestMetaInterface } from '../../interface/request'
 
 class UsersRepository implements UsersRepositoryInterface {
   public column: [string, string, string, string, string, string]
@@ -38,10 +38,9 @@ class UsersRepository implements UsersRepositoryInterface {
     return result
   }
 
-  readByParam = async (params: RequestParamsInterface): Promise<UsersOuput> => {
+  readByParam = async (where: UsersOuput): Promise<UsersOuput> => {
     const response: any = await Users.findOne({
-      where: { id: params.id! },
-      plain: true
+      where, plain: true
       // attributes: ['id', 'password']
     })
 
@@ -49,13 +48,11 @@ class UsersRepository implements UsersRepositoryInterface {
   }
 
   update = async (
-    params: RequestParamsInterface,
+    where: UsersOuput,
     payload:UsersInput
   ): Promise<ResultBoolInterface> => {
     const rows: [number, UsersOuput[]] = await Users.update(
-      payload, {
-        where: { id: params.id! }
-      }
+      payload, { where }
     )
 
     const status: ResultBoolInterface = {
@@ -65,9 +62,9 @@ class UsersRepository implements UsersRepositoryInterface {
     return status
   }
 
-  hardDelete = async (params: RequestParamsInterface): Promise<ResultBoolInterface> => {
+  hardDelete = async (where: UsersOuput): Promise<ResultBoolInterface> => {
     const rows: number = await Users.destroy({
-      where: { id: params.id! }
+      where
     })
 
     const status: ResultBoolInterface = {

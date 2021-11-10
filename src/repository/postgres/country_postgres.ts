@@ -2,7 +2,7 @@ import { Op } from 'sequelize'
 import { Country, CountryInput, CountryOuput } from '../../db/models/Country'
 import { ResultBoolInterface, PaginationResponseInterface } from '../../interface/response'
 import { CountryRespositoryInterface } from '../../interface/repository'
-import { RequestMetaInterface, RequestParamsInterface } from '../../interface/request'
+import { RequestMetaInterface } from '../../interface/request'
 
 class CountryRepository implements CountryRespositoryInterface {
   create = async (payload: CountryInput): Promise<CountryOuput> => {
@@ -27,22 +27,18 @@ class CountryRepository implements CountryRespositoryInterface {
     return result
   }
 
-  readByParam = async (params: RequestParamsInterface): Promise<CountryOuput> => {
-    const response: any = await Country.findOne({
-      where: { id: params.id! },
-    })
+  readByParam = async (where: CountryOuput): Promise<CountryOuput> => {
+    const response: any = await Country.findOne({ where })
 
     return response
   }
 
   update = async (
-    params: RequestParamsInterface,
+    where: CountryOuput,
     payload:CountryInput
   ): Promise<ResultBoolInterface> => {
     const rows: [number, CountryOuput[]] = await Country.update(
-      payload, {
-        where: { id: params.id! }
-      }
+      payload, { where }
     )
 
     const status: ResultBoolInterface = {
@@ -52,10 +48,8 @@ class CountryRepository implements CountryRespositoryInterface {
     return status
   }
 
-  hardDelete = async (params: RequestParamsInterface): Promise<ResultBoolInterface> => {
-    const rows: number = await Country.destroy({
-      where: { id: params.id! }
-    })
+  hardDelete = async (where: CountryOuput): Promise<ResultBoolInterface> => {
+    const rows: number = await Country.destroy({ where })
 
     const status: ResultBoolInterface = {
       status: !!rows

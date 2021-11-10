@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
 import { Request } from 'express'
 import { CountryInput, CountryOuput, CountryOuputMongoo } from '../db/models/Country'
-import { RequestMetaInterface, RequestParamsInterface, Meta } from '../interface/request'
+import { RequestMetaInterface, Meta } from '../interface/request'
 import { ResultBoolInterface, PaginationResponseInterface, DataInterface } from '../interface/response'
 import { BaseUsecaseInterface } from '../interface/usecase'
 import { CountryRepositoryMongo } from '../repository/mongo'
@@ -36,7 +36,7 @@ class CountryUsecase implements BaseUsecaseInterface {
   }
 
   readByParam = async (req: Request): Promise<DataInterface> => {
-    const params: RequestParamsInterface = req?.params
+    const params: CountryOuput = req?.params
     const data: CountryOuputMongoo = await this.repositoryMongo.readByParam(params)
     const result: DataInterface = { data }
 
@@ -44,7 +44,7 @@ class CountryUsecase implements BaseUsecaseInterface {
   }
 
   update = async (req: Request): Promise<ResultBoolInterface> => {
-    const params: RequestParamsInterface = req?.params
+    const params: CountryOuput = req?.params
 
     const payload: CountryInput = req.body
     payload.updated_at = Custom.updatedAt()
@@ -54,7 +54,7 @@ class CountryUsecase implements BaseUsecaseInterface {
   }
 
   hardDelete = async (req: Request): Promise<ResultBoolInterface> => {
-    const params: RequestParamsInterface = req?.params
+    const params: CountryOuput = req?.params
     const result: ResultBoolInterface = await this.repositoryMongo.hardDelete(params)
     return result
   }
