@@ -1,8 +1,9 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable guard-for-in */
 /* eslint-disable no-console */
 import redis from 'redis'
-// import { promisify } from 'util'
+import { promisify } from 'util'
 
 const clientConfig = redis.createClient({
   host: process.env.REDIS_HOST!,
@@ -12,7 +13,7 @@ const clientConfig = redis.createClient({
   no_ready_check: true,
 })
 
-// const getAsync = promisify(clientConfig.get).bind(clientConfig)
+const getAsync = promisify(clientConfig.get).bind(clientConfig)
 
 clientConfig.on('connect', () => {
   console.info('redis connected')
@@ -47,19 +48,20 @@ const dynamicKey = (query: object, unique: string): string => {
   return key
 }
 
-// const getDataFromRedis = async (key: string, exipred: number, data: object): Promise<object> => {
-//   const chechkCache = await getAsync(key)
-//   if (chechkCache) {
-//     console.info(`redis source ${key}`)
-//     return JSON.parse(chechkCache)
-//   }
-//   clientConfig.setex(key, exipred, JSON.stringify(data)) // set redis key
-//   console.info(`api source ${key}`)
-//   return data
-// }
+const getDataFromRedis = async (key: string): Promise<void> => {
+  if (clientConfig.connected) {
+    const chechkCache = await getAsync(key) || ''
+
+    if (chechkCache) {
+      console.info(`redis source ${key}`)
+      return JSON.parse(chechkCache)
+    }
+  }
+}
 
 export {
   // cacheToRedis,
+  getDataFromRedis,
   dynamicKey,
   clientConfig
 }
