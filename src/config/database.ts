@@ -1,7 +1,10 @@
 /* eslint-disable no-console */
+import dotenv from 'dotenv';
 import { Sequelize } from 'sequelize'
 import mongoose from 'mongoose'
 import { DatabaseInterface, MongoOptionsInterface } from '../interface/config'
+
+dotenv.config();
 
 const configDb: DatabaseInterface = {
   dbName: process.env.DB_NAME!,
@@ -29,8 +32,11 @@ const dbConnection = new Sequelize(configDb.dbName!,
     dialectOptions: {
       collate: 'utf8mb4_unicode_ci',
       underscored: true,
-      freezeTableName: true
+      freezeTableName: true,
+      charset: 'utf8',
+      schema: 'public',
     },
+    timezone: 'UTC',
     logging: configDb.logSql
   })
 

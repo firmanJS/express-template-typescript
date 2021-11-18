@@ -32,9 +32,15 @@ class UsersUsecase implements BaseUsecaseInterface {
     return result
   }
 
-  readByParam = async (req: Request): Promise<DataInterface> => {
-    const id: number = +req?.params?.id || 0
-    const params: UsersOuput = { id }
+  readByParam = async (type: string, req: Request): Promise<DataInterface> => {
+    let id: number
+    let params: UsersOuput
+    if (type === 'grpc') {
+
+    } else {
+      id = +req?.params?.id || 0
+      params = { id }
+    }
     const data: UsersOuput = await this.repository.readByParam(params)
     const result: DataInterface = { data }
 

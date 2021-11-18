@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import cluster from 'cluster'
 import os from 'os'
-
+import servers from './transport/grpc'
 import app from './app'
 
 const port: number = Number(process.env.APP_PORT)
@@ -51,3 +51,5 @@ if (process.env.CLUSTER_MODE === 'on' && cluster.isMaster) {
     console.info(`express boillerplate Typescript app running in port ${port}`)
   })
 }
+
+servers.start()

@@ -1,0 +1,29 @@
+syntax = "proto3";
+package users;
+// import "google/protobuf/empty.proto";
+
+message User {
+    int32 id = 1;
+    string username = 2;
+    string password = 3;
+    string email = 4;
+    string created_at = 5;
+    string updated_at = 6;
+}
+
+message UserRequest {
+    int32 id = 1;
+    string username = 2;
+    string password = 3;
+    string email = 4;
+}
+
+message UserList {
+    repeated User users = 1;
+}
+
+service Users {
+    // rpc ListUser(UserRequest) returns (User) {};
+    rpc GetUserByParam(UserRequest) returns (User) {};
+    // rpc CreateUser(UserRequest) returns (User) {};
+} 
