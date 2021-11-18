@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { Server, ServerCredentials } from 'grpc'
 import { UsersService } from '../../proto/users_grpc_pb'
-import { UsersServer } from './handler/user_grpc'
+import { UsersServer } from './user_grpc'
 // import dbInit from './db'
 const servers = new Server()
 servers.addService(UsersService, new UsersServer())

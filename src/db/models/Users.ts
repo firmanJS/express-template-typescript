@@ -85,13 +85,20 @@ Users.init({
   password: {
     type: DataTypes.STRING,
     allowNull: false,
+    validate: {
+      len: {
+        args: [0, 7],
+        msg: 'Minimum 6 characters password'
+      }
+    }
   },
   email: {
     type: DataTypes.STRING,
     allowNull: true,
-    unique: {
-      name: 'email',
-      msg: 'email already in use!'
+    validate: {
+      isEmail: {
+        msg: 'email invalid'
+      }
     },
   },
   created_at: 'TIMESTAMPTZ',

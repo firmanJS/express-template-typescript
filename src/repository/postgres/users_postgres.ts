@@ -1,6 +1,6 @@
 import { Op } from 'sequelize'
 import Users, { UsersInput, UsersOuput } from '../../db/models/Users'
-import { ResultBoolInterface, PaginationResponseInterface } from '../../interface/response'
+import { ResultBoolInterface, PaginationResponseInterface, DataInterface } from '../../interface/response'
 import { UsersRepositoryInterface } from '../../interface/repository'
 import { RequestMetaInterface } from '../../interface/request'
 
@@ -12,7 +12,7 @@ class UsersRepository implements UsersRepositoryInterface {
   }
 
   create = async (payload: UsersInput): Promise<UsersOuput> => {
-    const rows: UsersOuput = await Users.create(payload)
+    const rows = await Users.create(payload)
     return rows
   }
 
@@ -30,7 +30,7 @@ class UsersRepository implements UsersRepositoryInterface {
       }
     }
 
-    const result: PaginationResponseInterface = await Users.findAndCountAll({
+    const result = await Users.findAndCountAll({
       limit, offset, where
       // attributes: this.column
     })
@@ -38,11 +38,13 @@ class UsersRepository implements UsersRepositoryInterface {
     return result
   }
 
-  readByParam = async (where: UsersOuput): Promise<UsersOuput> => {
-    const response: any = await Users.findOne({
-      where, plain: true
+  readByParam = async (where: UsersOuput): Promise<DataInterface> => {
+    const result = await Users.findOne({
+      where, raw: true
       // attributes: ['id', 'password']
     })
+
+    const response: DataInterface = { data: result! }
 
     return response
   }
@@ -51,7 +53,7 @@ class UsersRepository implements UsersRepositoryInterface {
     where: UsersOuput,
     payload:UsersInput
   ): Promise<ResultBoolInterface> => {
-    const rows: [number, UsersOuput[]] = await Users.update(
+    const rows = await Users.update(
       payload, { where }
     )
 
@@ -63,7 +65,7 @@ class UsersRepository implements UsersRepositoryInterface {
   }
 
   hardDelete = async (where: UsersOuput): Promise<ResultBoolInterface> => {
-    const rows: number = await Users.destroy({
+    const rows = await Users.destroy({
       where
     })
 

@@ -11,6 +11,15 @@ message User {
     string updated_at = 6;
 }
 
+message UserList {
+    repeated User users = 1;
+}
+
+message DeletedResponse {
+    string status = 1;
+    string message = 2;
+}
+
 message UserRequest {
     int32 id = 1;
     string username = 2;
@@ -18,12 +27,14 @@ message UserRequest {
     string email = 4;
 }
 
-message UserList {
-    repeated User users = 1;
+message CreateUserRequest {
+    string username = 1;
+    string password = 2;
+    string email = 3;
 }
 
 service Users {
-    // rpc ListUser(UserRequest) returns (User) {};
+    rpc CreateNewUser(CreateUserRequest) returns (User);
     rpc GetUserByParam(UserRequest) returns (User) {};
-    // rpc CreateUser(UserRequest) returns (User) {};
+    rpc DeleteUserByParam(UserRequest) returns (DeletedResponse) {};
 } 

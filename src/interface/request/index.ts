@@ -7,7 +7,7 @@ interface RequestMetaInterface {
   search: string
 }
 
-const Meta = (req: Request): RequestMetaInterface => {
+const meta = (req: Request): RequestMetaInterface => {
   const page: number = +req?.query?.page! || 1
   const limit: number = +req?.query?.limit! || 10
   const search: string = req?.query?.search as string || ''
@@ -21,6 +21,6 @@ const Meta = (req: Request): RequestMetaInterface => {
 }
 
 export {
-  Meta,
+  meta as Meta,
   RequestMetaInterface
 }

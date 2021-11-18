@@ -1,5 +1,5 @@
 import BaseRest from '../base'
-import { UsersHandler } from '../handler'
+import { UsersHandler } from '../../../handlers'
 import { validateRegister } from '../../../middlewares/validation/auth_validator'
 import { validateUpdate } from '../../../middlewares/validation/users_validator'
 import { tokenValidation } from '../../../middlewares/auth'
