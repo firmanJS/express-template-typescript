@@ -1,12 +1,12 @@
 import { Request, Response } from 'express'
-import { UsersRepository } from '../repository/postgres'
-import { BaseHandlerInterface } from '../interface/handler'
-import JsonMessage from '../utils/json'
-import Lang from '../lang'
-import { Meta } from '../interface/request'
-import { UsersOuput, UsersInput } from '../db/models/Users'
-import Authentication from '../utils/authentication'
-import Custom from '../utils/custom'
+import { UsersRepository } from '../../repository/postgres'
+import { BaseHandlerInterface } from '../../interface/handler'
+import JsonMessage from '../../utils/json'
+import Lang from '../../lang'
+import { Meta } from '../../interface/request'
+import { UsersOuput, UsersInput } from '../../db/models/Users'
+import Authentication from '../../utils/authentication'
+import Custom from '../../utils/custom'
 
 class UsersHandler implements BaseHandlerInterface {
   repository: UsersRepository

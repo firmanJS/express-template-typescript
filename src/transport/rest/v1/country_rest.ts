@@ -1,5 +1,5 @@
 import BaseRest from '../base'
-import { CountryHandler } from '../handler'
+import { CountryHandler } from '../../../handlers/v1'
 import { tokenValidation } from '../../../middlewares/auth'
 
 class UserRest extends BaseRest {

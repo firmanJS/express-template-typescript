@@ -85,12 +85,12 @@ Users.init({
   password: {
     type: DataTypes.STRING,
     allowNull: false,
-    validate: {
-      len: {
-        args: [0, 7],
-        msg: 'Minimum 6 characters password'
-      }
-    }
+    // validate: {
+    //   len: {
+    //     args: [0, 7],
+    //     msg: 'Minimum 6 characters password'
+    //   }
+    // }
   },
   email: {
     type: DataTypes.STRING,

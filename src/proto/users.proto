@@ -27,14 +27,15 @@ message UserRequest {
     string email = 4;
 }
 
-message CreateUserRequest {
+message CreateOrUpdateUserRequest {
     string username = 1;
     string password = 2;
     string email = 3;
 }
 
 service Users {
-    rpc CreateNewUser(CreateUserRequest) returns (User);
+    rpc CreateNewUser(CreateOrUpdateUserRequest) returns (User);
     rpc GetUserByParam(UserRequest) returns (User) {};
+    rpc UpdateUser(CreateOrUpdateUserRequest) returns (User);
     rpc DeleteUserByParam(UserRequest) returns (DeletedResponse) {};
 } 

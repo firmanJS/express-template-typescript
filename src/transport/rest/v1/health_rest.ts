@@ -1,5 +1,5 @@
 import BaseRest from '../base'
-import { HealthHandler } from '../handler'
+import { HealthHandler } from '../../../handlers/v1'
 
 class HealthRest extends BaseRest {
   public routes(): void {

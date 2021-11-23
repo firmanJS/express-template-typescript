@@ -1,10 +1,10 @@
 import { Request, Response } from 'express'
 import mongoose from 'mongoose'
-import { dbConnection } from '../../../config/database'
-import JsonMessage from '../../../utils/json'
-import { HealthHandlerInterface } from '../../../interface/handler'
-import Lang from '../../../lang'
-import { DatabaseInterface, MongoOptionsInterface } from '../../../interface/config'
+import { dbConnection } from '../../config/database'
+import JsonMessage from '../../utils/json'
+import { HealthHandlerInterface } from '../../interface/handler'
+import Lang from '../../lang'
+import { DatabaseInterface, MongoOptionsInterface } from '../../interface/config'
 
 const configMongo: DatabaseInterface = {
   mongoUrl: process.env.MONGO_URL!
