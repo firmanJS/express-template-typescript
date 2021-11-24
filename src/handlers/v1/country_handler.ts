@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 import {
   ResultBoolInterface
 } from '../../interface/response'
-import { CountryRepositoryMongo } from '../../repository/mongo'
+import { CountryRepository } from '../../repository/postgres'
 import { BaseHandlerInterface } from '../../interface/handler'
 import JsonMessage from '../../utils/json'
 import Lang from '../../lang'
@@ -20,7 +20,7 @@ const readRequest = (req: Request) => {
 }
 
 class CountryHandler implements BaseHandlerInterface {
-  private repository: CountryRepositoryMongo = new CountryRepositoryMongo()
+  private repository: CountryRepository = new CountryRepository()
 
   create = async (req: Request, res: Response): Promise<Response> => {
     try {

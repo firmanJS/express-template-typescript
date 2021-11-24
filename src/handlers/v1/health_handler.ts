@@ -1,14 +1,9 @@
 import { Request, Response } from 'express'
-import mongoose from 'mongoose'
 import { dbConnection } from '../../config/database'
 import JsonMessage from '../../utils/json'
 import { HealthHandlerInterface } from '../../interface/handler'
 import Lang from '../../lang'
-import { DatabaseInterface, MongoOptionsInterface } from '../../interface/config'
 
-const configMongo: DatabaseInterface = {
-  mongoUrl: process.env.MONGO_URL!
-}
 interface HealthInterface {
   uptime?:number
   message: string
@@ -41,29 +36,6 @@ class HealthHandler implements HealthHandlerInterface {
     } catch (error: any) {
       const manipulate: string = error.toString().split(':')
       const message: string = `${manipulate[0]}: Sequelize db is disconnected`
-      return JsonMessage.catchResponse(message, res)
-    }
-  }
-
-  checkDatabaseMongo = async (req: Request, res: Response): Promise<Response> => {
-    try {
-      const options: MongoOptionsInterface = {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        keepAlive: true,
-        maxPoolSize: 50,
-        wtimeoutMS: 2500,
-      }
-      await mongoose.connect(configMongo.mongoUrl!, options)
-      const data: HealthInterface = {
-        uptime: process.uptime(),
-        message: 'MongoDB Connected...',
-        date: new Date().toISOString(),
-      }
-      return JsonMessage.successResponse(res, Lang.__('success'), Lang.__('uptime.database'), data)
-    } catch (error: any) {
-      const manipulate: string = error.toString().split(':')
-      const message: string = `${manipulate[0]}: Mongo is disconnected`
       return JsonMessage.catchResponse(message, res)
     }
   }
