@@ -1,6 +1,6 @@
 import { Op } from 'sequelize'
 import Users, { UsersInput, UsersOuput } from '../../db/models/Users'
-import { ResultBoolInterface, PaginationResponseInterface, DataInterface } from '../../interface/response'
+import { ResultBoolInterface, DataInterface } from '../../interface/response'
 import { UsersRepositoryInterface } from '../../interface/repository'
 import { RequestMetaInterface } from '../../interface/request'
 
@@ -16,7 +16,7 @@ class UsersRepository implements UsersRepositoryInterface {
     return rows
   }
 
-  read = async (request: RequestMetaInterface): Promise<PaginationResponseInterface> => {
+  read = async (request: RequestMetaInterface) => {
     const { limit, offset, search } = request
     const where: any = {}
     if (search) {

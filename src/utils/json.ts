@@ -65,7 +65,7 @@ class JsonMessage {
     const response: WithMetaInterface = {
       status: Lang.__('success'),
       message: Lang.__('get.success'),
-      data: result.rows,
+      data: result.rows!,
       _link: req.originalUrl,
       meta: {
         current_page: 1,

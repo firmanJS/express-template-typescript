@@ -41,31 +41,39 @@ export namespace User {
     }
 }
 
-export class UserList extends jspb.Message { 
-    clearUsersList(): void;
-    getUsersList(): Array<User>;
-    setUsersList(value: Array<User>): UserList;
-    addUsers(value?: User, index?: number): User;
+export class UserListResponse extends jspb.Message { 
+    clearUserList(): void;
+    getUserList(): Array<User>;
+    setUserList(value: Array<User>): UserListResponse;
+    addUser(value?: User, index?: number): User;
+    getTotal(): number;
+    setTotal(value: number): UserListResponse;
+    getTotalPerPage(): number;
+    setTotalPerPage(value: number): UserListResponse;
 
     serializeBinary(): Uint8Array;
-    toObject(includeInstance?: boolean): UserList.AsObject;
-    static toObject(includeInstance: boolean, msg: UserList): UserList.AsObject;
+    toObject(includeInstance?: boolean): UserListResponse.AsObject;
+    static toObject(includeInstance: boolean, msg: UserListResponse): UserListResponse.AsObject;
     static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
     static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-    static serializeBinaryToWriter(message: UserList, writer: jspb.BinaryWriter): void;
-    static deserializeBinary(bytes: Uint8Array): UserList;
-    static deserializeBinaryFromReader(message: UserList, reader: jspb.BinaryReader): UserList;
+    static serializeBinaryToWriter(message: UserListResponse, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): UserListResponse;
+    static deserializeBinaryFromReader(message: UserListResponse, reader: jspb.BinaryReader): UserListResponse;
 }
 
-export namespace UserList {
+export namespace UserListResponse {
     export type AsObject = {
-        usersList: Array<User.AsObject>,
+        userList: Array<User.AsObject>,
+        total: number,
+        totalPerPage: number,
     }
 }
 
 export class DeletedResponse extends jspb.Message { 
     getStatus(): boolean;
     setStatus(value: boolean): DeletedResponse;
+    getMessage(): string;
+    setMessage(value: string): DeletedResponse;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): DeletedResponse.AsObject;
@@ -80,6 +88,7 @@ export class DeletedResponse extends jspb.Message {
 export namespace DeletedResponse {
     export type AsObject = {
         status: boolean,
+        message: string,
     }
 }
 
@@ -112,26 +121,55 @@ export namespace UserRequest {
     }
 }
 
-export class CreateUserRequest extends jspb.Message { 
-    getUsername(): string;
-    setUsername(value: string): CreateUserRequest;
-    getPassword(): string;
-    setPassword(value: string): CreateUserRequest;
-    getEmail(): string;
-    setEmail(value: string): CreateUserRequest;
+export class UserPaginationRequest extends jspb.Message { 
+    getSearch(): string;
+    setSearch(value: string): UserPaginationRequest;
+    getPage(): number;
+    setPage(value: number): UserPaginationRequest;
+    getLimit(): number;
+    setLimit(value: number): UserPaginationRequest;
 
     serializeBinary(): Uint8Array;
-    toObject(includeInstance?: boolean): CreateUserRequest.AsObject;
-    static toObject(includeInstance: boolean, msg: CreateUserRequest): CreateUserRequest.AsObject;
+    toObject(includeInstance?: boolean): UserPaginationRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: UserPaginationRequest): UserPaginationRequest.AsObject;
     static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
     static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-    static serializeBinaryToWriter(message: CreateUserRequest, writer: jspb.BinaryWriter): void;
-    static deserializeBinary(bytes: Uint8Array): CreateUserRequest;
-    static deserializeBinaryFromReader(message: CreateUserRequest, reader: jspb.BinaryReader): CreateUserRequest;
+    static serializeBinaryToWriter(message: UserPaginationRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): UserPaginationRequest;
+    static deserializeBinaryFromReader(message: UserPaginationRequest, reader: jspb.BinaryReader): UserPaginationRequest;
 }
 
-export namespace CreateUserRequest {
+export namespace UserPaginationRequest {
     export type AsObject = {
+        search: string,
+        page: number,
+        limit: number,
+    }
+}
+
+export class CreateOrUpdateUserRequest extends jspb.Message { 
+    getId(): number;
+    setId(value: number): CreateOrUpdateUserRequest;
+    getUsername(): string;
+    setUsername(value: string): CreateOrUpdateUserRequest;
+    getPassword(): string;
+    setPassword(value: string): CreateOrUpdateUserRequest;
+    getEmail(): string;
+    setEmail(value: string): CreateOrUpdateUserRequest;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): CreateOrUpdateUserRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: CreateOrUpdateUserRequest): CreateOrUpdateUserRequest.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: CreateOrUpdateUserRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): CreateOrUpdateUserRequest;
+    static deserializeBinaryFromReader(message: CreateOrUpdateUserRequest, reader: jspb.BinaryReader): CreateOrUpdateUserRequest;
+}
+
+export namespace CreateOrUpdateUserRequest {
+    export type AsObject = {
+        id: number,
         username: string,
         password: string,
         email: string,

@@ -11,12 +11,14 @@ message User {
     string updated_at = 6;
 }
 
-message UserList {
-    repeated User users = 1;
+message UserListResponse {
+    repeated User user = 1;
+    int32 total = 2;
+    int32 total_per_page = 3;
 }
 
 message DeletedResponse {
-    string status = 1;
+    bool status = 1;
     string message = 2;
 }
 
@@ -27,14 +29,22 @@ message UserRequest {
     string email = 4;
 }
 
+message UserPaginationRequest {
+    string search = 1;
+    int32 page = 2;
+    int32 limit = 3;
+}
+
 message CreateOrUpdateUserRequest {
-    string username = 1;
-    string password = 2;
-    string email = 3;
+    int32 id = 1;
+    string username = 2;
+    string password = 3;
+    string email = 4;
 }
 
 service Users {
     rpc CreateNewUser(CreateOrUpdateUserRequest) returns (User);
+    rpc GetListUser(UserPaginationRequest) returns (UserListResponse) {};
     rpc GetUserByParam(UserRequest) returns (User) {};
     rpc UpdateUser(CreateOrUpdateUserRequest) returns (User);
     rpc DeleteUserByParam(UserRequest) returns (DeletedResponse) {};

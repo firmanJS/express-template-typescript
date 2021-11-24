@@ -5,6 +5,7 @@ import servers from './transport/grpc'
 import app from './app'
 
 const port: number = Number(process.env.APP_PORT)
+const grpc_status: string = process.env.GRPC_STATUS || 'off'
 
 let server: any
 
@@ -52,4 +53,6 @@ if (process.env.CLUSTER_MODE === 'on' && cluster.isMaster) {
   })
 }
 
-servers.start()
+if (grpc_status === 'on') {
+  servers.start()
+}

@@ -6,7 +6,7 @@ interface ExceptionsInterface {
 interface WithDataInterface {
   status?: string,
   message?: string,
-  data?: any | []
+  data?: [] | object
 }
 interface MetaInterface {
   current_page?: number,
