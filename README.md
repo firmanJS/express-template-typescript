@@ -18,7 +18,7 @@
 **More Feature Checkout the branch** :
  * [x] `main` using postgres and mongodb database as a default branch
  * [ ] `feature/elastic` using database elastic
- * [ ] `feature/grpc` using grpc
+ * [x] `feature/grpc` using grpc
  * [ ] `feature/graphql` using graphql
 
 This project has 3 Domain layer :
