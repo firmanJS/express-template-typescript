@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { AuthPostgres } from '../../repository/postgres'
+import { UsersRepositoryMongo } from '../../repository/mongo'
 import Authentication from '../../utils/authentication'
 import Custom from '../../utils/custom'
 import JsonMessage from '../../utils/json'
@@ -7,7 +7,7 @@ import { AuthHandlerInterface } from '../../interface/handler'
 import Lang from '../../lang'
 
 class AuthHandler implements AuthHandlerInterface {
-  private repository: AuthPostgres = new AuthPostgres()
+  private repository: UsersRepositoryMongo = new UsersRepositoryMongo()
 
   register = async (req: Request, res: Response): Promise<Response> => {
     try {

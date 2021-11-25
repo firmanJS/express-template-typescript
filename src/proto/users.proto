@@ -3,7 +3,7 @@ package users;
 // import "google/protobuf/empty.proto";
 
 message User {
-    int32 id = 1;
+    string id = 1;
     string username = 2;
     string password = 3;
     string email = 4;
@@ -23,7 +23,7 @@ message DeletedResponse {
 }
 
 message UserRequest {
-    int32 id = 1;
+    string id = 1;
     string username = 2;
     string password = 3;
     string email = 4;
@@ -36,7 +36,7 @@ message UserPaginationRequest {
 }
 
 message CreateOrUpdateUserRequest {
-    int32 id = 1;
+    string id = 1;
     string username = 2;
     string password = 3;
     string email = 4;

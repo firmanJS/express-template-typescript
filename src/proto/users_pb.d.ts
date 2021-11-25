@@ -7,8 +7,8 @@
 import * as jspb from "google-protobuf";
 
 export class User extends jspb.Message { 
-    getId(): number;
-    setId(value: number): User;
+    getId(): string;
+    setId(value: string): User;
     getUsername(): string;
     setUsername(value: string): User;
     getPassword(): string;
@@ -32,7 +32,7 @@ export class User extends jspb.Message {
 
 export namespace User {
     export type AsObject = {
-        id: number,
+        id: string,
         username: string,
         password: string,
         email: string,
@@ -93,8 +93,8 @@ export namespace DeletedResponse {
 }
 
 export class UserRequest extends jspb.Message { 
-    getId(): number;
-    setId(value: number): UserRequest;
+    getId(): string;
+    setId(value: string): UserRequest;
     getUsername(): string;
     setUsername(value: string): UserRequest;
     getPassword(): string;
@@ -114,7 +114,7 @@ export class UserRequest extends jspb.Message {
 
 export namespace UserRequest {
     export type AsObject = {
-        id: number,
+        id: string,
         username: string,
         password: string,
         email: string,
@@ -148,8 +148,8 @@ export namespace UserPaginationRequest {
 }
 
 export class CreateOrUpdateUserRequest extends jspb.Message { 
-    getId(): number;
-    setId(value: number): CreateOrUpdateUserRequest;
+    getId(): string;
+    setId(value: string): CreateOrUpdateUserRequest;
     getUsername(): string;
     setUsername(value: string): CreateOrUpdateUserRequest;
     getPassword(): string;
@@ -169,7 +169,7 @@ export class CreateOrUpdateUserRequest extends jspb.Message {
 
 export namespace CreateOrUpdateUserRequest {
     export type AsObject = {
-        id: number,
+        id: string,
         username: string,
         password: string,
         email: string,

@@ -1,18 +1,18 @@
 /* eslint-disable no-console */
 import * as grpc from 'grpc'
-import { UsersInput, UsersOuput } from '../../db/models/Users'
+import { UsersInput, UsersOutput, UsersAttributes } from '../../db/models/Users'
 import { RequestMetaInterface } from '../../interface/request'
 import { IUsersServer } from '../../proto/users_grpc_pb'
 import {
   User, UserRequest, CreateOrUpdateUserRequest, DeletedResponse,
   UserPaginationRequest, UserListResponse
 } from '../../proto/users_pb'
-import { UsersRepository } from '../../repository/postgres'
+import { UsersRepositoryMongo } from '../../repository/mongo'
 import Authentication from '../../utils/authentication'
 import Custom from '../../utils/custom'
 
 export class UsersServer implements IUsersServer {
-  private repository: UsersRepository = new UsersRepository()
+  private repository: UsersRepositoryMongo = new UsersRepositoryMongo()
 
   createNewUser = async (
     call: grpc.ServerUnaryCall<CreateOrUpdateUserRequest>,
@@ -30,10 +30,9 @@ export class UsersServer implements IUsersServer {
 
     try {
       const newUser = await this.repository.create(params)
-
       const user = new User()
 
-      user.setId(newUser?.id!)
+      user.setId(newUser?._id!)
       user.setUsername(newUser?.username!)
       user.setPassword(newUser?.password!)
       user.setEmail(newUser?.email!)
@@ -65,8 +64,7 @@ export class UsersServer implements IUsersServer {
       const usersList = new UserListResponse()
       const userData = new User()
 
-      const data = users.rows.map((u: UsersOuput) => {
-        userData.setId(u.id!)
+      const data = users.data!.map((u: UsersAttributes) => {
         userData.setUsername(u.username!)
         userData.setPassword(u.password!)
         userData.setEmail(u.email!)
@@ -77,7 +75,7 @@ export class UsersServer implements IUsersServer {
       })
 
       usersList.setUserList(data)
-      usersList.setTotal(users.count)
+      usersList.setTotal(users.count!)
       usersList.setTotalPerPage(data.length)
       return callback(null, usersList)
     } catch (error: any) {
@@ -102,9 +100,9 @@ export class UsersServer implements IUsersServer {
         return callback(error, null)
       }
 
-      const params: UsersOuput = { id }
+      const params: UsersOutput = { _id: id }
       const users = await this.repository.readByParam(params)
-      const mapingData: UsersOuput = users.data || { data: '' }
+      const mapingData: UsersOutput = users.data || { data: '' }
 
       if (!users) {
         error = new Error(`User not found with id ${id}`)
@@ -112,7 +110,7 @@ export class UsersServer implements IUsersServer {
         return callback(error, null)
       }
 
-      user.setId(mapingData.id!)
+      user.setId(mapingData._id!)
       user.setUsername(mapingData.username!)
       user.setEmail(mapingData.email!)
       user.setPassword(mapingData.password!)
@@ -129,7 +127,7 @@ export class UsersServer implements IUsersServer {
     callback: grpc.sendUnaryData<User>
   ) => {
     const data = call.request.toObject()
-    const params: UsersOuput = { id: data?.id! }
+    const params: UsersOutput = { _id: data?.id! }
 
     const payload: UsersInput = {
       username: data.username,
@@ -143,14 +141,14 @@ export class UsersServer implements IUsersServer {
       let error: any
 
       if (!newUser.status) {
-        error = new Error(`User not found with id ${params.id}`)
+        error = new Error(`User not found with id ${params._id}`)
         error.code = grpc.status.NOT_FOUND
         return callback(error, null)
       }
 
       const user = new User()
 
-      user.setId(params?.id!)
+      user.setId(params?._id!)
       user.setUsername(payload?.username!)
       user.setPassword(payload?.password!)
       user.setEmail(payload?.email!)
@@ -178,7 +176,7 @@ export class UsersServer implements IUsersServer {
         return callback(error, null);
       }
 
-      const params: UsersOuput = { id }
+      const params: UsersOutput = { _id: id }
       const user = new DeletedResponse()
 
       const users = await this.repository.hardDelete(params)

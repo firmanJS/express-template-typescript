@@ -1,9 +1,7 @@
 import mongoose from 'mongoose'
+import Country, { CountryInput, CountryWithMetaOuput, CountryOuput } from '../../db/models/Country'
 import {
-  Countrys, CountryInput, CountryOuput
-} from '../../db/models/Country'
-import {
-  ResultBoolInterface, PaginationResponseInterface,
+  ResultBoolInterface,
   DataInterface
 } from '../../interface/response'
 import { CountryRespositoryInterface } from '../../interface/repository'
@@ -11,14 +9,14 @@ import { RequestMetaInterface } from '../../interface/request'
 
 class CountryRepositoryMongo implements CountryRespositoryInterface {
   create = async (payload: CountryInput): Promise<CountryOuput> => {
-    const rows = await Countrys.create(payload)
+    const rows = await Country.create(payload)
     return rows
   }
 
-  read = async (request: RequestMetaInterface): Promise<PaginationResponseInterface> => {
+  read = async (request: RequestMetaInterface): Promise<CountryWithMetaOuput> => {
     const { limit, offset } = request
 
-    const rows = await Countrys.find()
+    const data = await Country.find()
       // .select()
       // .or(search)
       // .sort(paginations.sort)
@@ -27,19 +25,19 @@ class CountryRepositoryMongo implements CountryRespositoryInterface {
       .lean(true)
       .hint({})
 
-    const count = await Countrys.countDocuments()
+    const count = await Country.countDocuments()
 
-    const result: PaginationResponseInterface = {
-      rows,
+    const response: CountryWithMetaOuput = {
+      data,
       count
     }
 
-    return result
+    return response
   }
 
   readByParam = async (params: CountryOuput): Promise<DataInterface> => {
-    const _id: mongoose.Types.ObjectId = new mongoose.Types.ObjectId(params.id)
-    const result = await Countrys.findOne({ _id })
+    const _id: mongoose.Types.ObjectId = new mongoose.Types.ObjectId(params._id)
+    const result = await Country.findOne({ _id })
 
     const response: DataInterface = { data: result! }
 
@@ -50,8 +48,8 @@ class CountryRepositoryMongo implements CountryRespositoryInterface {
     params: CountryOuput,
     payload:CountryInput
   ): Promise<ResultBoolInterface> => {
-    const _id: mongoose.Types.ObjectId = new mongoose.Types.ObjectId(params.id)
-    const rows = await Countrys.updateOne(
+    const _id: mongoose.Types.ObjectId = new mongoose.Types.ObjectId(params._id)
+    const rows = await Country.updateOne(
       { _id }, { $set: payload }, { new: true }
     )
 
@@ -63,8 +61,8 @@ class CountryRepositoryMongo implements CountryRespositoryInterface {
   }
 
   hardDelete = async (params: CountryOuput): Promise<ResultBoolInterface> => {
-    const _id: mongoose.Types.ObjectId = new mongoose.Types.ObjectId(params.id)
-    const rows = await Countrys.deleteOne({ _id })
+    const _id: mongoose.Types.ObjectId = new mongoose.Types.ObjectId(params._id)
+    const rows = await Country.deleteOne({ _id })
 
     const status: ResultBoolInterface = {
       status: !!rows?.deletedCount // !! convert to boolean

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
-import { v4 as uuidv4 } from 'uuid'
 import {
+  PaginationResponseInterface,
   ResultBoolInterface
 } from '../../interface/response'
 import { CountryRepositoryMongo } from '../../repository/mongo'
@@ -26,7 +26,6 @@ class CountryHandler implements BaseHandlerInterface {
     try {
       const { payload } = readRequest(req)
 
-      payload.id = uuidv4()
       payload.created_at = Custom.createdAt()
       payload.updated_at = Custom.updatedAt()
 
@@ -42,7 +41,11 @@ class CountryHandler implements BaseHandlerInterface {
     try {
       const meta = Meta(req)
       const result = await this.repository.read(meta)
-      return JsonMessage.succesWithMetaResponse(req, res, result)
+      const mappingData: PaginationResponseInterface = {
+        rows: result.data!,
+        count: result.count!
+      }
+      return JsonMessage.succesWithMetaResponse(req, res, mappingData)
     } catch (error: any) {
       return JsonMessage.catchResponse(error, res)
     }
@@ -69,7 +72,6 @@ class CountryHandler implements BaseHandlerInterface {
     try {
       const { id, params, payload } = readRequest(req)
 
-      payload.id = uuidv4()
       payload.created_at = Custom.createdAt()
       payload.updated_at = Custom.updatedAt()
 

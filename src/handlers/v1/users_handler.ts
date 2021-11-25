@@ -1,18 +1,27 @@
 import { Request, Response } from 'express'
-import { UsersRepository } from '../../repository/postgres'
+import { UsersRepositoryMongo } from '../../repository/mongo'
 import { BaseHandlerInterface } from '../../interface/handler'
 import JsonMessage from '../../utils/json'
 import Lang from '../../lang'
 import { Meta } from '../../interface/request'
-import { UsersOuput, UsersInput } from '../../db/models/Users'
+import { UsersOutput, UsersInput } from '../../db/models/Users'
 import Authentication from '../../utils/authentication'
 import Custom from '../../utils/custom'
+import { PaginationResponseInterface } from '../../interface/response'
+
+const readRequest = (req: Request) => {
+  const payload: UsersInput = req?.body
+  const _id: string = req?.params?.id
+  const params: UsersOutput = req?.params
+
+  return { payload, _id, params }
+}
 
 class UsersHandler implements BaseHandlerInterface {
-  repository: UsersRepository
+  repository: UsersRepositoryMongo
 
   constructor() {
-    this.repository = new UsersRepository()
+    this.repository = new UsersRepositoryMongo()
   }
 
   create = async (req: Request, res: Response): Promise<Response> => {
@@ -34,7 +43,11 @@ class UsersHandler implements BaseHandlerInterface {
     try {
       const meta = Meta(req)
       const result = await this.repository.read(meta)
-      return JsonMessage.succesWithMetaResponse(req, res, result)
+      const mappingData: PaginationResponseInterface = {
+        rows: result.data!,
+        count: result.count!
+      }
+      return JsonMessage.succesWithMetaResponse(req, res, mappingData)
     } catch (error: any) {
       return JsonMessage.catchResponse(error, res)
     }
@@ -42,15 +55,15 @@ class UsersHandler implements BaseHandlerInterface {
 
   readByParam = async (req:Request, res: Response): Promise<Response> => {
     try {
-      const id: number = +req?.params?.id || 0
-      const idTostring: string = id.toString()
-      const params: UsersOuput = { id }
+      const { _id, params } = readRequest(req)
       const result = await this.repository.readByParam(params)
+
       if (!result.data) {
-        const message: string = Lang.__('not_found.id', { idTostring })
+        const message: string = Lang.__('not_found.id', { _id })
         return JsonMessage.NotFoundResponse(res, message)
       }
-      const message: string = Lang.__('get.id', { idTostring })
+
+      const message: string = Lang.__('get.id', { _id })
       return JsonMessage.successResponse(res, Lang.__('get'), message, result.data!)
     } catch (error: any) {
       return JsonMessage.catchResponse(error, res)
@@ -59,23 +72,21 @@ class UsersHandler implements BaseHandlerInterface {
 
   update = async (req: Request, res: Response): Promise<Response> => {
     try {
-      const id: number = +req?.params?.id || 0
-      const idTostring: string = id.toString()
-      const params: UsersOuput = { id }
+      const { _id, params, payload } = readRequest(req)
 
-      const payload: UsersInput = req.body
       if (payload.password) {
         const hashedPassword: string = await Authentication.passwordHash(payload.password)
         payload.password = hashedPassword
       }
+
       payload.updated_at = Custom.updatedAt()
 
       const result = await this.repository.update(params, payload)
       if (!result.status) {
-        const message: string = Lang.__('not_found.id', { idTostring })
+        const message: string = Lang.__('not_found.id', { _id })
         return JsonMessage.NotFoundResponse(res, message)
       }
-      const message: string = Lang.__('updated.success', { idTostring })
+      const message: string = Lang.__('updated.success', { _id })
       return JsonMessage.successResponse(res, Lang.__('updated'), message, payload)
     } catch (error: any) {
       return JsonMessage.catchResponse(error, res)
@@ -84,15 +95,13 @@ class UsersHandler implements BaseHandlerInterface {
 
   hardDelete = async (req: Request, res: Response): Promise<Response> => {
     try {
-      const id: number = +req?.params?.id || 0
-      const idTostring: string = id.toString()
-      const params: UsersOuput = { id }
+      const { _id, params } = readRequest(req)
       const result = await this.repository.hardDelete(params)
       if (!result.status) {
-        const message: string = Lang.__('not_found.id', { idTostring })
+        const message: string = Lang.__('not_found.id', { _id })
         return JsonMessage.NotFoundResponse(res, message)
       }
-      const message: string = Lang.__('delete.id', { idTostring })
+      const message: string = Lang.__('delete.id', { _id })
       return JsonMessage.successResponse(res, Lang.__('deleted'), message, result)
     } catch (error: any) {
       return JsonMessage.catchResponse(error, res)
