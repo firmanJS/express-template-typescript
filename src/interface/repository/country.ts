@@ -1,14 +1,15 @@
 /* eslint-disable no-unused-vars */
-import { ResultBoolInterface, PaginationResponseInterface, DataInterface } from '../response'
+import { ResultBoolInterface, DataInterface } from '../response'
 import { RequestMetaInterface } from '../request'
-import { CountryInput, CountryOuput } from '../../db/models/Country'
+import { CountryAttributes, CountryWithMetaOuput } from '../../db/models/Country'
+import { AttributesInterface } from '../../repository/postgres'
 
 interface CountryRespositoryInterface {
-  create(payload: CountryInput): Promise<CountryOuput>
-  read(requestDto: RequestMetaInterface): Promise<PaginationResponseInterface>
-  readByParam(params: CountryOuput): Promise<DataInterface>
-  update(params: CountryOuput, payload: CountryInput): Promise<ResultBoolInterface>
-  hardDelete(params: CountryOuput): Promise<ResultBoolInterface>
+  create(payload: CountryAttributes): Promise<CountryAttributes>
+  read(requestDto: RequestMetaInterface): Promise<CountryWithMetaOuput>
+  readByParam(params: CountryAttributes, attributes: AttributesInterface): Promise<DataInterface>
+  update(params: CountryAttributes, payload: CountryAttributes): Promise<ResultBoolInterface>
+  hardDelete(params: CountryAttributes): Promise<ResultBoolInterface>
 }
 
 export default CountryRespositoryInterface

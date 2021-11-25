@@ -2,8 +2,9 @@ import {
   DataTypes, Model
 } from 'sequelize'
 import { dbConnection } from '../../config/database'
+import { AttributesInterface } from '../../repository/postgres'
 
-interface CountryAttributes {
+export interface CountryAttributes {
   id?: string
   name?: string
   code?: string
@@ -12,9 +13,13 @@ interface CountryAttributes {
   updated_at?: string
 }
 
-export interface CountryInput extends CountryAttributes {}
-
-export interface CountryOuput extends CountryAttributes {}
+export interface CountryWithMetaOuput {
+  data?: CountryAttributes[]
+  count?: number
+}
+export const DefaultAttributes: AttributesInterface = [
+  'id', 'name', 'code', 'source', 'created_at', 'updated_at'
+]
 class Country extends Model<CountryAttributes> implements CountryAttributes {
   public id!: string
 

@@ -1,9 +1,12 @@
-import AuthPostgres from './auth_postgres'
 import UsersRepository from './users_postgres'
 import CountryRepository from './country_postgres'
 
+// interface AttributesInterface {
+//   [index: number]: string;
+// }
+type AttributesInterface = Array<string>
 export {
-  AuthPostgres,
+  AttributesInterface,
   UsersRepository,
   CountryRepository
 }

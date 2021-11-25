@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import * as grpc from 'grpc'
-import { UsersInput, UsersOuput } from '../../db/models/Users'
+import { UsersInput, DefaultAttributes, UsersAttributes } from '../../db/models/Users'
 import { RequestMetaInterface } from '../../interface/request'
 import { IUsersServer } from '../../proto/users_grpc_pb'
 import {
@@ -61,11 +61,10 @@ export class UsersServer implements IUsersServer {
       }
 
       const users = await this.repository.read(request)
-
       const usersList = new UserListResponse()
       const userData = new User()
 
-      const data = users.rows.map((u: UsersOuput) => {
+      const data = users.data!.map((u: UsersAttributes) => {
         userData.setId(u.id!)
         userData.setUsername(u.username!)
         userData.setPassword(u.password!)
@@ -77,7 +76,7 @@ export class UsersServer implements IUsersServer {
       })
 
       usersList.setUserList(data)
-      usersList.setTotal(users.count)
+      usersList.setTotal(users.count!)
       usersList.setTotalPerPage(data.length)
       return callback(null, usersList)
     } catch (error: any) {
@@ -102,9 +101,9 @@ export class UsersServer implements IUsersServer {
         return callback(error, null)
       }
 
-      const params: UsersOuput = { id }
-      const users = await this.repository.readByParam(params)
-      const mapingData: UsersOuput = users.data || { data: '' }
+      const params: UsersAttributes = { id }
+      const users = await this.repository.readByParam(params, DefaultAttributes)
+      const mapingData: UsersAttributes = users.data || { data: '' }
 
       if (!users) {
         error = new Error(`User not found with id ${id}`)
@@ -129,7 +128,7 @@ export class UsersServer implements IUsersServer {
     callback: grpc.sendUnaryData<User>
   ) => {
     const data = call.request.toObject()
-    const params: UsersOuput = { id: data?.id! }
+    const params: UsersAttributes = { id: data?.id! }
 
     const payload: UsersInput = {
       username: data.username,
@@ -178,7 +177,7 @@ export class UsersServer implements IUsersServer {
         return callback(error, null);
       }
 
-      const params: UsersOuput = { id }
+      const params: UsersAttributes = { id }
       const user = new DeletedResponse()
 
       const users = await this.repository.hardDelete(params)

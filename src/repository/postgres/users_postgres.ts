@@ -1,22 +1,23 @@
 import { Op } from 'sequelize'
-import Users, { UsersInput, UsersOuput } from '../../db/models/Users'
+import Users, { UsersInput, UsersAttributes, UsersWithMetaOuput } from '../../db/models/Users'
 import { ResultBoolInterface, DataInterface } from '../../interface/response'
 import { UsersRepositoryInterface } from '../../interface/repository'
 import { RequestMetaInterface } from '../../interface/request'
+import { AttributesInterface } from '.'
 
 class UsersRepository implements UsersRepositoryInterface {
-  public column: [string, string, string, string, string, string]
+  // public column: [string, string, string, string, string, string]
 
-  constructor() {
-    this.column = ['id', 'username', 'password', 'email', 'created_at', 'updated_at']
-  }
+  // constructor() {
+  //   this.column = ['id', 'username', 'password', 'email', 'created_at', 'updated_at']
+  // }
 
-  create = async (payload: UsersInput): Promise<UsersOuput> => {
+  create = async (payload: UsersInput): Promise<UsersAttributes> => {
     const rows = await Users.create(payload)
     return rows
   }
 
-  read = async (request: RequestMetaInterface) => {
+  read = async (request: RequestMetaInterface): Promise<UsersWithMetaOuput> => {
     const { limit, offset, search } = request
     const where: any = {}
     if (search) {
@@ -32,16 +33,22 @@ class UsersRepository implements UsersRepositoryInterface {
 
     const result = await Users.findAndCountAll({
       limit, offset, where
-      // attributes: this.column
     })
 
-    return result
+    const response: UsersWithMetaOuput = {
+      data: result.rows,
+      count: result.count,
+    }
+
+    return response
   }
 
-  readByParam = async (where: UsersOuput): Promise<DataInterface> => {
+  readByParam = async (
+    where: UsersAttributes,
+    attr: AttributesInterface
+  ): Promise<DataInterface> => {
     const result = await Users.findOne({
-      where, raw: true
-      // attributes: ['id', 'password']
+      where, raw: true, attributes: attr
     })
 
     const response: DataInterface = { data: result! }
@@ -50,7 +57,7 @@ class UsersRepository implements UsersRepositoryInterface {
   }
 
   update = async (
-    where: UsersOuput,
+    where: UsersAttributes,
     payload:UsersInput
   ): Promise<ResultBoolInterface> => {
     const rows = await Users.update(
@@ -64,7 +71,7 @@ class UsersRepository implements UsersRepositoryInterface {
     return status
   }
 
-  hardDelete = async (where: UsersOuput): Promise<ResultBoolInterface> => {
+  hardDelete = async (where: UsersAttributes): Promise<ResultBoolInterface> => {
     const rows = await Users.destroy({
       where
     })

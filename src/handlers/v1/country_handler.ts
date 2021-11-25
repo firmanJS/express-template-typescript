@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { v4 as uuidv4 } from 'uuid'
 import {
+  PaginationResponseInterface,
   ResultBoolInterface
 } from '../../interface/response'
 import { CountryRepository } from '../../repository/postgres'
@@ -8,19 +9,27 @@ import { BaseHandlerInterface } from '../../interface/handler'
 import JsonMessage from '../../utils/json'
 import Lang from '../../lang'
 import Custom from '../../utils/custom'
-import { CountryInput, CountryOuput } from '../../db/models/Country'
+import { CountryAttributes, DefaultAttributes } from '../../db/models/Country'
 import { Meta } from '../../interface/request'
 
 const readRequest = (req: Request) => {
-  const payload: CountryInput = req?.body
+  const payload: CountryAttributes = req?.body
   const id: string = req?.params?.id
-  const params: CountryOuput = req?.params
+  const params: CountryAttributes = req?.params
 
   return { payload, id, params }
 }
 
 class CountryHandler implements BaseHandlerInterface {
-  private repository: CountryRepository = new CountryRepository()
+  protected repository: CountryRepository = new CountryRepository()
+
+  protected readRequest = (req: Request) => {
+    const payload: CountryAttributes = req?.body
+    const id: string = req?.params?.id
+    const params: CountryAttributes = req?.params
+
+    return { payload, id, params }
+  }
 
   create = async (req: Request, res: Response): Promise<Response> => {
     try {
@@ -42,7 +51,11 @@ class CountryHandler implements BaseHandlerInterface {
     try {
       const meta = Meta(req)
       const result = await this.repository.read(meta)
-      return JsonMessage.succesWithMetaResponse(req, res, result)
+      const response: PaginationResponseInterface = {
+        rows: result.data!,
+        count: result.count!,
+      }
+      return JsonMessage.succesWithMetaResponse(req, res, response)
     } catch (error: any) {
       return JsonMessage.catchResponse(error, res)
     }
@@ -51,7 +64,7 @@ class CountryHandler implements BaseHandlerInterface {
   readByParam = async (req:Request, res: Response): Promise<Response> => {
     try {
       const { id, params } = readRequest(req)
-      const result = await this.repository.readByParam(params)
+      const result = await this.repository.readByParam(params, DefaultAttributes)
 
       if (!result.data) {
         const message: string = Lang.__('not_found.id', { id })
@@ -69,7 +82,6 @@ class CountryHandler implements BaseHandlerInterface {
     try {
       const { id, params, payload } = readRequest(req)
 
-      payload.id = uuidv4()
       payload.created_at = Custom.createdAt()
       payload.updated_at = Custom.updatedAt()
 

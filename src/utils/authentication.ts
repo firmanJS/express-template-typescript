@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 import { Response } from 'express'
 import httpStatus from 'http-status'
 import { AuthInterface } from '../interface/config'
-import { LoginOutput } from '../db/models/Users'
+import { UsersAttributes } from '../db/models/Users'
 import { ExceptionsInterface, WithDataInterface } from '../interface/response'
 import JsonMessage from './json'
 
@@ -31,7 +31,7 @@ class Authentication {
   }
 
   public static validateUsername = async (
-    result: LoginOutput, username:string, password: string, res: Response
+    result: UsersAttributes, username:string, password: string, res: Response
   ) : Promise<Response> => {
     if (result) {
       // check password

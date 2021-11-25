@@ -4,12 +4,21 @@ import { BaseHandlerInterface } from '../../interface/handler'
 import JsonMessage from '../../utils/json'
 import Lang from '../../lang'
 import { Meta } from '../../interface/request'
-import { UsersOuput, UsersInput } from '../../db/models/Users'
+import { DefaultAttributes, UsersAttributes, UsersInput } from '../../db/models/Users'
 import Authentication from '../../utils/authentication'
 import Custom from '../../utils/custom'
+import { PaginationResponseInterface } from '../../interface/response'
 
 class UsersHandler implements BaseHandlerInterface {
-  repository: UsersRepository
+  private repository: UsersRepository = new UsersRepository()
+
+  protected readRequest = (req: Request) => {
+    const payload: UsersInput = req?.body
+    const id: string = req?.params?.id
+    const params: UsersAttributes = req?.params
+
+    return { payload, id, params }
+  }
 
   constructor() {
     this.repository = new UsersRepository()
@@ -17,7 +26,8 @@ class UsersHandler implements BaseHandlerInterface {
 
   create = async (req: Request, res: Response): Promise<Response> => {
     try {
-      const payload: UsersInput = req?.body
+      const { payload } = this.readRequest(req)
+
       payload.password = await Authentication.passwordHash(payload.password!)
       payload.created_at = Custom.createdAt()
       payload.updated_at = Custom.updatedAt()
@@ -34,7 +44,11 @@ class UsersHandler implements BaseHandlerInterface {
     try {
       const meta = Meta(req)
       const result = await this.repository.read(meta)
-      return JsonMessage.succesWithMetaResponse(req, res, result)
+      const response: PaginationResponseInterface = {
+        rows: result.data!,
+        count: result.count!,
+      }
+      return JsonMessage.succesWithMetaResponse(req, res, response)
     } catch (error: any) {
       return JsonMessage.catchResponse(error, res)
     }
@@ -42,10 +56,9 @@ class UsersHandler implements BaseHandlerInterface {
 
   readByParam = async (req:Request, res: Response): Promise<Response> => {
     try {
-      const id: number = +req?.params?.id || 0
+      const { id, params } = this.readRequest(req)
       const idTostring: string = id.toString()
-      const params: UsersOuput = { id }
-      const result = await this.repository.readByParam(params)
+      const result = await this.repository.readByParam(params, DefaultAttributes)
       if (!result.data) {
         const message: string = Lang.__('not_found.id', { idTostring })
         return JsonMessage.NotFoundResponse(res, message)
@@ -59,11 +72,9 @@ class UsersHandler implements BaseHandlerInterface {
 
   update = async (req: Request, res: Response): Promise<Response> => {
     try {
-      const id: number = +req?.params?.id || 0
+      const { id, params, payload } = this.readRequest(req)
       const idTostring: string = id.toString()
-      const params: UsersOuput = { id }
 
-      const payload: UsersInput = req.body
       if (payload.password) {
         const hashedPassword: string = await Authentication.passwordHash(payload.password)
         payload.password = hashedPassword
@@ -84,9 +95,8 @@ class UsersHandler implements BaseHandlerInterface {
 
   hardDelete = async (req: Request, res: Response): Promise<Response> => {
     try {
-      const id: number = +req?.params?.id || 0
+      const { id, params } = this.readRequest(req)
       const idTostring: string = id.toString()
-      const params: UsersOuput = { id }
       const result = await this.repository.hardDelete(params)
       if (!result.status) {
         const message: string = Lang.__('not_found.id', { idTostring })

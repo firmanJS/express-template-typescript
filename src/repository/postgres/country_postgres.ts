@@ -1,16 +1,17 @@
 import { Op } from 'sequelize'
-import Country, { CountryInput, CountryOuput } from '../../db/models/Country'
+import Country, { CountryAttributes, CountryWithMetaOuput } from '../../db/models/Country'
 import { ResultBoolInterface, DataInterface } from '../../interface/response'
 import { CountryRespositoryInterface } from '../../interface/repository'
 import { RequestMetaInterface } from '../../interface/request'
+import { AttributesInterface } from '.'
 
 class CountryRepository implements CountryRespositoryInterface {
-  create = async (payload: CountryInput): Promise<CountryOuput> => {
+  create = async (payload: CountryAttributes): Promise<CountryAttributes> => {
     const rows = await Country.create(payload)
     return rows
   }
 
-  read = async (request: RequestMetaInterface) => {
+  read = async (request: RequestMetaInterface): Promise<CountryWithMetaOuput> => {
     const { limit, offset, search } = request
     const where: any = {}
     if (search) {
@@ -28,12 +29,20 @@ class CountryRepository implements CountryRespositoryInterface {
       limit, offset, where
     })
 
-    return result
+    const response: CountryWithMetaOuput = {
+      data: result.rows,
+      count: result.count,
+    }
+
+    return response
   }
 
-  readByParam = async (where: CountryOuput): Promise<DataInterface> => {
+  readByParam = async (
+    where: CountryAttributes,
+    attr: AttributesInterface
+  ): Promise<DataInterface> => {
     const result = await Country.findOne({
-      where, raw: true
+      where, raw: true, attributes: attr
     })
 
     const response: DataInterface = { data: result! }
@@ -42,8 +51,8 @@ class CountryRepository implements CountryRespositoryInterface {
   }
 
   update = async (
-    where: CountryOuput,
-    payload:CountryInput
+    where: CountryAttributes,
+    payload:CountryAttributes
   ): Promise<ResultBoolInterface> => {
     const rows = await Country.update(
       payload, { where }
@@ -56,7 +65,7 @@ class CountryRepository implements CountryRespositoryInterface {
     return status
   }
 
-  hardDelete = async (where: CountryOuput): Promise<ResultBoolInterface> => {
+  hardDelete = async (where: CountryAttributes): Promise<ResultBoolInterface> => {
     const rows = await Country.destroy({
       where
     })

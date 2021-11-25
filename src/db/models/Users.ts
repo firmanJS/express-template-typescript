@@ -2,8 +2,9 @@ import {
   DataTypes, Model
 } from 'sequelize'
 import { dbConnection } from '../../config/database'
+import { AttributesInterface } from '../../repository/postgres'
 
-interface UsersAttributes {
+export interface UsersAttributes {
   id?: number
   username?: string
   password?: string
@@ -20,33 +21,25 @@ export interface UsersInput {
   updated_at?: string
 }
 
-export interface UsersOuput extends UsersAttributes {}
-export interface UsersWithMetaOuput {
-  data?: UsersAttributes,
-  count_per_page?: number
-  count?: number,
-}
-export interface RegisterInput {
-  username: string
-  password: string
-  created_at?: string
-}
-
 export interface RegisterOutput {
   username?: string
   email?: string
   created_at?: string
 }
 
-export interface LoginInput {
-  username: string
-}
-
 export interface LoginOutput {
   id?: number
-  password?: string
+  username?: string
 }
 
+export const DefaultAttributes: AttributesInterface = [
+  'id', 'username', 'email', 'password',
+  'created_at', 'updated_at'
+]
+export interface UsersWithMetaOuput {
+  data?: UsersAttributes[]
+  count?: number
+}
 // export interface UsersOuput extends Required<UsersAttributes> { }
 // export interface UsersOuput extends Pick<UsersAttributes, 'username'> {}
 
