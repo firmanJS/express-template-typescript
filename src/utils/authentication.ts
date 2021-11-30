@@ -5,9 +5,9 @@ import httpStatus from 'http-status'
 import { AuthInterface } from '../interface/config'
 import { UsersAttributes } from '../db/models/Users'
 import { ExceptionsInterface, WithDataInterface } from '../interface/response'
-import JsonMessage from './json'
+import { JsonMessage } from '.'
 
-class Authentication {
+export class Authentication {
   public static passwordHash = (password: string): Promise<string> => bcrypt.hash(password, 10)
 
   public static passwordCompare = async (text: string, encryptedText: string): Promise<boolean> => {
@@ -60,5 +60,3 @@ class Authentication {
     return JsonMessage.customErrorResponse(res, status, messages)
   }
 }
-
-export default Authentication

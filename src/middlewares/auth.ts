@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 import httpStatus from 'http-status'
 import { ExceptionsInterface } from '../interface/response'
 import { AuthInterface } from '../interface/config'
-import JsonMessage from '../utils/json'
+import { JsonMessage } from '../utils'
 import Lang from '../lang'
 
 const verifyToken = (keyAuth: AuthInterface, res: Response, next: NextFunction) : any => {

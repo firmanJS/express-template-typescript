@@ -1,12 +1,10 @@
 import { Request, Response } from 'express'
 import { UsersRepository } from '../../repository/postgres'
 import { BaseHandlerInterface } from '../../interface/handler'
-import JsonMessage from '../../utils/json'
 import Lang from '../../lang'
 import { Meta } from '../../interface/request'
 import { DefaultAttributes, UsersAttributes, UsersInput } from '../../db/models/Users'
-import Authentication from '../../utils/authentication'
-import Custom from '../../utils/custom'
+import { Authentication, Custom, JsonMessage } from '../../utils'
 import { PaginationResponseInterface } from '../../interface/response'
 
 class UsersHandler implements BaseHandlerInterface {

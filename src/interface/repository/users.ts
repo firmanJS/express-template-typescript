@@ -6,7 +6,6 @@ import { AttributesInterface } from '../../repository/postgres'
 
 interface UsersRepositoryInterface {
   create(payload: UsersInput): Promise<UsersAttributes>
-  // eslint-disable-next-line no-undef
   read(requestDto: RequestMetaInterface): Promise<UsersWithMetaOuput>
   readByParam(params: UsersAttributes, attributes: AttributesInterface): Promise<DataInterface>
   update(params: UsersInput, payload: UsersInput): Promise<ResultBoolInterface>

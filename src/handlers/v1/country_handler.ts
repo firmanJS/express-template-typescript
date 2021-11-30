@@ -6,9 +6,8 @@ import {
 } from '../../interface/response'
 import { CountryRepository } from '../../repository/postgres'
 import { BaseHandlerInterface } from '../../interface/handler'
-import JsonMessage from '../../utils/json'
 import Lang from '../../lang'
-import Custom from '../../utils/custom'
+import { Custom, JsonMessage } from '../../utils'
 import { CountryAttributes, DefaultAttributes } from '../../db/models/Country'
 import { Meta } from '../../interface/request'
 

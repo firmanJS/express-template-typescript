@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { dbConnection } from '../../config/database'
-import JsonMessage from '../../utils/json'
+import { JsonMessage } from '../../utils'
 import { HealthHandlerInterface } from '../../interface/handler'
 import Lang from '../../lang'
 

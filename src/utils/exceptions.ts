@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from 'express'
 import httpStatus from 'http-status'
 import { ExceptionsInterface, WithDataInterface } from '../interface/response'
 
-class Exceptions extends Error {
+export class Exceptions extends Error {
   public static notFoundHandler = (req: Request, res: Response): Response => {
     const msg: string = `Route : ${req.url} Not found.`
     const err: any = new Error(msg)
@@ -61,5 +61,3 @@ class Exceptions extends Error {
     }
   }
 }
-
-export default Exceptions

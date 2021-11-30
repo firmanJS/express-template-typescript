@@ -1,11 +1,10 @@
-/* eslint-disable no-console */
 import express, { Application } from 'express'
 import compression from 'compression'
 import helmet from 'helmet'
 import cors from 'cors'
 import 'dotenv/config'
 import RestHttp from './transport/rest/v1'
-import Exceptions from './utils/exceptions'
+import { Exceptions } from './utils'
 // import dbInit from './db'
 
 class App {
