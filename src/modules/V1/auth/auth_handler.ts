@@ -1,9 +1,14 @@
+/* eslint-disable no-unused-vars */
 import { Request, Response } from 'express'
-import { UsersRepository } from '../../../repository/postgres'
-import { Authentication, Custom, JsonMessage } from '../../../utils'
-import { AuthHandlerInterface } from '../../../interface/handler'
-import Lang from '../../../lang'
 import { DefaultAttributes } from '../../../db/models/Users'
+import { Authentication, Custom, JsonMessage } from '../../../utils'
+import UsersRepository from './users_repository_postgres'
+import Lang from '../../../lang'
+
+interface AuthHandlerInterface {
+  register(req: Request, res: Response): Promise<Response>
+  login(req: Request, res: Response): Promise<Response>
+}
 
 class AuthHandler implements AuthHandlerInterface {
   private repository: UsersRepository = new UsersRepository()

@@ -5,7 +5,7 @@ import httpStatus from 'http-status'
 import { AuthInterface } from '../interface/config'
 import { UsersAttributes } from '../db/models/Users'
 import { ExceptionsInterface, WithDataInterface } from '../interface/response'
-import JsonMessage from './json'
+import { JsonMessage } from '.'
 
 export class Authentication {
   public static passwordHash = (password: string): Promise<string> => bcrypt.hash(password, 10)

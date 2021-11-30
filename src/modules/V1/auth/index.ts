@@ -1,6 +1,6 @@
 import BaseRest from '../base'
 import { validateRegister, validateLogin } from '../../../middlewares/validation/auth_validator'
-import { AuthHandler } from '../../../handlers/v1'
+import AuthHandler from './auth_handler'
 
 class AuthRest extends BaseRest {
   public routes(): void {

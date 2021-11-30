@@ -2,7 +2,7 @@ import {
   DataTypes, Model
 } from 'sequelize'
 import { dbConnection } from '../../config/database'
-import { AttributesInterface } from '../../repository/postgres'
+import { AttributesInterface } from '../../interface/repository'
 
 export interface UsersAttributes {
   id?: number

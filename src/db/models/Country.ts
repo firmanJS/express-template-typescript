@@ -2,9 +2,9 @@ import {
   DataTypes, Model
 } from 'sequelize'
 import { dbConnection } from '../../config/database'
-import { AttributesInterface } from '../../repository/postgres'
+import { AttributesInterface } from '../../interface/repository'
 
-export interface CountryAttributes {
+interface CountryAttributes {
   id?: string
   name?: string
   code?: string
@@ -13,12 +13,16 @@ export interface CountryAttributes {
   updated_at?: string
 }
 
-export interface CountryWithMetaOuput {
+interface CountryWithMetaOuput {
   data?: CountryAttributes[]
   count?: number
 }
 
-export class Country extends Model<CountryAttributes> implements CountryAttributes {
+const DefaultAttributes: AttributesInterface = [
+  'id', 'name', 'code', 'source', 'created_at', 'updated_at'
+]
+
+class Country extends Model<CountryAttributes> implements CountryAttributes {
   public id!: string
 
   public name!: string
@@ -31,8 +35,6 @@ export class Country extends Model<CountryAttributes> implements CountryAttribut
   public readonly created_at!: string
 
   public readonly updated_at!: string
-
-  stat
 }
 
 Country.init({
@@ -74,3 +76,10 @@ Country.init({
   sequelize: dbConnection,
   modelName: 'Country',
 })
+
+export {
+  Country,
+  CountryAttributes,
+  CountryWithMetaOuput,
+  DefaultAttributes
+}

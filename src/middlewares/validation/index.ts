@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import { validationResult } from 'express-validator'
-import Exceptions from '../../utils/exceptions'
+import { Exceptions } from '../../utils'
 
 class Validation {
   public static validationResults = (req: Request, res: Response, next: NextFunction): any => {

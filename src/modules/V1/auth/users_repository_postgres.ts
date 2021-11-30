@@ -1,17 +1,19 @@
+/* eslint-disable no-unused-vars */
 import { Op } from 'sequelize'
-import Users, { UsersInput, UsersAttributes, UsersWithMetaOuput } from '../../db/models/Users'
-import { ResultBoolInterface, DataInterface } from '../../interface/response'
-import { UsersRepositoryInterface } from '../../interface/repository'
-import { RequestMetaInterface } from '../../interface/request'
-import { AttributesInterface } from '.'
+import Users, { UsersInput, UsersAttributes, UsersWithMetaOuput } from '../../../db/models/Users'
+import { ResultBoolInterface, DataInterface } from '../../../interface/response'
+import { AttributesInterface } from '../../../interface/repository'
+import { RequestMetaInterface } from '../../../interface/request'
+
+interface UsersRepositoryInterface {
+  create(payload: UsersInput): Promise<UsersAttributes>
+  read(requestDto: RequestMetaInterface): Promise<UsersWithMetaOuput>
+  readByParam(params: UsersAttributes, attributes: AttributesInterface): Promise<DataInterface>
+  update(params: UsersInput, payload: UsersInput): Promise<ResultBoolInterface>
+  hardDelete(params: UsersInput): Promise<ResultBoolInterface>
+}
 
 class UsersRepository implements UsersRepositoryInterface {
-  // public column: [string, string, string, string, string, string]
-
-  // constructor() {
-  //   this.column = ['id', 'username', 'password', 'email', 'created_at', 'updated_at']
-  // }
-
   create = async (payload: UsersInput): Promise<UsersAttributes> => {
     const rows = await Users.create(payload)
     return rows
