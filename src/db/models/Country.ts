@@ -17,10 +17,8 @@ export interface CountryWithMetaOuput {
   data?: CountryAttributes[]
   count?: number
 }
-export const DefaultAttributes: AttributesInterface = [
-  'id', 'name', 'code', 'source', 'created_at', 'updated_at'
-]
-class Country extends Model<CountryAttributes> implements CountryAttributes {
+
+export class Country extends Model<CountryAttributes> implements CountryAttributes {
   public id!: string
 
   public name!: string
@@ -33,6 +31,8 @@ class Country extends Model<CountryAttributes> implements CountryAttributes {
   public readonly created_at!: string
 
   public readonly updated_at!: string
+
+  stat
 }
 
 Country.init({
@@ -74,5 +74,3 @@ Country.init({
   sequelize: dbConnection,
   modelName: 'Country',
 })
-
-export default Country

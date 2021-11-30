@@ -6,8 +6,8 @@ import {
 import { Meta } from '../interface/request'
 import Lang from '../lang'
 
-class JsonMessage {
-  catchResponse = (error: any, res: Response): Response => {
+export class JsonMessage {
+  static catchResponse = (error: any, res: Response): Response => {
     const manipulate: string = error.toString().split(':')
     let message: string
 
@@ -24,12 +24,15 @@ class JsonMessage {
     return res.status(httpStatus.BAD_REQUEST).json(result)
   }
 
-  customErrorResponse = (res: Response, status: number, message: WithDataInterface): Response => {
+  static customErrorResponse = (
+    res: Response, status: number,
+    message: WithDataInterface
+  ): Response => {
     const result: ExceptionsInterface = message
     return res.status(status).json(result)
   }
 
-  NotFoundResponse = (res: Response, message: string): Response => {
+  static NotFoundResponse = (res: Response, message: string): Response => {
     const result: ExceptionsInterface = {
       message: Lang.__('not_found'),
       error: message
@@ -38,7 +41,12 @@ class JsonMessage {
     return res.status(httpStatus.NOT_FOUND).json(result)
   }
 
-  successResponse = (res: Response, status:string, message: string, data: object): Response => {
+  static successResponse = (
+    res: Response,
+    status:string,
+    message: string,
+    data: object
+  ): Response => {
     let code: number = httpStatus.OK
     if (status === Lang.__('created')) {
       code = httpStatus.CREATED
@@ -53,12 +61,12 @@ class JsonMessage {
     return res.status(code).json(result)
   }
 
-  successNoMetaResponse = (res: Response, message: WithDataInterface): Response => {
+  static successNoMetaResponse = (res: Response, message: WithDataInterface): Response => {
     const result: WithDataInterface = message
     return res.status(httpStatus.OK).json(result)
   }
 
-  succesWithMetaResponse = (req: Request, res: Response,
+  static succesWithMetaResponse = (req: Request, res: Response,
     result: PaginationResponseInterface): Response => {
     const { limit } = Meta(req)
     const total_page: number = Math.ceil(result.count / limit)
@@ -77,5 +85,3 @@ class JsonMessage {
     return res.status(httpStatus.OK).json(response)
   }
 }
-
-export default new JsonMessage()

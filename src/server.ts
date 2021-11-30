@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import cluster from 'cluster'
 import os from 'os'
 import app from './app'

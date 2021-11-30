@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { dbConnection } from '../config/database'
 import Lang from '../lang'
 import { Users, Country } from './models'

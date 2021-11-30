@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import dotenv from 'dotenv';
 import { Sequelize } from 'sequelize'
 import { DatabaseInterface } from '../interface/config'
