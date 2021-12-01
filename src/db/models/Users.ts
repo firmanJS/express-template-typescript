@@ -9,16 +9,16 @@ export interface UsersAttributes {
   username?: string
   password?: string
   email?: string
-  created_at?: string
-  updated_at?: string
+  created_at?: Date
+  updated_at?: Date
 }
 
 export interface UsersInput {
   username?: string
   password?: string
   email?: string
-  created_at?: string
-  updated_at?: string
+  created_at?: Date
+  updated_at?: Date
 }
 
 export interface RegisterOutput {
@@ -53,9 +53,9 @@ class Users extends Model<UsersAttributes> implements UsersAttributes {
   public email!: string
 
   // timestamps!
-  public readonly created_at!: string
+  public readonly created_at!: Date
 
-  public readonly updated_at!: string
+  public readonly updated_at!: Date
 }
 
 Users.init({

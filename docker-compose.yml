@@ -7,7 +7,7 @@ services:
     container_name: express-typescript
     build:
       context: .
-      dockerfile: ./docker/Dockerfile.dev
+      dockerfile: ./docker/Dockerfile
     networks:
       express-typescript_network:
     restart: always

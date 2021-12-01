@@ -9,8 +9,8 @@ export interface CountryAttributes {
   name?: string
   code?: string
   source?:string
-  created_at?: string
-  updated_at?: string
+  created_at?: Date
+  updated_at?: Date
 }
 
 export interface CountryWithMetaOuput {
@@ -30,9 +30,9 @@ class Country extends Model<CountryAttributes> implements CountryAttributes {
   public source!: string
 
   // timestamps!
-  public readonly created_at!: string
+  public readonly created_at!: Date
 
-  public readonly updated_at!: string
+  public readonly updated_at!: Date
 }
 
 Country.init({

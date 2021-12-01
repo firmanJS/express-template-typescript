@@ -1,11 +1,12 @@
 import express, { Application } from 'express'
 import compression from 'compression'
 import helmet from 'helmet'
+import morgan from 'morgan'
 import cors from 'cors'
 import 'dotenv/config'
 import RestHttp from './transport/rest/v1'
-import { Exceptions } from './utils'
-// import dbInit from './db'
+import { Exceptions, MORGAN_FORMAT } from './utils'
+import dbInit from './db'
 
 class App {
   public app: Application
@@ -17,7 +18,8 @@ class App {
   }
 
   protected plugins(): void {
-    // dbInit() // for run migrations
+    dbInit() // for run migrations
+    this.app.use(morgan(MORGAN_FORMAT, { stream: process.stderr }))
     this.app.use(compression())
     this.app.use(helmet())
     this.app.use(cors())

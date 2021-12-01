@@ -1,5 +1,7 @@
 export class Custom {
-  public static createdAt = (): string => new Date().toISOString()
+  static today: string = new Date().toISOString()
 
-  public static updatedAt = (): string => new Date().toISOString()
+  static createdAt = (): Date => new Date(this.today)
+
+  static updatedAt = (): Date => new Date(this.today)
 }

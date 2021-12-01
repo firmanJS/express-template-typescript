@@ -5,13 +5,13 @@ WORKDIR /usr/apps/express-typescript
 
 COPY package*.json ./
 
-RUN yarn install && yarn cache clean --all
+RUN yarn install --production=true && yarn cache clean --all
 
 COPY tsconfig*.json ./
 
 COPY src src
 
-RUN npm install typescript -g && yarn build
+RUN yarn build
 
 #stage 2
 FROM node:16-alpine
@@ -30,7 +30,7 @@ COPY package*.json ./
 
 RUN yarn install --production=true && yarn cache clean --all
 
-COPY --from=builder /usr/apps/express-typescript/build/ build/
+COPY --from=builder /usr/apps/express-typescript/lib/ lib/
 
 EXPOSE 8000
 
