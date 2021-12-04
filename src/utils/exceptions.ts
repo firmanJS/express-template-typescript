@@ -23,6 +23,12 @@ export class Exceptions extends Error {
       data: err
     }
 
+    if (process.env.NODE_ENV === 'development') {
+      console.error(result);
+    } else {
+      // sent to sentry
+    }
+
     return res.status(httpStatus.BAD_REQUEST).send(result)
   }
 
@@ -42,6 +48,8 @@ export class Exceptions extends Error {
 
     if (process.env.NODE_ENV === 'development') {
       console.error(err);
+    } else {
+      // sent to sentry
     }
 
     return res.status(statusCode).send(result);
@@ -54,10 +62,25 @@ export class Exceptions extends Error {
       message: `${err.toString()}`,
       data: err
     }
+
+    if (process.env.NODE_ENV === 'development') {
+      console.error(result);
+    } else {
+      // sent to sentry
+    }
+
     if (err instanceof SyntaxError) {
       res.status(statusCode).send(result);
     } else {
       next();
+    }
+  }
+
+  public static captureInfo = (result: any) => {
+    if (process.env.NODE_ENV === 'development') {
+      console.info(result);
+    } else {
+      // sent to sentry
     }
   }
 }

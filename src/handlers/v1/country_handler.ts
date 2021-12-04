@@ -7,7 +7,7 @@ import {
 import { CountryRepository } from '../../repository/postgres'
 import { BaseHandlerInterface } from '../../interface/handler'
 import Lang from '../../lang'
-import { Custom, JsonMessage } from '../../utils'
+import { Custom, JsonMessage, Elastic } from '../../utils'
 import { CountryAttributes, DefaultAttributes } from '../../db/models/Country'
 import { Meta } from '../../interface/request'
 
@@ -21,6 +21,8 @@ const readRequest = (req: Request) => {
 
 class CountryHandler implements BaseHandlerInterface {
   protected repository: CountryRepository = new CountryRepository()
+
+  protected index: string = 'country'
 
   protected readRequest = (req: Request) => {
     const payload: CountryAttributes = req?.body
@@ -39,6 +41,7 @@ class CountryHandler implements BaseHandlerInterface {
       payload.updated_at = Custom.updatedAt()
 
       const result = await this.repository.create(payload)
+      await Elastic.add(this.index, payload)
       const message: string = Lang.__('created.success')
       return JsonMessage.successResponse(res, Lang.__('created'), message, result!)
     } catch (error: any) {
@@ -99,6 +102,24 @@ class CountryHandler implements BaseHandlerInterface {
   }
 
   hardDelete = async (req: Request, res: Response): Promise<Response> => {
+    try {
+      const { id, params } = readRequest(req)
+      const result: ResultBoolInterface = await this.repository.hardDelete(params)
+      await Elastic.deletedByQuery(this.index, { id })
+
+      if (!result.status) {
+        const message: string = Lang.__('not_found.id', { id })
+        return JsonMessage.NotFoundResponse(res, message)
+      }
+
+      const message: string = Lang.__('delete.id', { id })
+      return JsonMessage.successResponse(res, Lang.__('deleted'), message, result)
+    } catch (error: any) {
+      return JsonMessage.catchResponse(error, res)
+    }
+  }
+
+  search = async (req: Request, res: Response): Promise<Response> => {
     try {
       const { id, params } = readRequest(req)
       const result: ResultBoolInterface = await this.repository.hardDelete(params)

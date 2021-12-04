@@ -3,6 +3,7 @@ import { MetaInterface, MORGAN_FORMAT } from './constant'
 import { Custom } from './custom'
 import { Exceptions } from './exceptions'
 import { JsonMessage } from './json'
+import { Elastic } from './elastic'
 
 export {
   Authentication,
@@ -10,5 +11,6 @@ export {
   MORGAN_FORMAT,
   Custom,
   Exceptions,
-  JsonMessage
+  JsonMessage,
+  Elastic
 }

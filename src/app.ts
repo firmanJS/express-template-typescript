@@ -6,7 +6,8 @@ import cors from 'cors'
 import 'dotenv/config'
 import RestHttp from './transport/rest/v1'
 import { Exceptions, MORGAN_FORMAT } from './utils'
-import dbInit from './db'
+// import dbInit from './db'
+import configClient from './config/elastic'
 
 class App {
   public app: Application
@@ -18,7 +19,12 @@ class App {
   }
 
   protected plugins(): void {
-    dbInit() // for run migrations
+    // dbInit() // for run migrations
+    configClient
+      .info()
+      .then((response) => console.info(`elasticsearhc is ${response.meta.connection.status}`))
+      .catch((error) => console.error(`Error: ${error}`));
+
     this.app.use(morgan(MORGAN_FORMAT, { stream: process.stderr }))
     this.app.use(compression())
     this.app.use(helmet())
