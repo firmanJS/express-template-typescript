@@ -57,6 +57,9 @@ class CountryHandler implements BaseHandlerInterface {
         rows: result.data!,
         count: result.count!,
       }
+      const resultElastic: any = await Elastic.search(this.index, { name: 'v' })
+      console.log(resultElastic.body.hits.hits)
+      console.log(resultElastic.body.suggest)
       return JsonMessage.succesWithMetaResponse(req, res, response)
     } catch (error: any) {
       return JsonMessage.catchResponse(error, res)
@@ -88,6 +91,7 @@ class CountryHandler implements BaseHandlerInterface {
       payload.updated_at = Custom.updatedAt()
 
       const result: ResultBoolInterface = await this.repository.update(params, payload)
+      await Elastic.updateByQuery(this.index, { id }, payload)
 
       if (!result.status) {
         const message: string = Lang.__('not_found.id', { id })
